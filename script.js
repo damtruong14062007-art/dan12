@@ -2134,7 +2134,7 @@ function sortProducts(viewName, sortType, gridId) {
 // 10. USER ACCOUNT, AUTHENTICATION, ITEMIZED ORDERS & ADMIN CONTROL SUITE 👑
 // ==========================================================================
 
-// --- ADMIN SECURITY & PASSWORD MANAGEMENT ---
+// --- ADMIN SECURITY & CLOUD-SYNCHRONIZED PASSWORD MANAGEMENT ---
 function getAdminPassword() {
   return localStorage.getItem('velora_admin_password') || 'admin123';
 }
@@ -2142,6 +2142,27 @@ function getAdminPassword() {
 function verifyAdminPassword(pwd) {
   if (!pwd) return false;
   return pwd.trim() === getAdminPassword();
+}
+
+async function verifyAdminPasswordAsync(pwd) {
+  if (!pwd) return false;
+  const inputTrimmed = pwd.trim();
+  if (inputTrimmed === getAdminPassword()) return true;
+
+  // Real-time check against Supabase Cloud (dan12) for multi-device sync
+  const client = getSupabaseClient();
+  if (client) {
+    try {
+      const { data, error } = await client.from('users').select('password').eq('id', 'usr-admin').maybeSingle();
+      if (!error && data && data.password) {
+        localStorage.setItem('velora_admin_password', data.password);
+        if (inputTrimmed === data.password) return true;
+      }
+    } catch (e) {
+      console.warn('Supabase password verification check:', e);
+    }
+  }
+  return false;
 }
 
 function openAdminLoginModal() {
@@ -2171,13 +2192,14 @@ function togglePasswordVisibility(inputId, btnEl) {
   }
 }
 
-function submitAdminPasswordLogin(e) {
+async function submitAdminPasswordLogin(e) {
   if (e) e.preventDefault();
   const pwdInput = document.getElementById('modalAdminPassword');
   const errEl = document.getElementById('adminLoginError');
   const pwd = pwdInput ? pwdInput.value : '';
 
-  if (verifyAdminPassword(pwd)) {
+  const isValid = await verifyAdminPasswordAsync(pwd);
+  if (isValid) {
     const modalEl = document.getElementById('adminLoginModal');
     if (modalEl) {
       const modal = bootstrap.Modal.getInstance(modalEl);
@@ -2207,13 +2229,14 @@ function handleRoleSwitchClick() {
   }
 }
 
-function adminSubmitChangePassword(e) {
+async function adminSubmitChangePassword(e) {
   if (e) e.preventDefault();
   const oldPwd = document.getElementById('admOldPassword')?.value || '';
   const newPwd = document.getElementById('admNewPassword')?.value || '';
   const confirmPwd = document.getElementById('admConfirmPassword')?.value || '';
 
-  if (!verifyAdminPassword(oldPwd)) {
+  const isOldValid = await verifyAdminPasswordAsync(oldPwd);
+  if (!isOldValid) {
     showToast('Mật khẩu hiện tại không chính xác! Vui lòng kiểm tra lại.', 'error');
     return;
   }
@@ -2229,8 +2252,75 @@ function adminSubmitChangePassword(e) {
   }
 
   localStorage.setItem('velora_admin_password', newPwd);
+
+  // Sync password directly to Supabase Cloud
+  const client = getSupabaseClient();
+  if (client) {
+    try {
+      const { error } = await client.from('users').update({ password: newPwd }).eq('id', 'usr-admin');
+      if (error) {
+        console.warn('Lỗi lưu mật khẩu Supabase:', error);
+      } else {
+        console.log('Đã cập nhật mật khẩu Admin lên Supabase Cloud thành công!');
+      }
+    } catch (err) {
+      console.warn('Lỗi mạng cập nhật mật khẩu Supabase:', err);
+    }
+  }
+
   document.getElementById('adminChangePwdForm')?.reset();
-  showToast('Đổi mật khẩu Admin thành công! Mật khẩu mới đã được lưu an toàn.', 'success');
+  showToast('Đổi mật khẩu Admin thành công! Mật khẩu mới đã được đồng bộ lên Cloud và mọi thiết bị.', 'success');
+}
+
+async function customerSubmitChangePassword(e) {
+  if (e) e.preventDefault();
+  const oldPwd = document.getElementById('custOldPassword')?.value || '';
+  const newPwd = document.getElementById('custNewPassword')?.value || '';
+  const confirmPwd = document.getElementById('custConfirmPassword')?.value || '';
+
+  const currentPwd = currentUser.password || '123456';
+  if (oldPwd !== currentPwd) {
+    showToast('Mật khẩu hiện tại không chính xác! Vui lòng thử lại.', 'error');
+    return;
+  }
+
+  if (newPwd.length < 6) {
+    showToast('Mật khẩu mới phải có ít nhất 6 ký tự!', 'warning');
+    return;
+  }
+
+  if (newPwd !== confirmPwd) {
+    showToast('Xác nhận mật khẩu mới không trùng khớp!', 'warning');
+    return;
+  }
+
+  currentUser.password = newPwd;
+  localStorage.setItem('velora_user', JSON.stringify(currentUser));
+
+  const custProf = getCustomerProfile();
+  custProf.password = newPwd;
+  localStorage.setItem('velora_customer_profile', JSON.stringify(custProf));
+
+  const users = getRegisteredUsers();
+  const idx = users.findIndex(u => u.email && u.email.toLowerCase() === currentUser.email?.toLowerCase());
+  if (idx > -1) {
+    users[idx].password = newPwd;
+    localStorage.setItem('velora_registered_users', JSON.stringify(users));
+  }
+
+  const client = getSupabaseClient();
+  if (client && currentUser.email) {
+    try {
+      const { error } = await client.from('users').update({ password: newPwd }).eq('email', currentUser.email);
+      if (error) console.warn('Supabase customer password sync error:', error);
+      else console.log('Đã cập nhật mật khẩu khách hàng lên Supabase Cloud thành công!');
+    } catch (err) {
+      console.warn('Lỗi mạng đổi mật khẩu khách:', err);
+    }
+  }
+
+  document.getElementById('custChangePwdForm')?.reset();
+  showToast('Đổi mật khẩu thành công! Mật khẩu mới đã được đồng bộ lên đám mây và mọi thiết bị.', 'success');
 }
 
 // --- VOUCHERS DATABASE & MANAGEMENT ---
@@ -3950,7 +4040,7 @@ function loginAs(role, bypassCheck = false) {
   }
 }
 
-function handleLoginForm(event) {
+async function handleLoginForm(event) {
   if (event) event.preventDefault();
   const emailInput = document.getElementById('loginEmail');
   const pwdInput = document.getElementById('loginPassword');
@@ -3958,18 +4048,48 @@ function handleLoginForm(event) {
   const pwd = pwdInput ? pwdInput.value : '';
 
   if (val.includes('admin')) {
-    if (verifyAdminPassword(pwd)) {
+    const isValid = await verifyAdminPasswordAsync(pwd);
+    if (isValid) {
       loginAs('admin', true);
     } else {
-      showToast('Mật khẩu Quản Trị Viên không đúng! (Mật khẩu mặc định: <code>admin123</code>)', 'error');
+      showToast('Mật khẩu Quản Trị Viên không đúng! (Mặc định: <code>admin123</code>)', 'error');
       if (pwdInput) pwdInput.focus();
     }
     return;
   }
 
-  // Check against registered users
+  // 1. Check against local registered users
   const users = getRegisteredUsers();
-  const matchedUser = users.find(u => u.email === val);
+  let matchedUser = users.find(u => u.email && u.email.toLowerCase() === val);
+
+  // 2. Real-time check Supabase Cloud for cross-device synchronization
+  const client = getSupabaseClient();
+  if (client && val) {
+    try {
+      const { data: dbUser, error } = await client.from('users').select('*').eq('email', val).maybeSingle();
+      if (!error && dbUser) {
+        matchedUser = {
+          id: dbUser.id,
+          email: dbUser.email,
+          password: dbUser.password,
+          name: dbUser.name,
+          phone: dbUser.phone,
+          address: dbUser.address,
+          avatar: dbUser.avatar,
+          role: dbUser.role || 'customer',
+          membershipTier: dbUser.membership_tier,
+          points: dbUser.points
+        };
+        const idx = users.findIndex(u => u.email && u.email.toLowerCase() === val);
+        if (idx > -1) users[idx] = matchedUser;
+        else users.push(matchedUser);
+        localStorage.setItem('velora_registered_users', JSON.stringify(users));
+      }
+    } catch (e) {
+      console.warn('Supabase real-time login check warning:', e);
+    }
+  }
+
   if (matchedUser) {
     if (matchedUser.password && matchedUser.password !== pwd) {
       showToast('Mật khẩu không chính xác! Vui lòng thử lại.', 'error');
@@ -3979,7 +4099,7 @@ function handleLoginForm(event) {
     saveCustomerProfile(matchedUser);
     currentUser = {
       isLoggedIn: true,
-      role: 'customer',
+      role: matchedUser.role || 'customer',
       ...matchedUser,
       ordersCount: getOrders().length
     };
@@ -3996,15 +4116,8 @@ function handleLoginForm(event) {
     return;
   }
 
-  // If email is provided but not found, allow demo fallback or prompt register
-  loginAs('customer');
-  if (val) {
-    currentUser.email = val;
-    const cust = getCustomerProfile();
-    cust.email = val;
-    saveCustomerProfile(cust);
-    localStorage.setItem('velora_user', JSON.stringify(currentUser));
-  }
+  showToast('Tài khoản chưa tồn tại trên hệ thống! Vui lòng đăng ký tài khoản mới.', 'warning');
+  switchAuthTab('register');
 }
 
 function handleLogout() {
@@ -6523,6 +6636,43 @@ async function autoPullFromCloud(quiet = true) {
       if (typeof renderAccountVouchers === 'function') renderAccountVouchers();
       if (typeof adminRenderVouchersTable === 'function') adminRenderVouchersTable();
     }
+
+    // 4. Pull Users and synchronize Admin & Customer Passwords across all devices
+    const { data: dbUsers, error: uErr } = await client.from('users').select('*');
+    if (!uErr && dbUsers && dbUsers.length > 0) {
+      // Sync Admin Password
+      const adminUser = dbUsers.find(u => u.id === 'usr-admin' || u.role === 'admin' || (u.email && u.email.includes('admin')));
+      if (adminUser && adminUser.password) {
+        localStorage.setItem('velora_admin_password', adminUser.password);
+      }
+
+      // Sync Registered Customers
+      const mappedCusts = dbUsers.filter(u => u.role !== 'admin' && u.id !== 'usr-admin').map(u => ({
+        id: u.id,
+        email: u.email,
+        password: u.password,
+        name: u.name,
+        phone: u.phone,
+        address: u.address,
+        avatar: u.avatar,
+        role: u.role || 'customer',
+        membershipTier: u.membership_tier,
+        points: u.points
+      }));
+      localStorage.setItem('velora_registered_users', JSON.stringify(mappedCusts));
+
+      // Sync current active session
+      if (currentUser && currentUser.email) {
+        const foundUser = dbUsers.find(u => u.email && u.email.toLowerCase() === currentUser.email.toLowerCase());
+        if (foundUser) {
+          currentUser.password = foundUser.password;
+          currentUser.name = foundUser.name || currentUser.name;
+          currentUser.points = foundUser.points || currentUser.points;
+          currentUser.membershipTier = foundUser.membership_tier || currentUser.membershipTier;
+          localStorage.setItem('velora_user', JSON.stringify(currentUser));
+        }
+      }
+    }
   } catch (err) {
     console.warn('Auto cloud pull error:', err);
   }
@@ -6541,6 +6691,10 @@ function setupSupabaseRealtime() {
         console.log('Realtime change in products:', payload);
         autoPullFromCloud(true);
       })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'users' }, payload => {
+        console.log('Realtime change in users/passwords:', payload);
+        autoPullFromCloud(true);
+      })
       .subscribe();
   } catch (e) {
     console.warn('Realtime subscription warning:', e);
@@ -6555,5 +6709,11 @@ window.adminRenderSupabaseSec = adminRenderSupabaseSec;
 window.saveSupabaseConfig = saveSupabaseConfig;
 window.testSupabaseConnection = testSupabaseConnection;
 window.syncLocalToSupabase = syncLocalToSupabase;
+window.pullFromSupabase = pullFromSupabase;
+window.autoPullFromCloud = autoPullFromCloud;
+window.customerSubmitChangePassword = customerSubmitChangePassword;
+window.adminSubmitChangePassword = adminSubmitChangePassword;
+window.submitAdminPasswordLogin = submitAdminPasswordLogin;
+window.handleLoginForm = handleLoginForm;
 window.pullFromSupabase = pullFromSupabase;
 window.autoPullFromCloud = autoPullFromCloud;

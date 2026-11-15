@@ -539,6 +539,50 @@
                 </button>
               </div>
             </form>
+
+            <!-- Customer Change Password Card -->
+            <div class="mt-4 pt-4 border-top">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h6 class="fw-bold font-serif m-0"><i class="bi bi-shield-lock-fill text-warning me-2"></i>Đổi Mật Khẩu Tài Khoản (Đồng bộ Đám Mây)</h6>
+                <span class="small text-muted">Tự động đồng bộ trên tất cả thiết bị qua Supabase</span>
+              </div>
+              <form id="custChangePwdForm" onsubmit="customerSubmitChangePassword(event)">
+                <div class="row g-3">
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold">Mật khẩu hiện tại <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <input type="password" class="form-control" id="custOldPassword" required placeholder="Mật khẩu hiện tại...">
+                      <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('custOldPassword', this)">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold">Mật khẩu mới <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <input type="password" class="form-control" id="custNewPassword" required minlength="6" placeholder="Tối thiểu 6 ký tự...">
+                      <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('custNewPassword', this)">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold">Xác nhận mật khẩu mới <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <input type="password" class="form-control" id="custConfirmPassword" required minlength="6" placeholder="Nhập lại mật khẩu mới...">
+                      <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('custConfirmPassword', this)">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-outline-dark rounded-pill px-4 fw-bold shadow-sm">
+                      <i class="bi bi-key-fill me-1"></i> Cập Nhật Mật Khẩu
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
 
           <!-- TAB 2: ORDER HISTORY (ITEMIZED ACCURATE ORDERS + DELETE) -->
