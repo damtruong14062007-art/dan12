@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hàng Mới Về — New Arrivals 2026 — VELORA Premium Fashion</title>
+  <meta name="description" content="VELORA — Thương hiệu thời trang cao cấp phong cách sang trọng, tự tin và thời thượng.">
+
+  <!-- Google Fonts: Bodoni Moda, Playfair Display & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons 1.11.3 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="new-arrivals">
+  <!-- ===================================================================
+       1. TOP ANNOUNCEMENT & PROMO BAR
+       =================================================================== -->
+  <div class="top-promo-bar" id="topAnnouncementBar">
+    <div class="container-fluid px-3 px-xl-5">
+      <div class="top-promo-inner d-flex justify-content-between align-items-center flex-nowrap text-nowrap">
+        <!-- Group 1: 15 Showroom toàn quốc | Hotline: 1900 8899 (08:30 - 22:00) -->
+        <div class="top-promo-left d-flex align-items-center gap-2 gap-md-3 flex-shrink-0">
+          <span><i class="bi bi-geo-alt me-1 text-danger"></i> 15 Showroom toàn quốc</span>
+          <span class="top-promo-sep text-white-50">|</span>
+          <a href="tel:19008899" class="text-white text-decoration-none">
+            <i class="bi bi-telephone me-1 text-danger"></i> Hotline: <b>1900 8899</b> <span class="d-none d-xxl-inline text-white-50">(08:30 - 22:00)</span>
+          </a>
+        </div>
+
+        <!-- Group 2: Ưu đãi hôm nay Miễn phí giao hàng đơn từ 500.000đ • Nhập mã VELORA10 giảm 10% -->
+        <div class="top-promo-center d-flex align-items-center justify-content-center gap-2 px-2 flex-grow-1 overflow-hidden">
+          <span class="top-promo-badge flex-shrink-0">Ưu đãi hôm nay</span>
+          <span class="top-promo-text text-truncate" id="topAnnouncementText">
+            Miễn phí giao hàng đơn từ <b>500.000đ</b> <span class="mx-1">•</span> Nhập mã <span class="badge bg-warning text-dark px-1.5 py-0.5 fw-bold">VELORA10</span> giảm 10%
+          </span>
+        </div>
+
+        <!-- Group 3: Tra cứu đơn hàng | 100% Chính hãng -->
+        <div class="top-promo-right d-flex align-items-center gap-2 gap-md-3 flex-shrink-0">
+          <a href="account.html" class="text-white text-decoration-none hover-underline">
+            <i class="bi bi-truck me-1 text-warning"></i> Tra cứu đơn hàng
+          </a>
+          <span class="top-promo-sep text-white-50">|</span>
+          <span class="text-white-50"><i class="bi bi-patch-check-fill me-1 text-info"></i> 100% Chính hãng</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       2. TWO-TIER LUXURY NAVBAR (ROW 1: BRAND & ACTIONS; ROW 2: CENTERED MENU)
+       =================================================================== -->
+  <header class="site-header sticky-top bg-white border-bottom shadow-sm">
+    <!-- ROW 1: BRAND LOGO + LIVE INSTANT SEARCH + UTILITY ACTIONS -->
+    <div class="header-main-row py-2 py-md-3">
+      <div class="container d-flex align-items-center justify-content-between gap-3">
+        <!-- 100% Vector Crisp Logo (Infinite Sharpness on Retina/4K) -->
+        <a href="index.html" class="d-inline-flex align-items-center text-decoration-none" title="VELORA — Premium Fashion">
+          <img src="velora_logo_navbar.svg" alt="VELORA" class="img-fluid" style="height: 42px; width: auto; object-fit: contain;">
+        </a>
+
+        <!-- Live Instant Search Bar (Center) -->
+        <div class="nav-search-wrap flex-grow-1 mx-2 mx-lg-4 position-relative d-none d-md-block" style="max-width: 520px;">
+          <form class="d-flex" onsubmit="event.preventDefault(); performSearch();">
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0 text-muted ps-3">
+                <i class="bi bi-search"></i>
+              </span>
+              <input type="text" id="navSearchInput" class="form-control bg-light border-start-0 border-end-0 shadow-none ps-0" placeholder="Tìm kiếm áo blazer, đầm dạ hội, polo, túi xách..." autocomplete="off">
+              <button class="btn btn-dark px-3 fw-semibold" type="button" onclick="performSearch()">
+                Tìm kiếm
+              </button>
+            </div>
+          </form>
+          <!-- Live Autocomplete Search Dropdown -->
+          <div id="searchResultsDropdown" class="search-dropdown-menu"></div>
+        </div>
+
+        <!-- Utility Action Icons -->
+        <div class="d-flex align-items-center gap-2 gap-md-3">
+          <!-- Hotline pill (desktop - clickable & styled) -->
+          <a href="tel:19008899" class="nav-hotline-pill d-none d-xl-flex align-items-center text-decoration-none shadow-sm" title="Gọi tổng đài tư vấn & CSKH 1900 8899">
+            <div class="nav-hotline-icon">
+              <i class="bi bi-headset"></i>
+            </div>
+            <div class="nav-hotline-content">
+              <span class="nav-hotline-tag">HỖ TRỢ 24/7</span>
+              <span class="nav-hotline-num">1900 8899</span>
+            </div>
+          </a>
+
+          <!-- Wishlist Button -->
+          <button class="btn btn-light rounded-circle position-relative p-2" onclick="showWishlistModal()" title="Sản phẩm yêu thích">
+            <i class="bi bi-heart fs-5"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger wishlist-count-badge" style="font-size: 0.65rem;">0</span>
+          </button>
+
+          <!-- User Account Link / Button -->
+          <a href="account.html" class="btn btn-light rounded-pill px-3 py-2 d-flex align-items-center gap-2 text-decoration-none" title="Tài khoản cá nhân">
+            <img id="navUserAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="rounded-circle border" style="width: 22px; height: 22px; object-fit: cover; display: none;" alt="Avatar">
+            <i class="bi bi-person fs-5" id="navDefaultUserIcon"></i>
+            <span class="d-none d-lg-inline fw-semibold small" id="navAccountName">Tài khoản</span>
+          </a>
+
+          <!-- Shopping Cart Button -->
+          <button class="btn btn-dark rounded-pill px-3 py-2 d-flex align-items-center gap-2 shadow-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" title="Giỏ hàng của bạn">
+            <i class="bi bi-bag fs-5"></i>
+            <span class="d-none d-sm-inline fw-semibold small">Giỏ hàng</span>
+            <span class="badge bg-danger rounded-pill cart-badge-count" style="font-size: 0.7rem;">0</span>
+          </button>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button class="btn btn-outline-dark d-lg-none p-2" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavCollapse" aria-label="Toggle navigation">
+            <i class="bi bi-list fs-4"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Search Field -->
+      <div class="container d-md-none mt-2">
+        <div class="input-group">
+          <input type="text" class="form-control bg-light" placeholder="Tìm kiếm sản phẩm..." onkeyup="if(event.key==='Enter') performSearch(this.value)">
+          <button class="btn btn-dark" type="button"><i class="bi bi-search"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2: CENTERED HORIZONTAL MENU ROW WITH ICONS (CĂN GIỮA TOÀN BỘ) -->
+    <div class="nav-menu-bar collapse d-lg-block" id="mobileNavCollapse">
+      <div class="container">
+        <ul class="navbar-nav d-flex flex-column flex-lg-row justify-content-center align-items-center gap-1 gap-lg-2 m-0 p-0 list-unstyled">
+          <li class="nav-item">
+            <a href="index.html" class="nav-menu-link">
+              <i class="bi bi-house-door"></i>
+              <span>Trang chủ</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="new-arrivals.html" class="nav-menu-link active">
+              <i class="bi bi-stars text-danger"></i>
+              <span>Hàng new</span>
+              <span class="badge bg-danger ms-1" style="font-size: 0.6rem;">HOT</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="men.html" class="nav-menu-link">
+              <i class="bi bi-gender-male"></i>
+              <span>Men (nam)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="women.html" class="nav-menu-link">
+              <i class="bi bi-gender-female text-primary"></i>
+              <span>Women (nữ)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="accessories.html" class="nav-menu-link">
+              <i class="bi bi-handbag"></i>
+              <span>Phụ kiện</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="flash-sale.html" class="nav-menu-link flash-sale-link">
+              <i class="bi bi-lightning-charge-fill text-warning"></i>
+              <span>Flash Sale ⚡</span>
+              <span class="badge bg-danger ms-1 badge-pulse" style="font-size: 0.6rem;">GIẢM 50%</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="cart.html" class="nav-menu-link">
+              <i class="bi bi-bag-check"></i>
+              <span>Giỏ hàng</span>
+              <span class="badge bg-secondary rounded-pill ms-1 cart-badge-count" style="font-size: 0.65rem;">0</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="account.html" class="nav-menu-link">
+              <i class="bi bi-person-circle"></i>
+              <span>Tài khoản</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="container pt-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb small text-muted">
+        <li class="breadcrumb-item"><a href="index.html" class="text-muted text-decoration-none">Trang chủ</a></li>
+        <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">Hàng mới về (New Arrivals)</li>
+      </ol>
+    </nav>
+  </div>
+
+  <!-- HERO CAROUSEL: NEW ARRIVALS (3 SLIDES KEN BURNS ZOOM) -->
+  <section class="container py-2">
+    <div id="arrivalsHeroCarousel" class="carousel slide carousel-fade hero-slider-wrap" data-bs-ride="carousel" data-bs-interval="4500">
+      <div class="hero-carousel-indicators">
+        <button type="button" class="hero-indicator-btn active" data-bs-target="#arrivalsHeroCarousel" data-bs-slide-to="0" aria-label="Slide 1"></button>
+        <button type="button" class="hero-indicator-btn" data-bs-target="#arrivalsHeroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" class="hero-indicator-btn" data-bs-target="#arrivalsHeroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+
+      <div class="carousel-inner">
+        <!-- Slide 1 -->
+        <div class="carousel-item active hero-slide-item">
+          <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&auto=format&fit=crop&q=80" class="hero-slide-bg" alt="New Arrivals 2026">
+          <div class="hero-slide-overlay overlay-dark"></div>
+          <div class="container position-relative">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center hero-slide-content text-white" style="max-width: 100%;">
+              <div style="max-width: 620px;">
+                <span class="badge bg-secondary bg-opacity-50 text-white mb-2 px-3 py-2 rounded-pill small">BỘ SƯU TẬP 2026</span>
+                <h1 class="hero-title" style="font-size: 2.8rem;">HÀNG MỚI VỀ — NEW ARRIVALS</h1>
+                <p class="hero-desc">Khám phá hơn 128+ mẫu thiết kế thời trang xu hướng mới nhất vừa cập bến tuần này.</p>
+              </div>
+              <div class="arrivals-stat-box d-none d-md-block text-center p-3 rounded-4 bg-white bg-opacity-10 border border-light border-opacity-25">
+                <div class="display-6 fw-bold text-warning arrivals-stat-num">128+</div>
+                <div class="small text-white-50">Mẫu thiết kế mới</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-item hero-slide-item">
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1600&auto=format&fit=crop&q=80" class="hero-slide-bg" alt="Limited Edition">
+          <div class="hero-slide-overlay overlay-dark"></div>
+          <div class="container position-relative">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center hero-slide-content text-white" style="max-width: 100%;">
+              <div style="max-width: 620px;">
+                <span class="badge bg-danger mb-2 px-3 py-2 rounded-pill small">LIMITED DROP</span>
+                <h1 class="hero-title" style="font-size: 2.8rem;">PHIÊN BẢN GIỚI HẠN</h1>
+                <p class="hero-desc">Thiết kế độc quyền, chất dạ tweed & lụa tơ tằm thượng hạng tôn vinh vẻ đẹp kiêu sa.</p>
+              </div>
+              <div class="arrivals-stat-box d-none d-md-block text-center p-3 rounded-4 bg-white bg-opacity-10 border border-light border-opacity-25">
+                <div class="display-6 fw-bold text-danger arrivals-stat-num">50</div>
+                <div class="small text-white-50">Bản giới hạn</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="carousel-item hero-slide-item">
+          <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1600&auto=format&fit=crop&q=80" class="hero-slide-bg" alt="Contemporary Style">
+          <div class="hero-slide-overlay overlay-dark"></div>
+          <div class="container position-relative">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center hero-slide-content text-white" style="max-width: 100%;">
+              <div style="max-width: 620px;">
+                <span class="badge bg-warning text-dark mb-2 px-3 py-2 rounded-pill small">MINIMALIST SUIT</span>
+                <h1 class="hero-title" style="font-size: 2.8rem;">XU HƯỚNG TỐI GIẢN</h1>
+                <p class="hero-desc">Blazer form rộng, quần ống suông tôn vinh phong thái đĩnh đạc của quý ông hiện đại.</p>
+              </div>
+              <div class="arrivals-stat-box d-none d-md-block text-center p-3 rounded-4 bg-white bg-opacity-10 border border-light border-opacity-25">
+                <div class="display-6 fw-bold text-success arrivals-stat-num">99%</div>
+                <div class="small text-white-50">Hài lòng đánh giá</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#arrivalsHeroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Trước</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#arrivalsHeroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Sau</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- FILTER & SORT TOOLBAR -->
+  <section class="container py-4">
+    <div class="mb-3">
+      <h4 class="fw-bold font-serif text-dark m-0">Sản Phẩm Mới Ra Mắt</h4>
+      <div class="subcat-nav-wrap small text-muted mt-1">
+        <span class="subcat-link active" onclick="filterSectionSubcategory('gridNewArrivals', 'all', this)">Tất cả hàng mới</span>
+        <span class="subcat-sep">•</span>
+        <span class="subcat-link" onclick="filterSectionSubcategory('gridNewArrivals', 'ao', this)">Áo &amp; Blazer</span>
+        <span class="subcat-sep">•</span>
+        <span class="subcat-link" onclick="filterSectionSubcategory('gridNewArrivals', 'dam-vay', this)">Váy đầm nữ</span>
+        <span class="subcat-sep">•</span>
+        <span class="subcat-link" onclick="filterSectionSubcategory('gridNewArrivals', 'quan', this)">Quần nam nữ</span>
+        <span class="subcat-sep">•</span>
+        <span class="subcat-link" onclick="filterSectionSubcategory('gridNewArrivals', 'accessories', this)">Phụ kiện mới</span>
+      </div>
+    </div>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 border-bottom pb-3">
+      <!-- Filter Pills -->
+      <div class="filter-pills-wrap d-flex flex-wrap gap-2">
+        <button class="btn btn-dark rounded-pill px-3 py-2 small filter-pill active" onclick="filterProducts('new-arrivals', 'all', this)">
+          Tất cả (128)
+        </button>
+        <button class="btn btn-outline-secondary rounded-pill px-3 py-2 small filter-pill" onclick="filterProducts('new-arrivals', 'ao', this)">
+          Áo mới về (48)
+        </button>
+        <button class="btn btn-outline-secondary rounded-pill px-3 py-2 small filter-pill" onclick="filterProducts('new-arrivals', 'quan', this)">
+          Quần mới về (32)
+        </button>
+        <button class="btn btn-outline-secondary rounded-pill px-3 py-2 small filter-pill" onclick="filterProducts('new-arrivals', 'dam-vay', this)">
+          Váy đầm nữ (28)
+        </button>
+        <button class="btn btn-outline-secondary rounded-pill px-3 py-2 small filter-pill" onclick="filterProducts('new-arrivals', 'phu-kien', this)">
+          Phụ kiện hot (20)
+        </button>
+      </div>
+
+      <!-- Sort & Filter Dropdown -->
+      <div class="d-flex align-items-center gap-2">
+        <span class="small text-muted text-nowrap"><i class="bi bi-funnel me-1"></i> Sắp xếp:</span>
+        <select class="sort-select-velora" onchange="sortProducts('new-arrivals', this.value, 'gridNewArrivals')">
+          <option value="newest">Mới nhất</option>
+          <option value="bestseller">Bán chạy nhất</option>
+          <option value="price-asc">Giá tăng dần</option>
+          <option value="price-desc">Giá giảm dần</option>
+          <option value="rating">Đánh giá cao nhất</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT GRID: NEW ARRIVALS -->
+  <section class="container py-2">
+    <div class="row g-4" id="gridNewArrivals">
+      <!-- Populated by script.js -->
+    </div>
+  </section>
+
+  <!-- PAGINATION -->
+  <section class="container py-5 text-center">
+    <div class="d-inline-flex align-items-center gap-1 border rounded-pill p-1 shadow-sm bg-white">
+      <button class="btn btn-sm btn-light rounded-pill px-3 text-muted" disabled>← Trước</button>
+      <button class="btn btn-sm btn-dark rounded-circle" style="width: 32px; height: 32px;">1</button>
+      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;" onclick="showToast('Đang tải trang 2...')">2</button>
+      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;" onclick="showToast('Đang tải trang 3...')">3</button>
+      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;" onclick="showToast('Đang tải trang 4...')">4</button>
+      <span class="px-1 text-muted">...</span>
+      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;" onclick="showToast('Đang tải trang 12...')">12</button>
+      <button class="btn btn-sm btn-light rounded-pill px-3" onclick="showToast('Đang chuyển tới trang tiếp theo')">Tiếp theo →</button>
+    </div>
+  </section>
+  <!-- ===================================================================
+       FOOTER - LUXURY VELORA BRANDING
+       =================================================================== -->
+  <footer class="velora-footer bg-dark text-white pt-5 pb-4 mt-5">
+    <div class="container">
+      <div class="row g-4 pb-4 border-bottom border-secondary border-opacity-25">
+        <!-- Col 1: Brand Info -->
+        <div class="col-lg-4 col-md-6">
+          <div class="mb-3">
+            <img src="velora_logo_footer.svg" alt="VELORA" style="height: 48px; width: auto; object-fit: contain;">
+          </div>
+          <p class="text-white-50 small pe-lg-4 mb-3">
+            Thương hiệu thời trang định hình phong cách sang trọng, tự tin và thời thượng. Chất lượng chuẩn quốc tế, tinh xảo trong từng đường may.
+          </p>
+          <div class="small text-white-50 d-flex flex-column gap-2">
+            <div><i class="bi bi-telephone me-2 text-warning"></i> Hotline: <b class="text-white">1900 8899</b> (08:30 - 22:00)</div>
+            <div><i class="bi bi-envelope me-2 text-warning"></i> Email: <a href="mailto:cskh@velorafashion.vn" class="text-white-50 text-decoration-none">cskh@velorafashion.vn</a></div>
+            <div><i class="bi bi-geo-alt me-2 text-warning"></i> Địa chỉ: 123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM</div>
+          </div>
+        </div>
+
+        <!-- Col 2: Hỗ trợ khách hàng -->
+        <div class="col-lg-2 col-md-6 col-6">
+          <h6 class="text-uppercase fw-bold text-white mb-3" style="font-size: 0.85rem; letter-spacing: 0.1em;">Hỗ trợ khách hàng</h6>
+          <ul class="list-unstyled small d-flex flex-column gap-2 text-white-50">
+            <li><a href="javascript:void(0)" onclick="sendAiMessage('Tư vấn chọn size'); toggleAiChat();" class="text-white-50 text-decoration-none">Hướng dẫn chọn size</a></li>
+            <li><a href="javascript:void(0)" onclick="sendAiMessage('Chính sách đổi trả'); toggleAiChat();" class="text-white-50 text-decoration-none">Chính sách đổi trả 15 ngày</a></li>
+            <li><a href="javascript:void(0)" onclick="sendAiMessage('Chính sách giao hàng'); toggleAiChat();" class="text-white-50 text-decoration-none">Chính sách giao hàng toàn quốc</a></li>
+            <li><a href="javascript:void(0)" onclick="openZaloModal()" class="text-white-50 text-decoration-none">Tư vấn Zalo 1:1</a></li>
+            <li><a href="account.html" class="text-white-50 text-decoration-none">Tra cứu đơn hàng</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Về chúng tôi -->
+        <div class="col-lg-2 col-md-6 col-6">
+          <h6 class="text-uppercase fw-bold text-white mb-3" style="font-size: 0.85rem; letter-spacing: 0.1em;">Về chúng tôi</h6>
+          <ul class="list-unstyled small d-flex flex-column gap-2 text-white-50">
+            <li><a href="index.html" class="text-white-50 text-decoration-none">Câu chuyện thương hiệu</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Hệ thống 15 Showroom mở cửa từ 8h30 - 22h00 hàng ngày')" class="text-white-50 text-decoration-none">Hệ thống 15 cửa hàng showroom</a></li>
+            <li><a href="account.html" class="text-white-50 text-decoration-none">Khách hàng thân thiết VIP Club</a></li>
+            <li><a href="javascript:void(0)" onclick="showToast('Thông tin tuyển dụng: Liên hệ hr@velorafashion.vn')" class="text-white-50 text-decoration-none">Tuyển dụng & Sự nghiệp</a></li>
+            <li><a href="javascript:void(0)" onclick="openMessengerModal()" class="text-white-50 text-decoration-none">Hợp tác kinh doanh</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Newsletter & Social -->
+        <div class="col-lg-4 col-md-6">
+          <h6 class="text-uppercase fw-bold text-white mb-3" style="font-size: 0.85rem; letter-spacing: 0.1em;">Đăng ký nhận voucher 10%</h6>
+          <p class="text-white-50 small mb-3">Nhận thông tin bộ sưu tập mới nhất và voucher giảm 10% gửi thẳng vào hộp thư của bạn.</p>
+          <form class="newsletter-form mb-3" onsubmit="event.preventDefault(); showToast('Đã gửi mã voucher VELORA10 vào email của bạn!'); this.reset();">
+            <div class="input-group">
+              <input type="email" class="form-control bg-dark border-secondary text-white" placeholder="Nhập địa chỉ email của bạn..." required>
+              <button class="btn btn-light fw-bold px-3" type="submit">Gửi</button>
+            </div>
+          </form>
+          <div class="d-flex align-items-center gap-3">
+            <span class="text-white-50 small">Kết nối cùng chúng tôi:</span>
+            <div class="d-flex gap-2">
+              <a href="https://facebook.com" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary rounded-circle text-white"><i class="bi bi-facebook"></i></a>
+              <a href="https://instagram.com" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary rounded-circle text-white"><i class="bi bi-instagram"></i></a>
+              <a href="https://tiktok.com" target="_blank" rel="noopener" class="btn btn-sm btn-outline-secondary rounded-circle text-white"><i class="bi bi-tiktok"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="pt-4 d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        <div class="small text-white-50">
+          © 2026 <b>VELORA</b>. Tất cả quyền được bảo lưu. Thiết kế giao diện thời trang chuẩn thương mại điện tử cao cấp.
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge bg-secondary bg-opacity-25 text-white-50 border border-secondary border-opacity-25">VISA</span>
+          <span class="badge bg-secondary bg-opacity-25 text-white-50 border border-secondary border-opacity-25">MASTER</span>
+          <span class="badge bg-secondary bg-opacity-25 text-white-50 border border-secondary border-opacity-25">MOMO</span>
+          <span class="badge bg-secondary bg-opacity-25 text-white-50 border border-secondary border-opacity-25">VNPAY</span>
+          <span class="badge bg-secondary bg-opacity-25 text-white-50 border border-secondary border-opacity-25">COD</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================================================================
+       FLOATING CUSTOMER SUPPORT WIDGET (ZALO, MESSENGER, AI CSKH)
+       =================================================================== -->
+  <div class="floating-support-wrap" id="floatingSupportWrap">
+    <!-- AI Stylist Button (Main Highlight) -->
+    <button type="button" class="support-action-btn btn-support-ai" onclick="toggleAiChat()" title="AI Stylist 24/7 ✨">
+      <div class="ai-pulse-ring"></div>
+      <i class="bi bi-robot fs-4"></i>
+      <span class="ai-online-badge"></span>
+      <span class="support-tooltip">AI Stylist 24/7 ✨</span>
+    </button>
+
+    <!-- Facebook Messenger Button -->
+    <button type="button" class="support-action-btn btn-support-messenger" onclick="openMessengerModal()" title="Facebook Messenger">
+      <i class="bi bi-messenger fs-4"></i>
+      <span class="support-tooltip">Chat Messenger</span>
+    </button>
+
+    <!-- Zalo 1:1 Button -->
+    <button type="button" class="support-action-btn btn-support-zalo" onclick="openZaloModal()" title="Tư vấn Zalo 1:1">
+      <span class="fw-bold" style="font-size: 0.95rem; font-family: sans-serif;">Zalo</span>
+      <span class="support-tooltip">Tư vấn Zalo 1:1</span>
+    </button>
+
+    <!-- Status pill callout above buttons -->
+    <div class="support-callout-pill shadow-sm d-none d-md-flex align-items-center gap-2 mb-1">
+      <span class="status-indicator-dot"></span>
+      <span class="small fw-semibold">Stylist & CSKH online</span>
+    </div>
+  </div>
+
+  <!-- AI CHAT DRAWER: VELORA PRO FASHION STYLIST 2.0 -->
+  <div id="veloraAiChatBox" class="velora-ai-chat-box shadow-lg">
+    <!-- Header with Luxury Monogram & Action Controls -->
+    <div class="ai-chat-header">
+      <div class="d-flex align-items-center gap-2">
+        <div class="ai-avatar-wrap">
+          <div class="ai-chat-avatar">V</div>
+          <span class="ai-avatar-online-dot"></span>
+        </div>
+        <div>
+          <div class="d-flex align-items-center gap-2">
+            <h6 class="m-0 fw-bold text-white" style="font-size: 0.95rem; letter-spacing: 0.3px;">Velora AI Stylist</h6>
+            <span class="ai-badge-pro"><i class="bi bi-stars"></i>PRO 2.0</span>
+          </div>
+          <div class="d-flex align-items-center gap-2 mt-1">
+            <span class="small" style="font-size: 0.7rem; color: #10b981;"><i class="bi bi-circle-fill me-1" style="font-size: 0.45rem;"></i>Sẵn sàng tư vấn</span>
+            <span class="text-white-50" style="font-size: 0.65rem;">•</span>
+            <span class="text-white-50" style="font-size: 0.68rem;">Fashion Model v2.4</span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-1">
+        <button type="button" class="ai-header-btn" onclick="toggleAiSizeDrawer()" title="Thước đo size AI">
+          <i class="bi bi-rulers"></i>
+        </button>
+        <button type="button" class="ai-header-btn" onclick="resetAiChat()" title="Làm mới cuộc trò chuyện">
+          <i class="bi bi-arrow-counterclockwise"></i>
+        </button>
+        <button type="button" class="ai-header-btn" onclick="toggleAiChat()" title="Đóng">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- COLLAPSIBLE SMART SIZE CALCULATOR DRAWER -->
+    <div id="aiSizeWidgetDrawer" class="ai-size-drawer">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <span class="fw-bold text-dark small"><i class="bi bi-magic me-1 text-warning"></i> Thước Đo Size Chuẩn Dáng AI</span>
+        <button type="button" class="btn btn-sm btn-link text-secondary p-0 text-decoration-none" onclick="toggleAiSizeDrawer()">
+          <i class="bi bi-chevron-up"></i>
+        </button>
+      </div>
+      
+      <!-- Gender Selector -->
+      <div class="d-flex gap-2 mb-2">
+        <div class="ai-size-gender-pill active" id="aiGenderFemale" onclick="setAiSizeGender('female')">
+          <i class="bi bi-gender-female me-1"></i> Nữ
+        </div>
+        <div class="ai-size-gender-pill" id="aiGenderMale" onclick="setAiSizeGender('male')">
+          <i class="bi bi-gender-male me-1"></i> Nam
+        </div>
+      </div>
+
+      <!-- Height Slider -->
+      <div class="ai-size-slider-row">
+        <label>
+          <span>Chiều cao</span>
+          <span class="slider-val" id="aiHeightVal">162 cm</span>
+        </label>
+        <input type="range" class="form-range" id="aiHeightRange" min="140" max="195" value="162" oninput="updateAiSizeRange()">
+      </div>
+
+      <!-- Weight Slider -->
+      <div class="ai-size-slider-row">
+        <label>
+          <span>Cân nặng</span>
+          <span class="slider-val" id="aiWeightVal">52 kg</span>
+        </label>
+        <input type="range" class="form-range" id="aiWeightRange" min="38" max="100" value="52" oninput="updateAiSizeRange()">
+      </div>
+
+      <!-- Desired Fit -->
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <span class="small text-muted" style="font-size:0.75rem;">Gu mặc:</span>
+        <div class="d-flex gap-1">
+          <span class="ai-size-fit-pill active" id="aiFitRegular" onclick="setAiSizeFit('regular')">Vừa vặn</span>
+          <span class="ai-size-fit-pill" id="aiFitSlim" onclick="setAiSizeFit('slim')">Tôn dáng</span>
+          <span class="ai-size-fit-pill" id="aiFitOversize" onclick="setAiSizeFit('oversize')">Rộng rãi</span>
+        </div>
+      </div>
+
+      <!-- Action Button -->
+      <button type="button" class="btn btn-dark btn-sm w-100 rounded-pill fw-bold" onclick="calculateAiSizeFromDrawer()">
+        <i class="bi bi-stars me-1 text-warning"></i> Phân Tích & Chọn Size Ngay
+      </button>
+    </div>
+
+    <!-- Quick Prompt Chips Carousel -->
+    <div class="ai-chips-bar">
+      <button class="ai-chip-pill" onclick="toggleAiSizeDrawer()"><i class="bi bi-rulers text-primary"></i> Đo size tự động</button>
+      <button class="ai-chip-pill" onclick="handleAiChipClick('Gợi ý đầm đi tiệc sang chảnh')"><i class="bi bi-gem text-danger"></i> Đầm dự tiệc</button>
+      <button class="ai-chip-pill" onclick="handleAiChipClick('Set đồ công sở thanh lịch tôn dáng')"><i class="bi bi-briefcase text-secondary"></i> Công sở lịch thiệp</button>
+      <button class="ai-chip-pill" onclick="handleAiChipClick('Outfit dạo phố cà phê cuối tuần')"><i class="bi bi-cup-hot text-warning"></i> Dạo phố cuối tuần</button>
+      <button class="ai-chip-pill" onclick="handleAiChipClick('Phối đồ nam chuẩn quý ông')"><i class="bi bi-person-badge text-info"></i> Quý ông lịch lãm</button>
+      <button class="ai-chip-pill" onclick="handleAiChipClick('Mã giảm giá hôm nay')"><i class="bi bi-ticket-perforated text-success"></i> Voucher VIP 10%</button>
+      <button class="ai-chip-pill" onclick="handleAiChipClick('Deal Flash Sale giờ vàng')"><i class="bi bi-lightning-charge text-danger"></i> Flash Sale</button>
+      <button class="ai-chip-pill" onclick="handleAiChipClick('Tra cứu đơn hàng của tôi')"><i class="bi bi-truck text-primary"></i> Tra cứu đơn</button>
+    </div>
+
+    <!-- Chat Messages Stream -->
+    <div id="aiChatBody" class="ai-chat-body">
+      <div class="ai-message bot">
+        <div class="ai-chat-avatar" style="width: 32px; height: 32px; font-size: 0.95rem;">V</div>
+        <div class="ai-msg-bubble">
+          <p class="mb-2">
+            Xin chào quý khách! Mình là <b>Velora AI Stylist 2.0</b> ✨. Bạn đang chuẩn bị trang phục cho dịp nào hay cần tư vấn size, phối đồ phù hợp với vóc dáng hôm nay?
+          </p>
+          <div class="d-flex flex-wrap gap-1 mt-2">
+            <button class="btn btn-xs btn-outline-dark rounded-pill" onclick="handleAiChipClick('Gợi ý đầm đi tiệc sang chảnh')">👗 Đầm dự tiệc</button>
+            <button class="btn btn-xs btn-outline-dark rounded-pill" onclick="handleAiChipClick('Set đồ công sở thanh lịch tôn dáng')">💼 Set công sở</button>
+            <button class="btn btn-xs btn-outline-dark rounded-pill" onclick="toggleAiSizeDrawer()">📏 Đo size AI</button>
+            <button class="btn btn-xs btn-outline-dark rounded-pill" onclick="handleAiChipClick('Mã giảm giá hôm nay')">🎁 Voucher 10%</button>
+          </div>
+          <span class="ai-timestamp">Velora AI Stylist • Trực tuyến</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Input Footer -->
+    <div class="ai-chat-footer">
+      <div class="input-group align-items-center bg-light rounded-pill px-2 py-1 border">
+        <button class="btn btn-link text-secondary p-1 border-0" type="button" onclick="simulateVoiceInput()" title="Nói với AI Stylist">
+          <i class="bi bi-mic-fill fs-5"></i>
+        </button>
+        <input type="text" id="aiChatInput" class="form-control border-0 bg-transparent shadow-none" placeholder="Hỏi AI: 'Phối đồ tiệc', 'Đo size 1m62 50kg'..." onkeydown="if(event.key==='Enter'){event.preventDefault(); sendAiMessage();}">
+        <button class="btn btn-dark rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 34px; height: 34px;" type="button" onclick="sendAiMessage()" title="Gửi tin nhắn">
+          <i class="bi bi-arrow-up text-white" style="font-size: 1.1rem; -webkit-text-stroke: 0.5px;"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- SIMULATED VOICE LISTENING OVERLAY -->
+    <div id="aiVoiceOverlay" class="ai-voice-overlay">
+      <div class="ai-chat-avatar mb-3" style="width: 58px; height: 58px; font-size: 1.6rem;">V</div>
+      <h6 class="text-white fw-bold mb-1">Đang lắng nghe bạn nói...</h6>
+      <p class="text-white-50 small mb-2" id="aiVoicePromptHint">"Tư vấn cho mình set đồ đi tiệc cuối tuần..."</p>
+      <div class="ai-voice-waves">
+        <div class="ai-wave-bar"></div>
+        <div class="ai-wave-bar"></div>
+        <div class="ai-wave-bar"></div>
+        <div class="ai-wave-bar"></div>
+        <div class="ai-wave-bar"></div>
+      </div>
+      <button class="btn btn-sm btn-outline-light rounded-pill px-3 mt-2" onclick="cancelVoiceInput()">Hủy bỏ</button>
+    </div>
+  </div>
+
+  <!-- MODAL: ZALO CONSULTATION -->
+  <div class="modal fade" id="zaloModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 440px;">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header text-white p-3 d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg, #0068ff 0%, #0084ff 100%) !important;">
+          <div class="d-flex align-items-center gap-2">
+            <span class="bg-white text-primary rounded-circle fw-bold px-2 py-1 small" style="font-size:0.75rem;">Zalo</span>
+            <h6 class="m-0 fw-bold">Tư Vấn Zalo 1:1 Cùng Stylist</h6>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <div class="zalo-qr-box mb-3">
+            <div class="bg-white p-3 rounded-3 shadow-sm d-inline-block">
+              <svg width="150" height="150" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="100" height="100" fill="white"/>
+                <rect x="8" y="8" width="32" height="32" rx="4" stroke="#0068ff" stroke-width="4"/>
+                <rect x="16" y="16" width="16" height="16" fill="#0068ff"/>
+                <rect x="60" y="8" width="32" height="32" rx="4" stroke="#0068ff" stroke-width="4"/>
+                <rect x="68" y="16" width="16" height="16" fill="#0068ff"/>
+                <rect x="8" y="60" width="32" height="32" rx="4" stroke="#0068ff" stroke-width="4"/>
+                <rect x="16" y="68" width="16" height="16" fill="#0068ff"/>
+                <rect x="46" y="46" width="8" height="8" fill="#111"/>
+                <rect x="60" y="60" width="12" height="12" fill="#0068ff"/>
+                <rect x="76" y="76" width="14" height="14" fill="#0068ff"/>
+                <rect x="46" y="18" width="8" height="14" fill="#111"/>
+                <rect x="46" y="68" width="8" height="14" fill="#111"/>
+                <rect x="18" y="46" width="14" height="8" fill="#111"/>
+                <rect x="68" y="46" width="14" height="8" fill="#111"/>
+              </svg>
+            </div>
+            <div class="mt-2 small text-muted">Quét mã QR bằng ứng dụng Zalo trên điện thoại</div>
+          </div>
+          <h5 class="fw-bold mb-1">VELORA Official Store</h5>
+          <div class="d-flex align-items-center justify-content-center gap-2 mb-3">
+            <span class="badge bg-success small"><i class="bi bi-circle-fill me-1" style="font-size:0.5rem;"></i> Trực tuyến</span>
+            <span class="small text-muted">Phản hồi: &lt; 1 phút</span>
+          </div>
+          <div class="p-3 bg-light rounded-3 mb-3 text-start small">
+            <div class="d-flex justify-content-between mb-1">
+              <span class="text-muted">Hotline Zalo VIP:</span>
+              <b class="text-dark">0988 889 899</b>
+            </div>
+            <div class="d-flex justify-content-between">
+              <span class="text-muted">Tổng đài CSKH:</span>
+              <b class="text-dark">1900 8899</b>
+            </div>
+          </div>
+          <a href="https://zalo.me" target="_blank" rel="noopener" class="btn btn-primary w-100 py-2 rounded-pill fw-bold" style="background: #0068ff;">
+            <i class="bi bi-chat-dots-fill me-2"></i> Mở Zalo Chat Trực Tiếp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: FACEBOOK MESSENGER -->
+  <div class="modal fade" id="messengerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 440px;">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header text-white p-3 d-flex justify-content-between align-items-center" style="background: linear-gradient(135deg, #00B2FF 0%, #006AFF 50%, #9B51E0 100%) !important;">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-messenger fs-5"></i>
+            <h6 class="m-0 fw-bold">Facebook Messenger CSKH</h6>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4 text-center">
+          <div class="messenger-preview-box mb-3 text-start">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <div class="rounded-circle bg-dark text-white fw-bold d-flex align-items-center justify-content-center" style="width:34px; height:34px; font-size:0.9rem;">V</div>
+              <div>
+                <div class="fw-bold small d-flex align-items-center gap-1">VELORA Premium Fashion <i class="bi bi-patch-check-fill text-primary" style="font-size:0.85rem;"></i></div>
+                <div class="text-success" style="font-size:0.72rem;"><i class="bi bi-circle-fill me-1" style="font-size:0.45rem;"></i> Thường trả lời ngay lập tức</div>
+              </div>
+            </div>
+            <p class="small text-muted m-0 p-2 bg-white rounded-3 border">
+              Xin chào! Cảm ơn bạn đã ghé thăm Velora. Bạn đang cần hỗ trợ chọn size, tư vấn phối đồ hay kiểm tra thông tin đơn hàng?
+            </p>
+          </div>
+          <h6 class="small text-muted fw-bold text-uppercase mb-2 text-start">Câu hỏi thường gặp:</h6>
+          <div class="d-flex flex-column gap-2 mb-3">
+            <button type="button" class="btn btn-outline-secondary btn-sm text-start rounded-pill px-3 py-2" onclick="sendAiMessage('Tư vấn size'); bootstrap.Modal.getInstance(document.getElementById('messengerModal')).hide(); toggleAiChat();">
+              👉 Tư vấn chọn size chuẩn theo dáng
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-sm text-start rounded-pill px-3 py-2" onclick="sendAiMessage('Gợi ý set đồ mới'); bootstrap.Modal.getInstance(document.getElementById('messengerModal')).hide(); toggleAiChat();">
+              👉 Gợi ý các set đồ mới nhất tuần này
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-sm text-start rounded-pill px-3 py-2" onclick="sendAiMessage('Chính sách đổi trả 15 ngày'); bootstrap.Modal.getInstance(document.getElementById('messengerModal')).hide(); toggleAiChat();">
+              👉 Hướng dẫn chính sách đổi trả hàng
+            </button>
+          </div>
+          <a href="https://m.me" target="_blank" rel="noopener" class="btn btn-primary w-100 py-2 rounded-pill fw-bold" style="background: #0084ff;">
+            <i class="bi bi-messenger me-2"></i> Tiếp tục trên Messenger
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ORDER DETAILS -->
+  <div class="modal fade" id="orderDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header border-bottom px-4">
+          <h5 class="modal-title fw-bold"><i class="bi bi-receipt text-primary me-2"></i>Chi Tiết Đơn Hàng VELORA</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-0" id="orderDetailContent">
+          <!-- Populated dynamically by script.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OFFCANVAS SHOPPING CART DRAWER -->
+  <div class="offcanvas offcanvas-end offcanvas-cart" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel" style="width: 440px;">
+    <div class="offcanvas-header border-bottom">
+      <h5 class="offcanvas-title fw-bold d-flex align-items-center gap-2" id="offcanvasCartLabel">
+        <i class="bi bi-bag-check"></i> Giỏ hàng (<span class="cart-badge-count text-danger">0</span>)
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <!-- Free Shipping Indicator -->
+    <div class="p-3 bg-light border-bottom">
+      <div class="cart-freeship-text small mb-2 text-center">
+        Mua thêm để được <span class="badge bg-danger">FREESHIP</span>
+      </div>
+      <div class="progress" style="height: 6px;">
+        <div class="progress-bar bg-dark cart-freeship-bar" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Cart Items List Container -->
+    <div class="offcanvas-body p-3" id="offcanvasCartItems">
+      <!-- Injected by script.js -->
+    </div>
+
+    <!-- Cart Footer & Checkout Action -->
+    <div class="p-3 border-top bg-light">
+      <div class="d-flex justify-content-between mb-2">
+        <span class="text-muted">Tạm tính:</span>
+        <span class="fw-bold fs-5 text-dark cart-subtotal-val">0đ</span>
+      </div>
+      <div class="d-flex gap-2">
+        <a href="cart.html" class="btn btn-outline-dark flex-grow-1">Xem chi tiết giỏ</a>
+        <button class="btn btn-dark flex-grow-1 fw-bold" onclick="openCheckoutModal()">Thanh toán ngay</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: QUICK VIEW PRODUCT -->
+  <div class="modal fade" id="quickViewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-body p-0" id="quickViewContent">
+          <!-- Populated by script.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CHECKOUT -->
+  <div class="modal fade" id="checkoutModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-bottom px-4">
+          <h5 class="modal-title fw-bold"><i class="bi bi-shield-check text-success me-2"></i>Thanh toán đơn hàng VELORA</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <form id="checkoutForm" onsubmit="event.preventDefault(); completeOrder();">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Họ và tên người nhận</label>
+                <input type="text" class="form-control" id="orderFullName" value="Đặng Minh Anh" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Số điện thoại</label>
+                <input type="tel" class="form-control" id="orderPhone" value="0988 123 456" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-bold">Địa chỉ giao hàng chi tiết</label>
+                <input type="text" class="form-control" id="orderAddress" value="123 Đường Nam Kỳ Khởi Nghĩa, Phường Bến Nghé, Quận 1, TP. HCM" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-bold">Ghi chú giao hàng</label>
+                <input type="text" class="form-control" id="orderNote" placeholder="Ví dụ: Giao giờ hành chính, gọi trước khi tới...">
+              </div>
+              <div class="col-12 mt-4">
+                <label class="form-label small fw-bold">Phương thức thanh toán</label>
+                <div class="d-flex flex-column gap-2">
+                  <label class="form-check p-3 border rounded-3 d-flex align-items-center gap-2 cursor-pointer">
+                    <input class="form-check-input" type="radio" name="paymentMethod" value="cod" checked>
+                    <span><i class="bi bi-cash-stack text-success fs-5 me-2"></i>Thanh toán khi nhận hàng (COD)</span>
+                  </label>
+                  <label class="form-check p-3 border rounded-3 d-flex align-items-center gap-2 cursor-pointer">
+                    <input class="form-check-input" type="radio" name="paymentMethod" value="vnpay">
+                    <span><i class="bi bi-qr-code text-primary fs-5 me-2"></i>Chuyển khoản QR Napas / VNPAY (Miễn phí)</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-top d-flex justify-content-between align-items-center">
+              <div>
+                <span class="text-muted small">Tổng thanh toán:</span>
+                <div class="fs-4 fw-bold text-danger cart-total-val">0đ</div>
+              </div>
+              <button type="submit" class="btn btn-dark btn-lg px-4 fw-bold">Xác nhận đặt hàng</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: LOOKBOOK OUTFIT LIGHTBOX -->
+  <div class="modal fade" id="lookbookModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
+        <div class="modal-header border-0 pb-0 position-absolute end-0 top-0 z-3 p-3">
+          <button type="button" class="btn-close bg-white rounded-circle p-2 shadow-sm" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0" id="lookbookModalContent">
+          <!-- Dynamically injected by openLookbookModal(id) in script.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: WISHLIST -->
+  <div class="modal fade" id="wishlistModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-bottom">
+          <h5 class="modal-title fw-bold"><i class="bi bi-heart-fill text-danger me-2"></i>Sản phẩm yêu thích</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-3" id="wishlistModalBody">
+          <!-- Injected by script.js -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADMIN PRODUCT EDITOR -->
+  <div class="modal fade" id="adminProductModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <h5 class="modal-title fw-bold" id="adminProductModalTitle">
+            <i class="bi bi-pencil-square text-warning me-2"></i>Chỉnh Sửa Sản Phẩm
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="adminProductForm" onsubmit="adminSaveProduct(event)">
+          <div class="modal-body p-4">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Mã sản phẩm (ID) <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="admProdId" required placeholder="vd: wm-99, na-10">
+              </div>
+              <div class="col-md-8">
+                <label class="form-label small fw-bold">Tên sản phẩm <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="admProdName" required placeholder="Nhập tên sản phẩm...">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Danh mục <span class="text-danger">*</span></label>
+                <select class="form-select" id="admProdCategory" required onchange="adminUpdateSubCategories()">
+                  <option value="women">Thời trang Nữ (Women)</option>
+                  <option value="men">Thời trang Nam (Men)</option>
+                  <option value="accessories">Phụ kiện (Accessories)</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Phân loại (SubCategory) <span class="text-danger">*</span></label>
+                <select class="form-select" id="admProdSubCategory" required>
+                  <option value="ao">Áo kiểu</option>
+                  <option value="blouse">Áo Blouse</option>
+                  <option value="chan-vay">Chân Váy</option>
+                  <option value="dam-vay">Đầm / Váy</option>
+                  <option value="quan">Quần</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Huy hiệu (Badge)</label>
+                <select class="form-select" id="admProdBadge">
+                  <option value="HOT TREND">HOT TREND</option>
+                  <option value="NEW ARRIVAL">NEW ARRIVAL</option>
+                  <option value="POPULAR">POPULAR</option>
+                  <option value="BEST SELLER">BEST SELLER</option>
+                  <option value="ELEGANT">ELEGANT</option>
+                  <option value="PREMIUM">PREMIUM</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Giá bán (VNĐ) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="admProdPrice" required min="10000" step="1000" placeholder="vd: 450000">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Giá gốc (VNĐ)</label>
+                <input type="number" class="form-control" id="admProdOldPrice" min="0" step="1000" placeholder="vd: 600000">
+              </div>
+              <div class="col-md-4">
+                <label class="form-label small fw-bold">Số lượng tồn kho <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="admProdStock" required min="0" value="25">
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-bold">Đường dẫn ảnh (URL hoặc tên file ảnh) <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="admProdImage" required placeholder="https://images.unsplash.com/... hoặc chan_vay_xep_ly_midi.jpg" oninput="adminPreviewImage()">
+                  <button class="btn btn-outline-secondary" type="button" onclick="adminPreviewImage()">Xem trước</button>
+                </div>
+                <div class="mt-2 text-center p-2 bg-light rounded-3" id="admImgPreviewBox">
+                  <img id="admImgPreview" src="" alt="Preview" style="max-height: 140px; object-fit: cover; border-radius: 8px; display: none;">
+                  <span id="admImgPreviewText" class="text-muted small">Chưa có ảnh xem trước</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light px-4 py-3">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy bỏ</button>
+            <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">
+              <i class="bi bi-check-circle me-1"></i> Lưu thông tin sản phẩm
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADMIN AUTHENTICATION / SECURE PASSWORD GATE -->
+  <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 440px;">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <div class="d-flex align-items-center gap-2">
+            <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+              <i class="bi bi-shield-lock-fill"></i>
+            </div>
+            <h5 class="modal-title fw-bold m-0 font-serif">Xác Thực Quản Trị Viên</h5>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="adminLoginForm" onsubmit="submitAdminPasswordLogin(event)">
+          <div class="modal-body p-4 text-center">
+            <div class="mb-3 text-muted small">
+              Khu vực bảo mật cấp cao dành riêng cho Quản Trị Viên Velora Luxury. Vui lòng nhập mật khẩu xác thực để tiếp tục.
+            </div>
+            <div class="p-3 bg-light rounded-3 mb-3 text-start border">
+              <div class="small text-muted">Tài khoản quản trị:</div>
+              <div class="fw-bold text-dark font-monospace"><i class="bi bi-person-badge me-1 text-primary"></i> admin@velora.vn</div>
+            </div>
+            <div class="mb-3 text-start">
+              <label class="form-label small fw-bold">Mật khẩu Quản Trị <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0"><i class="bi bi-key text-muted"></i></span>
+                <input type="password" class="form-control border-start-0 border-end-0" id="modalAdminPassword" required placeholder="Nhập mật khẩu..." autocomplete="current-password">
+                <button class="btn btn-outline-secondary border-start-0" type="button" onclick="togglePasswordVisibility('modalAdminPassword', this)">
+                  <i class="bi bi-eye"></i>
+                </button>
+              </div>
+              <div class="form-text small mt-1 text-muted">
+                <i class="bi bi-info-circle me-1"></i> Mật khẩu mặc định hệ thống: <code>admin123</code>
+              </div>
+            </div>
+            <div id="adminLoginError" class="alert alert-danger py-2 small d-none mb-0">
+              <i class="bi bi-exclamation-triangle-fill me-1"></i> Mật khẩu Quản Trị Viên không đúng. Vui lòng thử lại!
+            </div>
+          </div>
+          <div class="modal-footer bg-light px-4 py-3">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy bỏ</button>
+            <button type="submit" class="btn btn-warning text-dark rounded-pill px-4 fw-bold shadow-sm">
+              <i class="bi bi-unlock-fill me-1"></i> Xác Nhận Vào Admin
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADMIN VOUCHER MANAGER -->
+  <div class="modal fade" id="adminVoucherModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-ticket-perforated-fill text-warning me-2"></i>Thêm / Chỉnh Sửa Voucher Ưu Đãi
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="adminVoucherForm" onsubmit="adminSaveVoucher(event)">
+          <div class="modal-body p-4">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Mã Voucher (Code) <span class="text-danger">*</span></label>
+                <input type="text" class="form-control text-uppercase font-monospace fw-bold" id="admVoucherCode" required placeholder="vd: VELORA20, VIP100K">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Loại ưu đãi <span class="text-danger">*</span></label>
+                <select class="form-select" id="admVoucherType" required onchange="adminUpdateVoucherTypeLabel()">
+                  <option value="percent">Giảm theo % hóa đơn</option>
+                  <option value="fixed">Giảm tiền mặt trực tiếp (VNĐ)</option>
+                  <option value="shipping">Miễn phí giao hàng (Freeship)</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold" id="admVoucherValueLabel">Mức giảm (%) <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" id="admVoucherValue" required min="0" placeholder="vd: 15 hoặc 50000">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Đơn tối thiểu áp dụng (VNĐ)</label>
+                <input type="number" class="form-control" id="admVoucherMinSpend" min="0" step="10000" value="0" placeholder="0 = Áp dụng mọi đơn">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Hạn sử dụng (HSD) <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="admVoucherExpiry" required placeholder="vd: 31/12/2026">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Gắn thẻ / Màu sắc</label>
+                <select class="form-select" id="admVoucherColor">
+                  <option value="danger">Màu Đỏ (Khuyến mãi Hot)</option>
+                  <option value="success">Màu Xanh Lá (Freeship)</option>
+                  <option value="primary">Màu Xanh Dương (VIP Gold)</option>
+                  <option value="warning">Màu Vàng (Special Event)</option>
+                  <option value="dark">Màu Đen Sang Trọng (Luxury)</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-bold">Tiêu đề ngắn voucher <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="admVoucherTitle" required placeholder="vd: Giảm 15% Toàn Bộ Đơn Hàng">
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-bold">Mô tả điều kiện sử dụng</label>
+                <textarea class="form-control" id="admVoucherDesc" rows="2" placeholder="Áp dụng cho mọi khách hàng khi đặt online..."></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light px-4 py-3">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">
+              <i class="bi bi-check-circle me-1"></i> Lưu & Kích Hoạt Voucher
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADMIN HERO SLIDE / BANNER MANAGER -->
+  <div class="modal fade" id="adminHeroModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-images text-warning me-2"></i>Quản Lý Banner Hero Trang Chủ
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="adminHeroForm" onsubmit="adminSaveHeroSlide(event)">
+          <div class="modal-body p-4">
+            <input type="hidden" id="admHeroSlideIndex" value="0">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Chọn Slide cần cập nhật</label>
+                <select class="form-select" id="admHeroSlideSelect" onchange="adminLoadHeroSlideToForm(this.value)">
+                  <option value="0">Slide 1: Fashion Style (Trang chủ chính)</option>
+                  <option value="1">Slide 2: Urban Elegance (Xu hướng mới)</option>
+                  <option value="2">Slide 3: Khuyến Mãi Flash Sale (Ưu đãi)</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Tagline nhỏ</label>
+                <input type="text" class="form-control" id="admHeroTag" placeholder="vd: BỘ SƯU TẬP 2026">
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-bold">Tiêu đề lớn (Title) <span class="text-danger">*</span></label>
+                <input type="text" class="form-control fw-bold" id="admHeroTitle" required placeholder="vd: FASHION STYLE">
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-bold">Mô tả phụ</label>
+                <textarea class="form-control" id="admHeroDesc" rows="2" placeholder="Đẳng cấp thời trang định hình phong cách sống thượng lưu..."></textarea>
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-bold">Đường dẫn ảnh nền banner (URL hoặc tên ảnh local) <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="admHeroImage" required placeholder="https://images.unsplash.com/... hoặc chan_vay_xep_ly_midi.jpg" oninput="adminPreviewHeroImage()">
+                  <button class="btn btn-outline-secondary" type="button" onclick="adminPreviewHeroImage()">Xem trước</button>
+                </div>
+                <div class="mt-2 p-2 bg-light rounded-3 text-center" style="max-height: 180px; overflow: hidden;">
+                  <img id="admHeroImgPreview" src="" alt="Hero Preview" style="width: 100%; max-height: 160px; object-fit: cover; border-radius: 8px;">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light px-4 py-3">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Đóng</button>
+            <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">
+              <i class="bi bi-save me-1"></i> Lưu Thay Đổi Banner
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: QUICK PRODUCT IMAGE CHANGER -->
+  <div class="modal fade" id="adminChangeImageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-camera-fill text-warning me-2"></i>Đổi Ảnh Sản Phẩm
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="adminChangeImageForm" onsubmit="adminSaveQuickImage(event)">
+          <input type="hidden" id="admQuickImgProdId">
+          <div class="modal-body p-4 text-center">
+            <div class="fw-bold mb-1" id="admQuickImgProdName">Tên sản phẩm</div>
+            <div class="small text-muted mb-3 font-monospace" id="admQuickImgProdIdDisplay">ID: wm-1</div>
+
+            <div class="mb-3 text-start">
+              <label class="form-label small fw-bold">Đường dẫn ảnh mới (URL hoặc file local) <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="admQuickImgUrl" required placeholder="vd: chan_vay_xep_ly_midi.jpg hoặc https://..." oninput="adminPreviewQuickImage(this.value)">
+            </div>
+
+            <div class="p-3 bg-light rounded-4 border text-center mb-3">
+              <div class="small text-muted mb-2">Xem trước ảnh sản phẩm:</div>
+              <img id="admQuickImgPreview" src="" alt="Preview" style="max-height: 180px; max-width: 100%; object-fit: contain; border-radius: 8px;">
+            </div>
+
+            <div class="small text-muted text-start">
+              <i class="bi bi-lightbulb text-warning me-1"></i> Gợi ý: Có thể sử dụng ảnh lookbook nội bộ như <code>chan_vay_xep_ly_midi.jpg</code> hoặc các ảnh thời trang Unsplash độ phân giải cao.
+            </div>
+          </div>
+          <div class="modal-footer bg-light px-4 py-3">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">
+              <i class="bi bi-check-circle me-1"></i> Cập Nhật Ảnh Này
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CHANGE AVATAR / PROFILE PHOTO (CHO CẢ KHÁCH HÀNG & ADMIN) -->
+  <div class="modal fade" id="userAvatarModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-camera-fill text-warning me-2"></i>Đổi Ảnh Đại Diện (Avatar)
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="userAvatarForm" onsubmit="saveUserAvatar(event)">
+          <div class="modal-body p-4 text-center">
+            <div class="badge bg-light text-dark border px-3 py-1 rounded-pill mb-3" id="modalAvatarTargetBadge">
+              Đang chỉnh sửa: <b>Tài khoản Khách Hàng</b>
+            </div>
+
+            <!-- Avatar Preview Box -->
+            <div class="mb-3 position-relative d-inline-block">
+              <img id="userAvatarPreview" 
+                   src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" 
+                   alt="Preview" 
+                   class="rounded-circle border border-4 border-warning shadow" 
+                   style="width: 110px; height: 110px; object-fit: cover;">
+              <span class="position-absolute bottom-0 end-0 badge rounded-pill bg-dark border border-white p-2">
+                <i class="bi bi-stars text-warning"></i>
+              </span>
+            </div>
+
+            <!-- Custom URL Input -->
+            <div class="mb-3 text-start">
+              <label class="form-label small fw-bold">Đường dẫn ảnh đại diện (URL hoặc tên file ảnh local) <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-link-45deg text-muted"></i></span>
+                <input type="text" class="form-control" id="userAvatarInputUrl" required placeholder="Dán link ảnh hoặc nhập tên file..." oninput="previewUserAvatar(this.value)">
+              </div>
+            </div>
+
+            <!-- Quick Presets -->
+            <div class="text-start mb-2">
+              <label class="form-label small fw-bold text-muted text-uppercase" style="font-size: 0.72rem;">
+                <i class="bi bi-lightning-charge-fill text-warning me-1"></i> Hoặc chọn nhanh ảnh mẫu phong cách Velora:
+              </label>
+              <div class="row g-2">
+                <div class="col-4">
+                  <button type="button" class="btn btn-outline-light text-dark border p-1 rounded-3 w-100 text-center" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80')">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="rounded-circle mb-1" style="width: 38px; height: 38px; object-fit: cover;">
+                    <div class="small fw-semibold" style="font-size: 0.68rem;">Quý Cô Sang</div>
+                  </button>
+                </div>
+                <div class="col-4">
+                  <button type="button" class="btn btn-outline-light text-dark border p-1 rounded-3 w-100 text-center" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1517841905240-472988babdf9?w=400&auto=format&fit=crop&q=80')">
+                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=100&auto=format&fit=crop&q=80" class="rounded-circle mb-1" style="width: 38px; height: 38px; object-fit: cover;">
+                    <div class="small fw-semibold" style="font-size: 0.68rem;">Nữ Hiện Đại</div>
+                  </button>
+                </div>
+                <div class="col-4">
+                  <button type="button" class="btn btn-outline-light text-dark border p-1 rounded-3 w-100 text-center" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&auto=format&fit=crop&q=80')">
+                    <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=100&auto=format&fit=crop&q=80" class="rounded-circle mb-1" style="width: 38px; height: 38px; object-fit: cover;">
+                    <div class="small fw-semibold" style="font-size: 0.68rem;">Quý Ông Suit</div>
+                  </button>
+                </div>
+                <div class="col-4">
+                  <button type="button" class="btn btn-outline-light text-dark border p-1 rounded-3 w-100 text-center" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80')">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80" class="rounded-circle mb-1" style="width: 38px; height: 38px; object-fit: cover;">
+                    <div class="small fw-semibold" style="font-size: 0.68rem;">Nam Lịch Lãm</div>
+                  </button>
+                </div>
+                <div class="col-4">
+                  <button type="button" class="btn btn-outline-light text-dark border p-1 rounded-3 w-100 text-center" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80')">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=80" class="rounded-circle mb-1" style="width: 38px; height: 38px; object-fit: cover;">
+                    <div class="small fw-semibold" style="font-size: 0.68rem;">Super Admin</div>
+                  </button>
+                </div>
+                <div class="col-4">
+                  <button type="button" class="btn btn-outline-light text-dark border p-1 rounded-3 w-100 text-center" onclick="selectPresetAvatar('chan_vay_xep_ly_midi.jpg')">
+                    <img src="chan_vay_xep_ly_midi.jpg" class="rounded-circle mb-1" style="width: 38px; height: 38px; object-fit: cover;">
+                    <div class="small fw-semibold" style="font-size: 0.68rem;">Lookbook Velora</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light px-4 py-3">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">
+              <i class="bi bi-check-circle me-1"></i> Lưu Ảnh Đại Diện
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 1: EDIT ADMIN PROFILE (TÊN, EMAIL, SĐT, DANH XƯNG) -->
+  <div class="modal fade" id="adminEditProfileModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-person-gear text-warning me-2"></i>Chỉnh Sửa Hồ Sơ Quản Trị Viên (Admin)
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="adminEditProfileForm" onsubmit="saveAdminProfileInfo(event)">
+          <div class="modal-body p-4 text-start">
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Họ và tên Quản trị viên <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-person-fill text-muted"></i></span>
+                <input type="text" class="form-control" id="adminProfileNameInput" required placeholder="Ví dụ: Trần Minh Quân">
+              </div>
+              <div class="form-text small">Tên này sẽ hiển thị trên Navbar, Header quản trị và toàn bộ thông báo hệ thống.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Email quản trị</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-envelope-fill text-muted"></i></span>
+                <input type="email" class="form-control" id="adminProfileEmailInput" placeholder="admin@velora.vn">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Số điện thoại điều hành</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-telephone-fill text-muted"></i></span>
+                <input type="tel" class="form-control" id="adminProfilePhoneInput" placeholder="1900 8899 hoặc 0988 888 999">
+              </div>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label small fw-bold">Chức danh / Danh xưng hiển thị</label>
+              <div class="input-group">
+                <span class="input-group-text bg-white"><i class="bi bi-shield-check text-warning"></i></span>
+                <input type="text" class="form-control" id="adminProfileTitleInput" placeholder="Ví dụ: SUPER ADMIN • Tổng Quản Trị Velora">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light px-4 py-3">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">
+              <i class="bi bi-check-circle me-1"></i> Lưu & Cập Nhật Tên Admin
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 2: EDIT CATEGORY SHOWCASE BANNER -->
+  <div class="modal fade" id="adminCategoryBannerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-grid-fill text-warning me-2"></i>Chỉnh Sửa Ảnh & Nội Dung Ngành Hàng
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form onsubmit="adminSaveCategoryBanner(event)">
+          <input type="hidden" id="admCatBannerId">
+          <div class="modal-body p-4 text-start">
+            <div class="row g-3">
+              <!-- Left Preview -->
+              <div class="col-md-5 text-center">
+                <label class="form-label small fw-bold text-muted d-block">Xem trước ảnh card:</label>
+                <div class="border rounded-4 overflow-hidden shadow-sm position-relative d-inline-block w-100" style="height: 220px; background: #f8f9fa;">
+                  <img id="admCatBannerPreview" src="" alt="Preview" class="w-100 h-100" style="object-fit: cover;">
+                </div>
+              </div>
+
+              <!-- Right Inputs -->
+              <div class="col-md-7">
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Đường dẫn ảnh card (URL hoặc tên file local) <span class="text-danger">*</span></label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-white"><i class="bi bi-link-45deg"></i></span>
+                    <input type="text" class="form-control" id="admCatBannerImage" required oninput="document.getElementById('admCatBannerPreview').src = this.value">
+                  </div>
+                </div>
+
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Tagline nhỏ</label>
+                  <input type="text" class="form-control" id="admCatBannerTag" required>
+                </div>
+
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Tiêu đề chính</label>
+                  <input type="text" class="form-control" id="admCatBannerTitle" required>
+                </div>
+
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Mô tả phụ</label>
+                  <input type="text" class="form-control" id="admCatBannerDesc" required>
+                </div>
+
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Đường dẫn trang đích (Link)</label>
+                  <input type="text" class="form-control" id="admCatBannerLink" required placeholder="women.html, men.html, v.v.">
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Preset High-Res Photos -->
+            <div class="mt-3 pt-3 border-top">
+              <label class="form-label small fw-bold text-muted text-uppercase" style="font-size: 0.72rem;">
+                <i class="bi bi-lightning-charge-fill text-warning me-1"></i> Hoặc chọn nhanh ảnh mẫu thời trang chuẩn:
+              </label>
+              <div class="row g-2">
+                <div class="col-3">
+                  <button type="button" class="btn btn-outline-light text-dark border p-1 rounded-3 w-100" onclick="document.getElementById('admCatBannerImage').value = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600'; document.getElementById('admCatBannerPreview').src = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600';">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="rounded w-100 mb-1" style="height: 45px; object-fit: cover;">
+                    <div style="font-size: 0.65rem;">Nữ Haute</div>
+                  </button>
+                </div>
+                <div class="col-3">
+                  <button type="button" class="btn btn-outline-light text-dark border p-1 rounded-3 w-100" onclick="document.getElementById('admCatBannerImage').value = 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=600'; document.getElementById('admCatBannerPreview').src = 'https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=600';">
+                    <img src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=100" class="rounded w-100 mb-1" style="height: 45px; object-fit: cover;">
+                    <div style="font-size: 0.65rem;">Nam Urban</div>
+                  </button>
+                </div>
+                <div class="col-3">
+                  <button type="button" class="btn btn-outline-light text-dark border p-1 rounded-3 w-100" onclick="document.getElementById('admCatBannerImage').value = 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600'; document.getElementById('admCatBannerPreview').src = 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600';">
+                    <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100" class="rounded w-100 mb-1" style="height: 45px; object-fit: cover;">
+                    <div style="font-size: 0.65rem;">Túi Luxury</div>
+                  </button>
+                </div>
+                <div class="col-3">
+                  <button type="button" class="btn btn-outline-light text-dark border p-1 rounded-3 w-100" onclick="document.getElementById('admCatBannerImage').value = 'chan_vay_xep_ly_midi.jpg'; document.getElementById('admCatBannerPreview').src = 'chan_vay_xep_ly_midi.jpg';">
+                    <img src="chan_vay_xep_ly_midi.jpg" class="rounded w-100 mb-1" style="height: 45px; object-fit: cover;">
+                    <div style="font-size: 0.65rem;">Váy Midi</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light px-4 py-3">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">
+              <i class="bi bi-check-circle me-1"></i> Lưu Card Ngành Hàng
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 3: EDIT LOOKBOOK MEDIA CARD -->
+  <div class="modal fade" id="adminLookbookModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-camera-reels-fill text-warning me-2"></i>Chỉnh Sửa Ảnh & Outfit Lookbook
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form onsubmit="adminSaveLookbookModal(event)">
+          <input type="hidden" id="admLookbookId">
+          <div class="modal-body p-4 text-start">
+            <div class="row g-3">
+              <div class="col-md-5 text-center">
+                <label class="form-label small fw-bold text-muted d-block">Xem trước ảnh lookbook:</label>
+                <div class="border rounded-4 overflow-hidden shadow-sm position-relative d-inline-block w-100" style="height: 260px; background: #f8f9fa;">
+                  <img id="admLookbookPreview" src="" alt="Preview" class="w-100 h-100" style="object-fit: cover;">
+                </div>
+              </div>
+              <div class="col-md-7">
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Đường dẫn ảnh Lookbook (URL / file local) <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="admLookbookImage" required oninput="document.getElementById('admLookbookPreview').src = this.value">
+                </div>
+                <div class="row g-2 mb-2">
+                  <div class="col-6">
+                    <label class="form-label small fw-bold">Hashtag Tag</label>
+                    <input type="text" class="form-control" id="admLookbookTag" required>
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label small fw-bold">Giá set đồ hiển thị</label>
+                    <input type="text" class="form-control" id="admLookbookPrice" required placeholder="1.250.000đ / set">
+                  </div>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Tiêu đề bản phối</label>
+                  <input type="text" class="form-control" id="admLookbookTitle" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Mô tả ngắn</label>
+                  <input type="text" class="form-control" id="admLookbookDesc" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label small fw-bold">Thông tin điểm ghim (Hotspot)</label>
+                  <input type="text" class="form-control" id="admLookbookHotspot" required placeholder="Set Áo Nỉ & Quần Jogger • 649.000đ">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light px-4 py-3">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">
+              <i class="bi bi-check-circle me-1"></i> Lưu Ảnh Lookbook
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: ADD/EDIT CUSTOMER DELIVERY ADDRESS -->
+  <div class="modal fade" id="customerAddressModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <h5 class="modal-title fw-bold" id="customerAddressModalTitle">
+            <i class="bi bi-geo-alt-fill text-warning me-2"></i>Thêm Địa Chỉ Nhận Hàng Mới
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form onsubmit="saveAddressForm(event)">
+          <input type="hidden" id="addrIdInput">
+          <div class="modal-body p-4 text-start">
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small fw-bold">Họ và tên người nhận <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="addrNameInput" required placeholder="Nguyễn Văn A">
+              </div>
+              <div class="col-6">
+                <label class="form-label small fw-bold">Số điện thoại <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="addrPhoneInput" required placeholder="0988 123 456">
+              </div>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-6">
+                <label class="form-label small fw-bold">Tỉnh / Thành phố <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="addrCityInput" required placeholder="TP. Hồ Chí Minh">
+              </div>
+              <div class="col-6">
+                <label class="form-label small fw-bold">Quận / Huyện <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="addrDistrictInput" required placeholder="Quận 1">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Địa chỉ chi tiết (Số nhà, đường, phường/xã) <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="addrDetailInput" rows="2" required placeholder="Ví dụ: 123 Đường Nam Kỳ Khởi Nghĩa, P. Bến Nghé..."></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Nhãn địa chỉ</label>
+              <select class="form-select" id="addrLabelInput">
+                <option value="Nhà riêng">Nhà riêng</option>
+                <option value="Văn phòng làm việc">Văn phòng làm việc</option>
+                <option value="Khác">Khác</option>
+              </select>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="addrDefaultCheck">
+              <label class="form-check-label small fw-semibold" for="addrDefaultCheck">
+                Đặt làm địa chỉ giao hàng mặc định
+              </label>
+            </div>
+          </div>
+          <div class="modal-footer bg-light px-4 py-3">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">
+              <i class="bi bi-check-circle me-1"></i> Lưu Địa Chỉ
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: SMART SIZE GUIDE & FIT ASSISTANT -->
+  <div class="modal fade" id="sizeGuideModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-rulers text-warning me-2"></i>Bảng Tra Size & Trợ Lý Chọn Size Chuẩn
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <!-- Size Guide Tabs -->
+          <ul class="nav nav-pills mb-4 justify-content-center gap-2" role="tablist">
+            <li class="nav-item">
+              <button class="nav-link active rounded-pill px-4 fw-bold" data-bs-toggle="pill" data-bs-target="#sizeTabCalculator">
+                <i class="bi bi-magic me-1"></i> Trợ Lý Tính Size Nhanh
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link rounded-pill px-4 fw-bold" data-bs-toggle="pill" data-bs-target="#sizeTabWomen">
+                <i class="bi bi-gender-female me-1"></i> Bảng Size Nữ
+              </button>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link rounded-pill px-4 fw-bold" data-bs-toggle="pill" data-bs-target="#sizeTabMen">
+                <i class="bi bi-gender-male me-1"></i> Bảng Size Nam
+              </button>
+            </li>
+          </ul>
+
+          <div class="tab-content">
+            <!-- TAB 1: SMART CALCULATOR -->
+            <div class="tab-pane fade show active" id="sizeTabCalculator">
+              <div class="card border-0 bg-light rounded-4 p-4 text-center">
+                <h6 class="fw-bold font-serif mb-2">Nhập Thông Số Cơ Thể Để Nhận Gợi Ý Size Chuẩn:</h6>
+                <p class="small text-muted mb-4">Thuật toán phân tích dựa trên phom dáng thời trang may đo cao cấp của Velora</p>
+
+                <div class="row g-3 justify-content-center text-start">
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold">Giới tính:</label>
+                    <select class="form-select" id="calcGender">
+                      <option value="women">Nữ giới (Women)</option>
+                      <option value="men">Nam giới (Men)</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold">Chiều cao (cm):</label>
+                    <input type="number" class="form-control" id="calcHeight" value="165" min="140" max="210">
+                  </div>
+                  <div class="col-md-4">
+                    <label class="form-label small fw-bold">Cân nặng (kg):</label>
+                    <input type="number" class="form-control" id="calcWeight" value="52" min="35" max="150">
+                  </div>
+                </div>
+
+                <div class="mt-4">
+                  <button type="button" class="btn btn-dark rounded-pill px-5 fw-bold shadow-sm" onclick="calculateSmartFit()">
+                    <i class="bi bi-calculator me-1"></i> Gợi Ý Size Cho Tôi
+                  </button>
+                </div>
+
+                <!-- Result Box -->
+                <div class="mt-4 p-3 bg-white border border-warning rounded-4 shadow-sm text-center d-none" id="calcResultBox">
+                  <div class="small text-muted text-uppercase fw-bold letter-spacing-1">Kết quả phân tích:</div>
+                  <h3 class="fw-bold font-serif text-danger my-1" id="calcResultSize">Size M</h3>
+                  <p class="small text-muted mb-0" id="calcResultDesc">Phù hợp phom dáng vừa vặn, tôn dáng và cử động thoải mái.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- TAB 2: WOMEN SIZE CHART -->
+            <div class="tab-pane fade" id="sizeTabWomen">
+              <div class="table-responsive">
+                <table class="table table-bordered text-center align-middle small mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Size</th>
+                      <th>Chiều cao (cm)</th>
+                      <th>Cân nặng (kg)</th>
+                      <th>Vòng ngực (cm)</th>
+                      <th>Vòng eo (cm)</th>
+                      <th>Vòng mông (cm)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><b>XS</b></td><td>150 - 155</td><td>40 - 45</td><td>78 - 82</td><td>60 - 64</td><td>84 - 88</td></tr>
+                    <tr><td><b>S</b></td><td>154 - 160</td><td>45 - 50</td><td>82 - 86</td><td>64 - 68</td><td>88 - 92</td></tr>
+                    <tr><td class="table-warning"><b>M</b></td><td>158 - 165</td><td>50 - 56</td><td>86 - 90</td><td>68 - 72</td><td>92 - 96</td></tr>
+                    <tr><td><b>L</b></td><td>162 - 170</td><td>56 - 62</td><td>90 - 94</td><td>72 - 76</td><td>96 - 100</td></tr>
+                    <tr><td><b>XL</b></td><td>165 - 175</td><td>62 - 70</td><td>94 - 100</td><td>76 - 82</td><td>100 - 106</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- TAB 3: MEN SIZE CHART -->
+            <div class="tab-pane fade" id="sizeTabMen">
+              <div class="table-responsive">
+                <table class="table table-bordered text-center align-middle small mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Size</th>
+                      <th>Chiều cao (cm)</th>
+                      <th>Cân nặng (kg)</th>
+                      <th>Rộng vai (cm)</th>
+                      <th>Vòng ngực (cm)</th>
+                      <th>Dài áo (cm)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><b>S</b></td><td>160 - 165</td><td>50 - 58</td><td>42 - 43</td><td>88 - 92</td><td>66 - 68</td></tr>
+                    <tr><td><b>M</b></td><td>165 - 172</td><td>58 - 66</td><td>44 - 45</td><td>92 - 96</td><td>68 - 70</td></tr>
+                    <tr><td class="table-warning"><b>L</b></td><td>170 - 178</td><td>66 - 74</td><td>46 - 47</td><td>96 - 102</td><td>70 - 72</td></tr>
+                    <tr><td><b>XL</b></td><td>175 - 183</td><td>74 - 82</td><td>48 - 49</td><td>102 - 108</td><td>72 - 74</td></tr>
+                    <tr><td><b>XXL</b></td><td>180 - 190</td><td>82 - 92</td><td>50 - 52</td><td>108 - 116</td><td>74 - 76</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer bg-light px-4 py-3">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Đóng</button>
+          <button type="button" class="btn btn-dark rounded-pill px-4" onclick="sendAiMessage('Tư vấn size đồ cho tôi'); toggleAiChat(); bootstrap.Modal.getInstance(document.getElementById('sizeGuideModal')).hide();">
+            <i class="bi bi-chat-dots me-1"></i> Hỏi AI Stylist 1:1
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PRODUCT REVIEW & RATING -->
+  <div class="modal fade" id="productReviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <h5 class="modal-title fw-bold">
+            <i class="bi bi-star-fill text-warning me-2"></i>Đánh Giá Sản Phẩm
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form onsubmit="saveProductReview(event)">
+          <input type="hidden" id="reviewProdId" value="">
+          <div class="modal-body p-4 text-start">
+            <div class="d-flex align-items-center gap-3 mb-3 pb-3 border-bottom">
+              <img id="reviewProdThumb" src="logo_crop.png" class="rounded-3 border" style="width: 50px; height: 50px; object-fit: cover;">
+              <div>
+                <h6 class="fw-bold font-serif m-0" id="reviewProdName">Tên sản phẩm</h6>
+                <div class="small text-danger fw-bold" id="reviewProdPrice">0đ</div>
+              </div>
+            </div>
+
+            <div class="mb-3 text-center">
+              <label class="form-label small fw-bold text-muted text-uppercase d-block mb-1">Mức độ hài lòng của bạn:</label>
+              <div class="d-flex justify-content-center gap-2 fs-3 text-warning cursor-pointer" id="reviewStarWrap">
+                <i class="bi bi-star-fill review-star" data-val="1" onclick="setReviewRating(1)"></i>
+                <i class="bi bi-star-fill review-star" data-val="2" onclick="setReviewRating(2)"></i>
+                <i class="bi bi-star-fill review-star" data-val="3" onclick="setReviewRating(3)"></i>
+                <i class="bi bi-star-fill review-star" data-val="4" onclick="setReviewRating(4)"></i>
+                <i class="bi bi-star-fill review-star" data-val="5" onclick="setReviewRating(5)"></i>
+              </div>
+              <input type="hidden" id="reviewRatingVal" value="5">
+              <div class="small fw-semibold text-muted mt-1" id="reviewRatingLabel">Tuyệt vời (5/5 sao)</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label small fw-bold">Họ và tên người đánh giá <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="reviewAuthorName" required placeholder="Nguyễn Văn A">
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label small fw-bold">Nhận xét chi tiết <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="reviewCommentText" rows="3" required placeholder="Chất liệu vải thế nào? Form dáng có chuẩn không?..."></textarea>
+            </div>
+          </div>
+          <div class="modal-footer bg-light px-4 py-3">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">
+              <i class="bi bi-send-fill me-1"></i> Gửi Đánh Giá Ngay
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ADMIN QUICK STOCK EDIT -->
+  <div class="modal fade" id="adminQuickStockModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-3 py-2">
+          <h6 class="modal-title fw-bold">
+            <i class="bi bi-boxes text-warning me-2"></i>Cập Nhật Kho Nhanh
+          </h6>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <form onsubmit="saveQuickStock(event)">
+          <input type="hidden" id="quickStockProdId" value="">
+          <div class="modal-body p-3 text-start">
+            <div class="small fw-bold text-truncate mb-2" id="quickStockProdTitle">Tên sản phẩm</div>
+            <label class="form-label small fw-bold">Số lượng tồn kho mới:</label>
+            <input type="number" class="form-control form-control-lg text-center fw-bold" id="quickStockInput" min="0" required>
+          </div>
+          <div class="modal-footer bg-light px-3 py-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill" data-bs-dismiss="modal">Hủy</button>
+            <button type="submit" class="btn btn-sm btn-dark rounded-pill px-3 fw-bold">
+              <i class="bi bi-check-lg me-1"></i> Lưu Tồn Kho
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toastContainer" class="toast-container-velora"></div>
+
+  <!-- Bootstrap 5.3.3 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Supabase JS Client v2 CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Custom Core Engine -->
+  <script src="script.js"></script>
+</body>
+</html>

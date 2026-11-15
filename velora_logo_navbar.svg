@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 175 46" height="42" fill="none">
+  <defs>
+    <linearGradient id="veloraBronze" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a250c"/>
+      <stop offset="50%" stop-color="#6b3712"/>
+      <stop offset="100%" stop-color="#8c4e1e"/>
+    </linearGradient>
+    <linearGradient id="veloraGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c59b27"/>
+      <stop offset="50%" stop-color="#e4c590"/>
+      <stop offset="100%" stop-color="#d4af37"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Monogram V with Intertwined Cursive Loop -->
+  <g transform="translate(4, 2)">
+    <!-- Serif Cap on left stem of V -->
+    <path d="M6 7.5 C6 6.5 7.5 5.5 12 5.5 H18 C16.5 7 15.5 8.5 15 10 L23 32 H24.8 L36 8 C35.2 6.5 34 5.5 32 5.5 H37.5 C36.2 7 35 8.5 34.2 10.5 L24 34.5 H21.5 L12 9 C11.2 7.2 9.5 6 6 7.5 Z" fill="url(#veloraBronze)"/>
+
+    <!-- Main Thick Left Stem of V -->
+    <path d="M12 6.5 L22.8 33 H25.2 L35.5 7 C34.5 7 32.5 7.5 32 8.5 L24 30.5 L14.5 8 C14 7.2 13 6.5 12 6.5 Z" fill="url(#veloraBronze)"/>
+
+    <!-- Artistic Ribbon Loop Flourish across V -->
+    <path d="M4 25 C1.5 21 3 15 8 13.5 C13 12 18.5 14 24 16.5 C29.5 19 36 17 38.5 11 C40 7.5 37.5 3 33 3.5 C28 4 23 10 20.5 16 C18 22 14.5 28 8 28.5 C4.5 28.8 2.5 27 4 25 Z M9 26.5 C13 26 16.5 21 19 16 C21.5 11 25.5 5.5 31.5 5 C35 4.8 37 7 36 10 C34 14.5 28.5 16.5 23.5 14.5 C18.5 12.5 13.5 10.5 9 12 C6 13 4.5 17 6 20 C7 22.5 8 24.5 9 26.5 Z" fill="url(#veloraBronze)"/>
+  </g>
+
+  <!-- Typography: VELORA -->
+  <text x="52" y="24" font-family="'Bodoni Moda', 'Playfair Display', Georgia, serif" font-size="20" font-weight="900" letter-spacing="0.12em" fill="#111113">VELORA</text>
+
+  <!-- Subtitle: PREMIUM FASHION -->
+  <text x="53" y="35" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-size="6.8" font-weight="600" letter-spacing="0.28em" fill="#71717a">PREMIUM FASHION</text>
+</svg>
