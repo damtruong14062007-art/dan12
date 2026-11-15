@@ -2701,15 +2701,69 @@ function getOrders() {
   return defaultOrders;
 }
 
+let currentCustomerOrderFilter = 'all';
+let currentCustomerOrderSearch = '';
+
+function filterAccountOrders(status, btnEl) {
+  currentCustomerOrderFilter = status;
+  if (btnEl && btnEl.parentElement) {
+    btnEl.parentElement.querySelectorAll('.order-filter-pill').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+  renderAccountOrders();
+}
+
+function searchAccountOrders(term) {
+  currentCustomerOrderSearch = (term || '').trim().toLowerCase();
+  renderAccountOrders();
+}
+
+function customerCancelOrder(orderId) {
+  const cleanId = (orderId || '').trim();
+  if (!confirm(`Bạn có chắc chắn muốn yêu cầu hủy đơn hàng "${cleanId}" không?`)) {
+    return;
+  }
+  const idWithHash = cleanId.startsWith('#') ? cleanId : '#' + cleanId;
+  const idWithoutHash = cleanId.replace(/^#/, '');
+
+  let orders = getOrders();
+  const target = orders.find(o => {
+    const oid = (o.id || '').trim();
+    return oid === cleanId || oid === idWithHash || oid === idWithoutHash;
+  });
+
+  if (target) {
+    target.status = 'Đã hủy';
+    localStorage.setItem('velora_orders', JSON.stringify(orders));
+
+    try {
+      const sb = getSupabaseClient();
+      if (sb) {
+        sb.from('orders').update({ status: 'Đã hủy' }).in('id', [cleanId, idWithHash, idWithoutHash]).then(({ error }) => {
+          if (error) console.warn('Supabase cancel order error:', error);
+          else console.log('Supabase: order cancelled', cleanId);
+        }).catch(err => console.warn(err));
+      }
+    } catch (e) {}
+
+    renderAccountOrders();
+    adminRenderOrdersTable();
+    adminUpdateStats();
+    showToast(`Đã hủy thành công đơn hàng <b>${cleanId}</b>!`, 'info');
+  } else {
+    showToast(`Không tìm thấy đơn hàng ${cleanId}!`, 'warning');
+  }
+}
+
 function renderAccountOrders() {
   const ordersBody = document.getElementById('accOrdersBody');
   if (!ordersBody) return;
-  const orders = getOrders();
+  const allOrders = getOrders();
 
   const badgeEl = document.getElementById('profOrdersBadge');
-  if (badgeEl) badgeEl.textContent = orders.length;
+  if (badgeEl) badgeEl.textContent = allOrders.length;
 
-  if (orders.length === 0) {
+  if (allOrders.length === 0) {
     ordersBody.innerHTML = `
       <tr>
         <td colspan="6" class="text-center py-5 text-muted">
@@ -2725,10 +2779,37 @@ function renderAccountOrders() {
     return;
   }
 
-  ordersBody.innerHTML = orders.map(o => {
-    const isShipping = (o.status || '').includes('Đang');
+  // Filter orders by status & search
+  let filtered = allOrders;
+  if (currentCustomerOrderFilter && currentCustomerOrderFilter !== 'all') {
+    filtered = filtered.filter(o => (o.status || '').toLowerCase().includes(currentCustomerOrderFilter.toLowerCase()));
+  }
+  if (currentCustomerOrderSearch) {
+    filtered = filtered.filter(o => {
+      const idMatch = (o.id || '').toLowerCase().includes(currentCustomerOrderSearch);
+      const itemMatch = (o.itemsSummary || '').toLowerCase().includes(currentCustomerOrderSearch) ||
+        (o.items || []).some(it => (it.name || '').toLowerCase().includes(currentCustomerOrderSearch));
+      return idMatch || itemMatch;
+    });
+  }
+
+  if (filtered.length === 0) {
+    ordersBody.innerHTML = `
+      <tr>
+        <td colspan="6" class="text-center py-5 text-muted">
+          <i class="bi bi-search fs-3 opacity-50 d-block mb-2"></i>
+          <span class="fw-semibold">Không tìm thấy đơn hàng nào phù hợp với bộ lọc.</span>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  ordersBody.innerHTML = filtered.map(o => {
+    const isPreparing = (o.status || '').includes('chuẩn bị') || (o.status || '').includes('chờ');
+    const isShipping = (o.status || '').includes('Đang') && !isPreparing;
     const isCancelled = (o.status || '').includes('hủy');
-    const badgeClass = isShipping ? 'shipping' : (isCancelled ? 'danger' : 'success');
+    const badgeClass = isCancelled ? 'danger' : (isPreparing ? 'warning text-dark' : (isShipping ? 'shipping' : 'success'));
 
     const itemsHtml = (o.items && o.items.length > 0) ? o.items.map(it => `
       <div class="d-flex align-items-center gap-2 p-1 bg-light rounded-3 border mb-1">
@@ -2744,6 +2825,12 @@ function renderAccountOrders() {
       </div>
     `).join('') : `<span class="small">${o.itemsSummary || 'Sản phẩm Velora'}</span>`;
 
+    const cancelBtn = isPreparing ? `
+      <button class="btn btn-sm btn-outline-warning text-dark rounded-pill px-2" onclick="customerCancelOrder('${o.id}')" title="Hủy đơn hàng khi đang chuẩn bị">
+        <i class="bi bi-x-circle me-1"></i>Hủy
+      </button>
+    ` : '';
+
     return `
       <tr>
         <td><b>${o.id}</b></td>
@@ -2756,10 +2843,11 @@ function renderAccountOrders() {
           </span>
         </td>
         <td class="text-center">
-          <div class="d-flex justify-content-center gap-1">
-            <button class="btn btn-sm btn-outline-dark rounded-pill px-3" onclick="showOrderDetail('${o.id}')" title="Xem chi tiết đơn hàng">
-              <i class="bi bi-eye"></i> Chi tiết
+          <div class="d-flex justify-content-center gap-1 flex-wrap">
+            <button class="btn btn-sm btn-outline-dark rounded-pill px-2" onclick="showOrderDetail('${o.id}')" title="Xem chi tiết đơn hàng">
+              <i class="bi bi-eye me-1"></i>Chi tiết
             </button>
+            ${cancelBtn}
             <button class="btn btn-sm btn-outline-danger rounded-pill px-2" onclick="deleteUserOrder('${o.id}')" title="Xóa đơn hàng này">
               <i class="bi bi-trash"></i>
             </button>
@@ -3067,17 +3155,105 @@ function renderAccountWishlist() {
   `).join('');
 }
 
+let currentAdminOrderFilter = 'all';
+let currentAdminOrderSearch = '';
+
+function adminFilterOrdersByStatus(status, btnEl) {
+  currentAdminOrderFilter = status;
+  if (btnEl && btnEl.parentElement) {
+    btnEl.parentElement.querySelectorAll('.order-filter-pill').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+  adminRenderOrdersTable();
+}
+
+function adminSearchOrders(term) {
+  currentAdminOrderSearch = (term || '').trim().toLowerCase();
+  adminRenderOrdersTable();
+}
+
+function adminExportOrdersCSV() {
+  const orders = getOrders();
+  if (!orders || orders.length === 0) {
+    showToast('Không có đơn hàng nào trong hệ thống để xuất file!', 'warning');
+    return;
+  }
+
+  // Add UTF-8 BOM so Excel on Windows/Mac renders Vietnamese accents perfectly
+  let csv = '\uFEFF';
+  csv += 'Mã đơn hàng,Ngày đặt,Khách hàng,Số điện thoại,Địa chỉ,Hình thức thanh toán,Tổng tiền,Trạng thái,Chi tiết sản phẩm\r\n';
+
+  orders.forEach(o => {
+    const id = `"${(o.id || '').replace(/"/g, '""')}"`;
+    const date = `"${(o.date || '').replace(/"/g, '""')}"`;
+    const recipient = `"${(o.recipient || '').replace(/"/g, '""')}"`;
+    const phone = `"${(o.phone || '').replace(/"/g, '""')}"`;
+    const address = `"${(o.address || '').replace(/"/g, '""')}"`;
+    const payment = `"${(o.paymentMethod || 'COD').replace(/"/g, '""')}"`;
+    const total = `"${(o.total || '').replace(/"/g, '""')}"`;
+    const status = `"${(o.status || '').replace(/"/g, '""')}"`;
+
+    let itemsStr = '';
+    if (o.items && o.items.length > 0) {
+      itemsStr = o.items.map(it => `${it.name} (x${it.quantity || 1}, Size: ${it.size || 'M'}, Màu: ${it.color || 'Tiêu chuẩn'})`).join('; ');
+    } else {
+      itemsStr = o.itemsSummary || '';
+    }
+    const itemsEscaped = `"${itemsStr.replace(/"/g, '""')}"`;
+
+    csv += `${id},${date},${recipient},${phone},${address},${payment},${total},${status},${itemsEscaped}\r\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const downloadLink = document.createElement('a');
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  downloadLink.href = url;
+  downloadLink.setAttribute('download', `Velora_DanhSachDonHang_${dateStr}.csv`);
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+  document.body.removeChild(downloadLink);
+  URL.revokeObjectURL(url);
+
+  showToast(`Đã xuất thành công báo cáo <b>${orders.length}</b> đơn hàng ra file Excel (CSV)!`, 'success');
+}
+
 function adminRenderOrdersTable() {
   const tbody = document.getElementById('adminOrdersBody');
   if (!tbody) return;
-  const orders = getOrders();
+  const allOrders = getOrders();
 
-  if (orders.length === 0) {
+  const navOrdersCount = document.getElementById('admNavOrdersCount');
+  if (navOrdersCount) navOrdersCount.textContent = allOrders.length;
+
+  if (allOrders.length === 0) {
     tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted">Chưa có đơn hàng nào trong hệ thống</td></tr>`;
     return;
   }
 
-  tbody.innerHTML = orders.map(o => {
+  // Filter orders by status & search
+  let filtered = allOrders;
+  if (currentAdminOrderFilter && currentAdminOrderFilter !== 'all') {
+    filtered = filtered.filter(o => (o.status || '').toLowerCase().includes(currentAdminOrderFilter.toLowerCase()));
+  }
+  if (currentAdminOrderSearch) {
+    filtered = filtered.filter(o => {
+      const idMatch = (o.id || '').toLowerCase().includes(currentAdminOrderSearch);
+      const recipientMatch = (o.recipient || '').toLowerCase().includes(currentAdminOrderSearch);
+      const phoneMatch = (o.phone || '').toLowerCase().includes(currentAdminOrderSearch);
+      const itemMatch = (o.itemsSummary || '').toLowerCase().includes(currentAdminOrderSearch) ||
+        (o.items || []).some(it => (it.name || '').toLowerCase().includes(currentAdminOrderSearch));
+      return idMatch || recipientMatch || phoneMatch || itemMatch;
+    });
+  }
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-muted"><i class="bi bi-search me-1"></i>Không có đơn hàng nào phù hợp với bộ lọc hiện tại</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(o => {
     const itemsHtml = (o.items && o.items.length > 0) ? o.items.map(it => `
       <div class="adm-order-item-card">
         <img src="${it.image || 'logo_crop.png'}" class="adm-order-thumb" alt="${it.name}">
@@ -3125,7 +3301,7 @@ function adminRenderOrdersTable() {
           </select>
         </td>
         <td class="text-center">
-          <div class="d-flex justify-content-center gap-1">
+          <div class="d-flex justify-content-center gap-1 flex-wrap">
             <button class="btn btn-sm btn-outline-dark rounded-pill px-2" onclick="showOrderDetail('${o.id}')" title="Xem chi tiết đơn hàng">
               <i class="bi bi-eye"></i>
             </button>
@@ -3140,39 +3316,58 @@ function adminRenderOrdersTable() {
 }
 
 function adminChangeOrderStatus(orderId, newStatus) {
+  const cleanId = (orderId || '').trim();
+  const idWithHash = cleanId.startsWith('#') ? cleanId : '#' + cleanId;
+  const idWithoutHash = cleanId.replace(/^#/, '');
+
   let orders = getOrders();
-  const order = orders.find(o => o.id === orderId);
+  const order = orders.find(o => {
+    const oid = (o.id || '').trim();
+    return oid === cleanId || oid === idWithHash || oid === idWithoutHash;
+  });
+
   if (order) {
     order.status = newStatus;
     localStorage.setItem('velora_orders', JSON.stringify(orders));
     renderAccountOrders();
     adminRenderOrdersTable();
     adminUpdateStats();
-    showToast(`Đơn hàng <b>${orderId}</b> đã chuyển trạng thái: <b>${newStatus}</b>`, 'success');
+    showToast(`Đơn hàng <b>${cleanId}</b> đã chuyển trạng thái: <b>${newStatus}</b>`, 'success');
 
     try {
       const sb = getSupabaseClient();
       if (sb) {
-        sb.from('orders').update({ status: newStatus }).eq('id', orderId).then(() => {}).catch(err => console.warn(err));
+        sb.from('orders').update({ status: newStatus }).in('id', [cleanId, idWithHash, idWithoutHash]).then(() => {}).catch(err => console.warn(err));
       }
     } catch (e) {}
   }
 }
 
 function deleteUserOrder(orderId, fromModal = false) {
-  if (!confirm(`Bạn có chắc chắn muốn xóa đơn hàng "${orderId}" không?`)) {
+  const cleanId = (orderId || '').trim();
+  if (!confirm(`Bạn có chắc chắn muốn xóa đơn hàng "${cleanId}" không?`)) {
     return;
   }
+  const idWithHash = cleanId.startsWith('#') ? cleanId : '#' + cleanId;
+  const idWithoutHash = cleanId.replace(/^#/, '');
+
   let orders = getOrders();
-  const index = orders.findIndex(o => o.id === orderId);
-  if (index > -1) {
-    orders.splice(index, 1);
+  const initialLen = orders.length;
+  orders = orders.filter(o => {
+    const oid = (o.id || '').trim();
+    return oid !== cleanId && oid !== idWithHash && oid !== idWithoutHash;
+  });
+
+  if (orders.length < initialLen) {
     localStorage.setItem('velora_orders', JSON.stringify(orders));
 
     try {
       const sb = getSupabaseClient();
       if (sb) {
-        sb.from('orders').delete().eq('id', orderId).then(() => {}).catch(err => console.warn(err));
+        sb.from('orders').delete().in('id', [cleanId, idWithHash, idWithoutHash]).then(({ error }) => {
+          if (error) console.warn('Supabase delete error:', error);
+          else console.log('Supabase: deleted order', cleanId);
+        }).catch(err => console.warn(err));
       }
     } catch (e) {}
 
@@ -3187,9 +3382,9 @@ function deleteUserOrder(orderId, fromModal = false) {
     renderAccountOrders();
     adminRenderOrdersTable();
     adminUpdateStats();
-    showToast(`Đã xóa thành công đơn hàng <b>${orderId}</b>!`, 'info');
+    showToast(`Đã xóa thành công đơn hàng <b>${cleanId}</b>!`, 'info');
   } else {
-    showToast(`Không tìm thấy đơn hàng ${orderId}!`, 'warning');
+    showToast(`Không tìm thấy đơn hàng ${cleanId}!`, 'warning');
   }
 }
 
@@ -6573,7 +6768,7 @@ async function autoPullFromCloud(quiet = true) {
   try {
     // 1. Pull Orders from Supabase (latest first)
     const { data: dbOrders, error: ordErr } = await client.from('orders').select('*').order('created_at', { ascending: false });
-    if (!ordErr && dbOrders && dbOrders.length > 0) {
+    if (!ordErr && Array.isArray(dbOrders)) {
       const mappedOrders = dbOrders.map(o => ({
         id: o.id,
         date: o.date,
@@ -6685,6 +6880,21 @@ function setupSupabaseRealtime() {
     client.channel('velora_realtime_sync')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, payload => {
         console.log('Realtime change in orders:', payload);
+        if (payload.eventType === 'DELETE' && payload.old && payload.old.id) {
+          const delId = String(payload.old.id).trim();
+          let current = [];
+          try {
+            current = JSON.parse(localStorage.getItem('velora_orders') || '[]');
+          } catch(e) {}
+          current = current.filter(o => {
+            const oid = (o.id || '').trim();
+            return oid !== delId && oid.replace(/^#/, '') !== delId.replace(/^#/, '');
+          });
+          localStorage.setItem('velora_orders', JSON.stringify(current));
+          if (typeof renderAccountOrders === 'function') renderAccountOrders();
+          if (typeof adminRenderOrdersTable === 'function') adminRenderOrdersTable();
+          if (typeof adminUpdateStats === 'function') adminUpdateStats();
+        }
         autoPullFromCloud(true);
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'products' }, payload => {
@@ -6717,3 +6927,9 @@ window.submitAdminPasswordLogin = submitAdminPasswordLogin;
 window.handleLoginForm = handleLoginForm;
 window.pullFromSupabase = pullFromSupabase;
 window.autoPullFromCloud = autoPullFromCloud;
+window.filterAccountOrders = filterAccountOrders;
+window.searchAccountOrders = searchAccountOrders;
+window.adminFilterOrdersByStatus = adminFilterOrdersByStatus;
+window.adminSearchOrders = adminSearchOrders;
+window.adminExportOrdersCSV = adminExportOrdersCSV;
+window.customerCancelOrder = customerCancelOrder;

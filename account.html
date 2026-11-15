@@ -377,8 +377,8 @@
     <!-- VIEW 2: LOGGED IN (KHÁCH HÀNG / ADMIN DASHBOARD) -->
     <div id="accountLoggedInView">
       <!-- User Welcome Greeting Banner -->
-      <div class="card border-0 rounded-4 shadow-sm p-3 mb-4 bg-white d-flex flex-row align-items-center justify-content-between flex-wrap gap-3">
-        <div class="d-flex align-items-center gap-3">
+      <div class="card border-0 rounded-4 shadow-sm p-3 mb-4 bg-white d-flex flex-row align-items-center justify-content-between flex-wrap gap-3 account-welcome-box">
+        <div class="d-flex align-items-center gap-3 flex-wrap">
           <div class="position-relative">
             <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80" 
                  id="welcomeUserAvatar" 
@@ -396,7 +396,7 @@
             </button>
           </div>
           <div>
-            <div class="d-flex align-items-center gap-2">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
               <h5 class="fw-bold m-0 font-serif">Xin chào, <span id="welcomeUserName" class="user-display-name text-danger">Đặng Minh Anh</span>!</h5>
               <button type="button" class="btn btn-xs btn-outline-secondary rounded-pill py-0 px-2" style="font-size: 0.72rem;" onclick="openUserAvatarModal()" title="Đổi ảnh đại diện">
                 <i class="bi bi-camera me-1"></i>Đổi ảnh
@@ -405,7 +405,7 @@
             <span class="small text-muted" id="welcomeUserSub">Thành viên VIP Gold • Điểm tích lũy: <b class="text-warning" id="welcomeUserPoints">1.250</b> pts • Ưu đãi giảm 10% trọn đời</span>
           </div>
         </div>
-        <div class="d-flex align-items-center gap-2">
+        <div class="role-action-group d-flex align-items-center gap-2 flex-wrap">
           <span class="badge bg-dark px-3 py-2 rounded-pill small" id="welcomeRoleBadge">VIP GOLD MEMBER</span>
           <button class="btn btn-sm btn-outline-dark rounded-pill px-3 shadow-sm" id="btnToggleRole" onclick="handleRoleSwitchClick()" title="Chuyển đổi vai trò">
             <i class="bi bi-shield-lock me-1"></i> <span id="btnToggleRoleText">Vào Quản Trị Viên (Admin)</span>
@@ -532,7 +532,7 @@
                   <input type="text" class="form-control" id="profInputAddress" value="123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM" required placeholder="Nhập số nhà, tên đường, quận huyện...">
                 </div>
               </div>
-              <div class="mt-4 pt-3 border-top d-flex justify-content-between align-items-center">
+              <div class="mt-4 pt-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
                 <span class="small text-muted">Mọi thay đổi sẽ được cập nhật trên thẻ VIP và thanh điều hướng.</span>
                 <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">
                   <i class="bi bi-check2-circle me-1"></i> Lưu thay đổi
@@ -587,14 +587,29 @@
 
           <!-- TAB 2: ORDER HISTORY (ITEMIZED ACCURATE ORDERS + DELETE) -->
           <div id="accTab-orders" class="account-tab-pane card border-0 rounded-4 shadow-sm p-4 bg-white d-none">
-            <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom flex-wrap gap-2">
+            <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom flex-wrap gap-2">
               <div>
                 <h5 class="fw-bold font-serif m-0">Lịch sử đơn hàng của tôi</h5>
-                <div class="small text-muted">Danh sách chính xác từng sản phẩm, số lượng và trạng thái giao hàng</div>
+                <div class="small text-muted">Danh sách chính xác từng sản phẩm, số lượng và lộ trình giao hàng</div>
               </div>
               <span class="badge bg-light text-dark border px-3 py-2 rounded-pill small">
-                <i class="bi bi-info-circle me-1"></i> Bạn có thể xóa các đơn hàng cũ bất cứ lúc nào
+                <i class="bi bi-info-circle me-1"></i> Có thể hủy đơn khi đang chuẩn bị hoặc xóa đơn cũ
               </span>
+            </div>
+
+            <!-- Customer Order Filter & Search Bar -->
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+              <div class="d-flex align-items-center gap-1.5 flex-wrap">
+                <button type="button" class="order-filter-pill active" onclick="filterAccountOrders('all', this)">Tất cả</button>
+                <button type="button" class="order-filter-pill" onclick="filterAccountOrders('Đang chuẩn bị', this)">Đang chuẩn bị</button>
+                <button type="button" class="order-filter-pill" onclick="filterAccountOrders('Đang giao', this)">Đang giao hàng</button>
+                <button type="button" class="order-filter-pill" onclick="filterAccountOrders('thành công', this)">Đã giao</button>
+                <button type="button" class="order-filter-pill" onclick="filterAccountOrders('Đã hủy', this)">Đã hủy</button>
+              </div>
+              <div class="input-group input-group-sm" style="max-width: 240px;">
+                <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
+                <input type="text" class="form-control bg-light border-start-0" id="accOrderSearchInput" placeholder="Tìm theo mã đơn..." onkeyup="searchAccountOrders(this.value)">
+              </div>
             </div>
 
             <div class="table-responsive">
@@ -761,7 +776,7 @@
             </div>
 
             <!-- Admin Sub-Navigation Pills -->
-            <div class="d-flex align-items-center gap-2 mb-4 pb-2 overflow-auto" style="white-space: nowrap;">
+            <div class="d-flex align-items-center gap-2 mb-4 pb-2 overflow-auto adm-nav-pills-wrap" style="white-space: nowrap; -webkit-overflow-scrolling: touch;">
               <button type="button" class="adm-nav-pill active" id="admNavBtn-overview" onclick="switchAdminSec('overview')">
                 <i class="bi bi-speedometer2"></i> Tổng quan KPIs
               </button>
@@ -893,6 +908,28 @@
                 <span class="badge bg-primary px-3 py-2 rounded-pill small">
                   <i class="bi bi-arrow-repeat me-1"></i> Tự động đồng bộ giỏ hàng
                 </span>
+              </div>
+
+              <!-- Admin Orders Filter, Search & Export Bar -->
+              <div class="card border rounded-3 p-3 bg-light mb-3 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                  <div class="d-flex align-items-center gap-1.5 flex-wrap">
+                    <button type="button" class="order-filter-pill active" onclick="adminFilterOrdersByStatus('all', this)">Tất cả</button>
+                    <button type="button" class="order-filter-pill" onclick="adminFilterOrdersByStatus('Đang chuẩn bị', this)">Đang chuẩn bị</button>
+                    <button type="button" class="order-filter-pill" onclick="adminFilterOrdersByStatus('Đang giao', this)">Đang giao hàng</button>
+                    <button type="button" class="order-filter-pill" onclick="adminFilterOrdersByStatus('thành công', this)">Đã giao</button>
+                    <button type="button" class="order-filter-pill" onclick="adminFilterOrdersByStatus('Đã hủy', this)">Đã hủy</button>
+                  </div>
+                  <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <div class="input-group input-group-sm" style="max-width: 250px;">
+                      <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                      <input type="text" class="form-control bg-white border-start-0" id="admOrderSearchInput" placeholder="Tìm theo mã, tên, SĐT..." onkeyup="adminSearchOrders(this.value)">
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 fw-bold shadow-sm" onclick="adminExportOrdersCSV()" title="Xuất toàn bộ đơn hàng ra file Excel CSV">
+                      <i class="bi bi-file-earmark-excel-fill me-1"></i> Xuất Excel (CSV)
+                    </button>
+                  </div>
+                </div>
               </div>
 
               <div class="table-responsive">
@@ -1151,7 +1188,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="mt-4 pt-3 border-top d-flex gap-2">
+                  <div class="mt-4 pt-3 border-top d-flex flex-wrap gap-2">
                     <button type="submit" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm">
                       <i class="bi bi-check-circle me-1"></i> Cập Nhật Mật Khẩu Admin
                     </button>

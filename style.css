@@ -2080,22 +2080,158 @@ a:hover {
 }
 
 /* ===================================================================
-   RESPONSIVE OPTIMIZATIONS
+   RESPONSIVE OPTIMIZATIONS (FULL MOBILE & TABLET SUITE)
    =================================================================== */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+  width: 100% !important;
+}
+
+/* Ensure images, media and embeds never spill horizontally */
+img, svg, video, canvas, audio, iframe, embed, object {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Enhanced Table Responsive for Touch Devices */
+.table-responsive {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1rem;
+}
+
+/* Order Filter Tabs / Pills */
+.order-filter-pill {
+  border: 1px solid #e4e4e7;
+  background: #ffffff;
+  color: #52525b;
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.order-filter-pill:hover {
+  background: #f4f4f5;
+  color: #18181b;
+}
+
+.order-filter-pill.active {
+  background: #18181b;
+  color: #ffffff;
+  border-color: #18181b;
+}
+
 @media (max-width: 991px) {
   .hero-slide-content { padding: 35px 24px; }
   .hero-title { font-size: 2.2rem; }
   .lookbook-grid { grid-template-columns: repeat(2, 1fr); }
-  .offcanvas-cart { width: 100% !important; }
-  .toast-container-velora { right: 20px; bottom: 85px; }
+  .offcanvas-cart { width: 100% !important; max-width: 100vw !important; }
+  .toast-container-velora { right: 16px; bottom: 85px; max-width: calc(100vw - 32px); }
   .nav-menu-bar .navbar-nav { justify-content: flex-start; overflow-x: auto; padding-bottom: 6px; }
 }
 
+@media (max-width: 768px) {
+  /* Prevent top promo bar from blowing out width */
+  .top-promo-bar {
+    font-size: 0.72rem !important;
+    padding: 5px 0 !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .top-promo-inner {
+    min-width: max-content;
+  }
+  .top-promo-left span:first-child {
+    display: none !important;
+  }
+  .top-promo-sep:first-of-type {
+    display: none !important;
+  }
+
+  /* Account VIP Card Mobile Polish */
+  .account-vip-card {
+    padding: 20px 16px !important;
+  }
+  .account-vip-card .font-monospace {
+    font-size: 1.05rem !important;
+    letter-spacing: 1px !important;
+  }
+
+  /* Welcome Header on Account Page */
+  .account-welcome-box {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 14px !important;
+  }
+  .account-welcome-box .role-action-group {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+
+  /* Admin Pills Touch Scroll */
+  .adm-nav-pills-wrap {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .adm-nav-pills-wrap::-webkit-scrollbar {
+    display: none;
+  }
+  .adm-nav-pill {
+    font-size: 0.76rem !important;
+    padding: 6px 12px !important;
+  }
+
+  /* Admin itemized orders thumbnail on mobile */
+  .adm-order-item-card {
+    min-width: 190px !important;
+    max-width: 100% !important;
+  }
+
+  /* Cart Table responsive paddings */
+  .cart-table th, .cart-table td {
+    padding: 10px 8px !important;
+  }
+  .cart-product-thumb {
+    width: 52px !important;
+    height: 68px !important;
+  }
+
+  /* Modals on mobile */
+  .modal-dialog {
+    margin: 10px auto !important;
+    max-width: calc(100vw - 20px) !important;
+  }
+}
+
 @media (max-width: 576px) {
-  .hero-title { font-size: 1.8rem; }
+  .hero-title { font-size: 1.7rem; }
   .nav-search-wrap { max-width: 100%; }
   .velora-ai-chat-box { width: calc(100vw - 24px); right: 12px; bottom: 85px; height: 480px; }
-  .hero-carousel-indicators { left: 24px; }
+  .hero-carousel-indicators { left: 16px; bottom: 16px; }
+
+  /* Compact padding for cards and containers */
+  .card {
+    border-radius: 12px !important;
+  }
+  .account-vip-card {
+    padding: 16px 14px !important;
+  }
+  .account-vip-card .font-monospace {
+    font-size: 0.95rem !important;
+    letter-spacing: 0.5px !important;
+  }
 }
 
 
