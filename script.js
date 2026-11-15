@@ -1577,6 +1577,7 @@ function applyCouponCodeViaValue(code) {
 
 function updateCartUI() {
   const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  if (typeof updateFloatingQuickCart === 'function') updateFloatingQuickCart();
   document.querySelectorAll('.cart-badge-count').forEach(badge => badge.textContent = totalCount);
 
   const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -1965,33 +1966,36 @@ function renderWishlistModalContent() {
   const body = document.getElementById('wishlistModalBody');
   if (!body) return;
 
-  if (wishlist.length === 0) {
+  if (!wishlist || wishlist.length === 0) {
     body.innerHTML = `
       <div class="text-center py-5 text-muted">
-        <i class="bi bi-heart fs-1 opacity-50 d-block mb-3"></i>
-        <h5 class="fw-bold">Danh sách yêu thích trống</h5>
-        <p class="small text-muted mb-0">Bấm vào biểu tượng trái tim ở các sản phẩm để lưu lại xem sau bạn nhé!</p>
+        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10 text-danger mb-3" style="width: 64px; height: 64px;">
+          <i class="bi bi-heart fs-2"></i>
+        </div>
+        <h5 class="fw-bold text-dark">Danh sách yêu thích trống</h5>
+        <p class="small text-muted mb-0">Bấm vào biểu tượng trái tim ở các trang phục để lưu lại mua sắm sau bạn nhé!</p>
       </div>
     `;
   } else {
     const items = PRODUCTS.filter(p => wishlist.includes(p.id));
     body.innerHTML = `
-      <div class="d-flex flex-column gap-3">
+      <div class="d-flex flex-column gap-2.5">
         ${items.map(p => `
-          <div class="d-flex align-items-center justify-content-between p-2 border rounded-3 bg-light">
+          <div class="d-flex align-items-center justify-content-between p-2.5 border rounded-3 bg-white shadow-sm hover-shadow transition">
             <div class="d-flex align-items-center gap-3">
-              <img src="${p.image}" alt="${p.name}" style="width: 50px; height: 65px; object-fit: cover; border-radius: 6px;">
+              <img src="${p.image}" alt="${p.name}" style="width: 52px; height: 68px; object-fit: cover; border-radius: 8px; flex-shrink: 0;" class="border">
               <div>
-                <h6 class="m-0 small fw-bold">${p.name}</h6>
-                <div class="text-danger small fw-bold">${formatCurrency(p.price)}</div>
+                <span class="badge bg-light text-muted border mb-1" style="font-size: 0.65rem;">${(p.category || 'THỜI TRANG').toUpperCase()}</span>
+                <h6 class="m-0 small fw-bold text-dark line-clamp-1" title="${p.name}">${p.name}</h6>
+                <div class="text-danger small fw-bold mt-0.5">${formatCurrency(p.price)}</div>
               </div>
             </div>
-            <div class="d-flex gap-2">
-              <button class="btn btn-sm btn-dark rounded-pill px-3" onclick="addToCart('${p.id}');">
-                <i class="bi bi-bag-plus"></i> Mua
+            <div class="d-flex align-items-center gap-2 flex-shrink-0">
+              <button class="btn btn-sm btn-dark rounded-pill px-3 py-1.5 fw-semibold d-flex align-items-center gap-1" onclick="addToCart('${p.id}');">
+                <i class="bi bi-bag-plus"></i> <span>Thêm giỏ</span>
               </button>
-              <button class="btn btn-sm btn-outline-danger rounded-circle" onclick="removeFromWishlistInsideModal('${p.id}')" title="Xóa">
-                <i class="bi bi-x-lg"></i>
+              <button class="btn btn-sm btn-outline-danger rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; min-width: 34px; min-height: 34px; flex-shrink: 0;" onclick="removeFromWishlistInsideModal('${p.id}')" title="Bỏ yêu thích">
+                <i class="bi bi-heart-fill text-danger" style="font-size: 0.95rem; pointer-events: none;"></i>
               </button>
             </div>
           </div>
@@ -2008,10 +2012,67 @@ function removeFromWishlistInsideModal(productId) {
     localStorage.setItem('velora_wishlist', JSON.stringify(wishlist));
     updateWishlistBadge();
     updateWishlistButtonStates();
+    if (typeof renderAccountWishlist === 'function') renderAccountWishlist();
     showToast('Đã xóa khỏi danh sách yêu thích', 'info');
   }
-  // Re-render modal content in place without creating or re-showing modal instance
   renderWishlistModalContent();
+}
+
+function clearAllWishlist() {
+  if (!wishlist || wishlist.length === 0) {
+    showToast('Danh sách yêu thích của bạn hiện đang trống!', 'info');
+    return;
+  }
+  if (!confirm('Bạn có chắc chắn muốn xóa toàn bộ danh sách sản phẩm yêu thích không?')) {
+    return;
+  }
+  wishlist = [];
+  localStorage.setItem('velora_wishlist', JSON.stringify(wishlist));
+  updateWishlistBadge();
+  updateWishlistButtonStates();
+  renderWishlistModalContent();
+  if (typeof renderAccountWishlist === 'function') renderAccountWishlist();
+  showToast('Đã xóa toàn bộ sản phẩm yêu thích!', 'info');
+}
+
+function addAllWishlistToCart() {
+  if (!wishlist || wishlist.length === 0) {
+    showToast('Danh sách yêu thích đang trống, hãy chọn sản phẩm yêu thích trước nhé!', 'warning');
+    return;
+  }
+  let addedCount = 0;
+  wishlist.forEach(id => {
+    const prod = PRODUCTS.find(p => p.id === id);
+    if (prod) {
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          id: prod.id,
+          name: prod.name,
+          price: prod.price,
+          image: prod.image,
+          color: (prod.colors && prod.colors[0]) || 'Mặc định',
+          size: (prod.sizes && prod.sizes[0]) || 'M',
+          quantity: 1
+        });
+      }
+      addedCount++;
+    }
+  });
+
+  saveCart();
+  updateCartUI();
+  if (typeof updateFloatingQuickCart === 'function') updateFloatingQuickCart();
+
+  const modalEl = document.getElementById('wishlistModal');
+  if (modalEl && window.bootstrap && bootstrap.Modal) {
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+  }
+
+  showToast(`Đã thêm thành công <b>${addedCount} sản phẩm</b> yêu thích vào giỏ hàng!`, 'success');
 }
 
 function showWishlistModal() {
@@ -3169,6 +3230,9 @@ function removeFromWishlist(productId) {
     if (typeof wishlist !== 'undefined') wishlist = list;
     localStorage.setItem('velora_wishlist', JSON.stringify(list));
     updateWishlistBadge();
+    updateWishlistButtonStates();
+    if (typeof renderWishlistModalContent === 'function') renderWishlistModalContent();
+    if (typeof renderAccountWishlist === 'function') renderAccountWishlist();
     showToast('Đã xóa sản phẩm khỏi danh sách yêu thích!', 'info');
   }
 }
@@ -3176,40 +3240,42 @@ function removeFromWishlist(productId) {
 function renderAccountWishlist() {
   const container = document.getElementById('accountWishlistGrid');
   const badge = document.getElementById('profWishlistBadge');
-  const wishlist = getWishlist();
+  const currentWishlist = getWishlist();
 
-  if (badge) badge.textContent = wishlist.length;
+  if (badge) badge.textContent = currentWishlist.length;
   if (!container) return;
 
-  if (wishlist.length === 0) {
+  if (currentWishlist.length === 0) {
     container.innerHTML = `
       <div class="col-12 text-center py-5 border rounded-4 bg-light">
-        <i class="bi bi-heart fs-1 text-muted"></i>
-        <h6 class="fw-bold mt-2">Danh sách yêu thích trống</h6>
-        <p class="small text-muted mb-3">Hãy dạo quanh cửa hàng và lưu các món đồ bạn yêu thích nhé</p>
+        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10 text-danger mb-3" style="width: 64px; height: 64px;">
+          <i class="bi bi-heart fs-2"></i>
+        </div>
+        <h6 class="fw-bold mt-2 text-dark">Danh sách yêu thích trống</h6>
+        <p class="small text-muted mb-3">Hãy dạo quanh cửa hàng và lưu các món đồ thời trang bạn yêu thích nhé</p>
         <a href="women.html" class="btn btn-sm btn-dark rounded-pill px-4">Khám phá sản phẩm ngay</a>
       </div>
     `;
     return;
   }
 
-  const items = PRODUCTS.filter(p => wishlist.includes(p.id));
+  const items = PRODUCTS.filter(p => currentWishlist.includes(p.id));
   container.innerHTML = items.map(p => `
     <div class="col-lg-3 col-md-4 col-6">
-      <div class="card h-100 border rounded-4 overflow-hidden shadow-sm product-card">
-        <div class="position-relative">
-          <img src="${p.image}" class="card-img-top" style="height: 220px; object-fit: cover;" alt="${p.name}">
-          <button type="button" class="btn btn-danger btn-sm rounded-circle position-absolute top-0 end-0 m-2 p-1 d-flex align-items-center justify-content-center shadow" style="width: 28px; height: 28px;" onclick="removeFromWishlist('${p.id}'); renderAccountWishlist();" title="Bỏ yêu thích">
-            <i class="bi bi-trash-fill text-white" style="font-size: 0.75rem;"></i>
+      <div class="card h-100 border rounded-4 overflow-hidden shadow-sm product-card position-relative bg-white">
+        <div class="position-relative overflow-hidden" style="height: 240px;">
+          <img src="${p.image}" class="w-100 h-100" style="object-fit: cover;" alt="${p.name}">
+          <button type="button" class="btn-wishlist active" style="top: 10px; right: 10px;" onclick="removeFromWishlist('${p.id}');" title="Bỏ khỏi yêu thích">
+            <i class="bi bi-heart-fill"></i>
           </button>
         </div>
         <div class="p-3 d-flex flex-column justify-content-between flex-grow-1">
           <div>
-            <span class="badge bg-light text-muted border mb-1" style="font-size: 0.65rem;">${p.category.toUpperCase()}</span>
+            <span class="badge bg-light text-muted border mb-1" style="font-size: 0.65rem;">${(p.category || 'THỜI TRANG').toUpperCase()}</span>
             <h6 class="fw-bold font-serif fs-6 mb-1 text-truncate" title="${p.name}">${p.name}</h6>
             <div class="text-danger fw-bold fs-6 mb-2">${formatCurrency(p.price)}</div>
           </div>
-          <button type="button" class="btn btn-sm btn-dark rounded-pill w-100" onclick="addToCart('${p.id}')">
+          <button type="button" class="btn btn-sm btn-dark rounded-pill w-100 fw-semibold" onclick="addToCart('${p.id}')">
             <i class="bi bi-bag-plus me-1"></i> Thêm giỏ hàng
           </button>
         </div>
@@ -6029,6 +6095,38 @@ function adminViewCustomerOrders(email, name) {
   showToast(`Đang lọc danh sách đơn hàng của khách hàng: <b>${name || email}</b>`, 'info');
 }
 
+// --- HELPER: GET ACCURATE ORDERS DATA STRICTLY BELONGING TO A CUSTOMER ---
+function getCustomerOrdersData(customerEmail, customerName, customerPhone) {
+  const allOrders = getOrders();
+  const cEmail = (customerEmail || '').toLowerCase().trim();
+  const cName = (customerName || '').toLowerCase().trim();
+  const cPhone = (customerPhone || '').replace(/\D/g, '');
+
+  const userOrders = allOrders.filter(o => {
+    const oEmail = (o.email || '').toLowerCase().trim();
+    if (cEmail && oEmail && oEmail === cEmail) return true;
+
+    const oPhone = (o.phone || '').replace(/\D/g, '');
+    if (cPhone && oPhone && cPhone.length >= 8 && oPhone === cPhone) return true;
+
+    const oRecip = (o.recipient || '').toLowerCase().trim();
+    if (cName && oRecip && (oRecip === cName || (cName.length >= 5 && oRecip.includes(cName)))) return true;
+
+    return false;
+  });
+
+  const ordersCount = userOrders.length;
+  const totalSpent = userOrders.filter(o => {
+    const st = (o.status || '').toLowerCase();
+    return !st.includes('hủy') && !st.includes('cancel');
+  }).reduce((sum, o) => {
+    const val = parseInt(String(o.total || '0').replace(/\D/g, ''), 10) || 0;
+    return sum + val;
+  }, 0);
+
+  return { ordersCount, totalSpent, userOrders };
+}
+
 function adminRenderCustomersTable() {
   const tbody = document.getElementById('adminCustomersBody');
   if (!tbody) return;
@@ -6042,6 +6140,7 @@ function adminRenderCustomersTable() {
 
   // Primary customer
   const primaryEmail = (custProf.email || 'minhanh.velora@gmail.com').toLowerCase().trim();
+  const pStats = getCustomerOrdersData(custProf.email, custProf.name, custProf.phone);
   allUsers.push({
     id: custProf.id || 'CUST-VIP-01',
     name: custProf.name || 'Đặng Minh Anh',
@@ -6051,7 +6150,8 @@ function adminRenderCustomersTable() {
     membershipTier: custProf.membershipTier || 'VIP GOLD',
     points: custProf.points !== undefined ? custProf.points : 1250,
     avatar: custProf.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
-    ordersCount: getOrders().length,
+    ordersCount: pStats.ordersCount,
+    totalSpent: pStats.totalSpent,
     isPrimary: true
   });
   seenEmails.add(primaryEmail);
@@ -6062,6 +6162,7 @@ function adminRenderCustomersTable() {
       const em = u.email.toLowerCase().trim();
       if (!seenEmails.has(em)) {
         seenEmails.add(em);
+        const uStats = getCustomerOrdersData(u.email, u.name, u.phone);
         allUsers.push({
           id: u.id || `CUST-${Math.floor(1000 + Math.random()*9000)}`,
           name: u.name || 'Khách hàng Velora',
@@ -6071,7 +6172,8 @@ function adminRenderCustomersTable() {
           membershipTier: u.membershipTier || 'THÀNH VIÊN MỚI',
           points: u.points !== undefined ? u.points : 500,
           avatar: u.avatar || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80',
-          ordersCount: 0,
+          ordersCount: uStats.ordersCount,
+          totalSpent: uStats.totalSpent,
           isPrimary: false
         });
       }
@@ -6085,10 +6187,10 @@ function adminRenderCustomersTable() {
       name: 'Nguyễn Thị Lan Hương',
       email: 'lanhuong@gmail.com',
       phone: '0912 345 678',
+      address: '45 Lê Duẩn, Quận 1, TP. HCM',
       membershipTier: 'VIP GOLD',
       points: 850,
       avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80',
-      ordersCount: 1,
       isPrimary: false
     },
     {
@@ -6096,10 +6198,10 @@ function adminRenderCustomersTable() {
       name: 'Trần Tuấn Anh',
       email: 'tran.tuan@gmail.com',
       phone: '0903 888 999',
+      address: '72 Trần Hưng Đạo, Hoàn Kiếm, Hà Nội',
       membershipTier: 'SILVER',
       points: 420,
       avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80',
-      ordersCount: 0,
       isPrimary: false
     },
     {
@@ -6107,10 +6209,10 @@ function adminRenderCustomersTable() {
       name: 'Võ Hoàng Yến',
       email: 'hoang.yen@gmail.com',
       phone: '0938 111 222',
+      address: '88 Nguyễn Huệ, Quận 1, TP. HCM',
       membershipTier: 'VIP DIAMOND (KIM CƯƠNG)',
       points: 3200,
       avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
-      ordersCount: 4,
       isPrimary: false
     }
   ];
@@ -6119,6 +6221,9 @@ function adminRenderCustomersTable() {
     const em = seed.email.toLowerCase();
     if (!seenEmails.has(em)) {
       seenEmails.add(em);
+      const sStats = getCustomerOrdersData(seed.email, seed.name, seed.phone);
+      seed.ordersCount = sStats.ordersCount;
+      seed.totalSpent = sStats.totalSpent;
       allUsers.push(seed);
     }
   });
@@ -6137,21 +6242,28 @@ function adminRenderCustomersTable() {
     });
   }
 
+  // Update Summary Stats Badges
   const countEl = document.getElementById('admNavCustCount');
   if (countEl) countEl.textContent = allUsers.length;
   const totalUsersEl = document.getElementById('admStatTotalUsers');
   if (totalUsersEl) totalUsersEl.textContent = allUsers.length;
+
   const totalPoints = allUsers.reduce((sum, u) => sum + Number(u.points || 0), 0);
   const totalPointsEl = document.getElementById('admStatTotalPoints');
   if (totalPointsEl) totalPointsEl.textContent = totalPoints.toLocaleString('vi-VN');
 
+  const totalSpentAll = allUsers.reduce((sum, u) => sum + Number(u.totalSpent || 0), 0);
+  const totalSpentEl = document.getElementById('admStatTotalSpent');
+  if (totalSpentEl) totalSpentEl.textContent = formatCurrency(totalSpentAll);
+
   if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted"><i class="bi bi-search me-1"></i>Không tìm thấy khách hàng nào phù hợp với bộ lọc hiện tại</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted"><i class="bi bi-search me-1"></i>Không tìm thấy khách hàng nào phù hợp với bộ lọc hiện tại</td></tr>`;
     return;
   }
 
+  // Render 8 exact columns matching table thead
   tbody.innerHTML = filtered.map(u => {
-    const tier = u.membershipTier || 'THÀNH VIÊN';
+    const tier = u.membershipTier || 'THÀNH VIÊN MỚI';
     const tierBadgeClass = tier.includes('DIAMOND') ? 'bg-danger' : (tier.includes('GOLD') ? 'bg-warning text-dark' : 'bg-dark');
 
     return `
@@ -6172,17 +6284,23 @@ function adminRenderCustomersTable() {
         <td><span class="badge ${tierBadgeClass} px-2.5 py-1 rounded-pill">${tier}</span></td>
         <td><b class="text-warning">${Number(u.points || 0).toLocaleString('vi-VN')}</b> pts</td>
         <td><span class="badge bg-light text-dark border">${u.ordersCount || 0} đơn</span></td>
+        <td><b class="text-success">${formatCurrency(u.totalSpent || 0)}</b></td>
         <td class="text-end pe-3">
           <div class="btn-group btn-group-sm">
             <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-2 py-0" style="font-size: 0.72rem;" onclick="adminAwardPoints('${u.email}', 500)" title="Cộng 500 điểm thưởng">
               <i class="bi bi-gift-fill text-warning me-1"></i>+500đ
             </button>
-            <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-2 py-0 ms-1" style="font-size: 0.72rem;" onclick="adminUpgradeUserTier('${u.email}')" title="Nâng hạng VIP Kim Cương">
-              <i class="bi bi-arrow-up-circle-fill text-danger me-1"></i>Nâng VIP
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-2 py-0 ms-1" style="font-size: 0.72rem;" onclick="adminOpenEditCustomer('${u.email}')" title="Chỉnh sửa thông tin hội viên">
+              <i class="bi bi-pencil-square me-1"></i>Sửa
             </button>
             <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-2 py-0 ms-1" style="font-size: 0.72rem;" onclick="adminViewCustomerOrders('${u.email}', '${u.name}')" title="Xem đơn hàng của khách">
               <i class="bi bi-receipt me-1"></i>Xem đơn
             </button>
+            ${!u.isPrimary && !u.email.toLowerCase().includes('admin') ? `
+            <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-2 py-0 ms-1" style="font-size: 0.72rem;" onclick="adminDeleteCustomer('${u.email}')" title="Xóa hội viên khỏi hệ thống">
+              <i class="bi bi-trash-fill me-1"></i>Xóa
+            </button>
+            ` : ''}
           </div>
         </td>
       </tr>
@@ -6266,6 +6384,260 @@ function adminUpgradeUserTier(email) {
   adminRenderCustomersTable();
   updateAccountUI();
   showToast(`Đã nâng hạng thành công cho <b>${email}</b> lên <b>${newTier}</b>!`, 'success');
+}
+
+// --- OPEN ADMIN CUSTOMER EDIT MODAL ---
+function adminOpenEditCustomer(email) {
+  const emailNorm = (email || '').toLowerCase().trim();
+  const allUsers = [];
+  const custProf = getCustomerProfile();
+  allUsers.push(custProf);
+  getRegisteredUsers().forEach(u => allUsers.push(u));
+
+  const target = allUsers.find(u => (u.email || '').toLowerCase().trim() === emailNorm);
+  if (!target) {
+    showToast('Không tìm thấy thông tin hội viên!', 'warning');
+    return;
+  }
+
+  const origEmailEl = document.getElementById('adminEditCustOrigEmail');
+  const nameEl = document.getElementById('adminEditCustName');
+  const emailEl = document.getElementById('adminEditCustEmail');
+  const phoneEl = document.getElementById('adminEditCustPhone');
+  const addrEl = document.getElementById('adminEditCustAddress');
+  const tierEl = document.getElementById('adminEditCustTier');
+  const ptsEl = document.getElementById('adminEditCustPoints');
+
+  if (origEmailEl) origEmailEl.value = target.email || '';
+  if (nameEl) nameEl.value = target.name || '';
+  if (emailEl) emailEl.value = target.email || '';
+  if (phoneEl) phoneEl.value = target.phone || '';
+  if (addrEl) addrEl.value = target.address || '';
+  if (tierEl) tierEl.value = target.membershipTier || 'THÀNH VIÊN MỚI';
+  if (ptsEl) ptsEl.value = target.points !== undefined ? target.points : 500;
+
+  const modalEl = document.getElementById('adminEditCustomerModal');
+  if (modalEl && window.bootstrap && bootstrap.Modal) {
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modal.show();
+  }
+}
+
+// --- SAVE ADMIN CUSTOMER EDIT ---
+function adminSaveCustomerEdit(event) {
+  if (event) event.preventDefault();
+
+  const origEmail = (document.getElementById('adminEditCustOrigEmail')?.value || '').toLowerCase().trim();
+  const newName = (document.getElementById('adminEditCustName')?.value || '').trim();
+  const newPhone = (document.getElementById('adminEditCustPhone')?.value || '').trim();
+  const newAddress = (document.getElementById('adminEditCustAddress')?.value || '').trim();
+  const newTier = document.getElementById('adminEditCustTier')?.value || 'THÀNH VIÊN MỚI';
+  const newPoints = parseInt(document.getElementById('adminEditCustPoints')?.value, 10) || 0;
+
+  if (!origEmail) {
+    showToast('Lỗi: Không tìm thấy email hội viên!', 'danger');
+    return;
+  }
+
+  // Update in primary customer profile if matched
+  const custProf = getCustomerProfile();
+  if ((custProf.email || '').toLowerCase().trim() === origEmail) {
+    custProf.name = newName;
+    custProf.phone = newPhone;
+    custProf.address = newAddress;
+    custProf.membershipTier = newTier;
+    custProf.points = newPoints;
+    saveCustomerProfile(custProf);
+  }
+
+  // Update in registered users list
+  const regUsers = getRegisteredUsers();
+  const matchedUser = regUsers.find(u => (u.email || '').toLowerCase().trim() === origEmail);
+  if (matchedUser) {
+    matchedUser.name = newName;
+    matchedUser.phone = newPhone;
+    matchedUser.address = newAddress;
+    matchedUser.membershipTier = newTier;
+    matchedUser.points = newPoints;
+    saveRegisteredUsers(regUsers);
+  }
+
+  // Update in currently active user if logged in with this email
+  if (currentUser && currentUser.email && currentUser.email.toLowerCase().trim() === origEmail) {
+    currentUser.name = newName;
+    currentUser.phone = newPhone;
+    currentUser.address = newAddress;
+    currentUser.membershipTier = newTier;
+    currentUser.points = newPoints;
+    localStorage.setItem('velora_user', JSON.stringify(currentUser));
+  }
+
+  // Sync to Supabase Cloud
+  try {
+    const sb = getSupabaseClient();
+    if (sb) {
+      sb.from('users').update({
+        name: newName,
+        phone: newPhone,
+        address: newAddress,
+        membership_tier: newTier,
+        points: newPoints
+      }).eq('email', origEmail).then(({ error }) => {
+        if (error) console.warn('Supabase update customer error:', error);
+        else console.log('Updated customer on Supabase successfully');
+      }).catch(err => console.warn(err));
+    }
+  } catch (e) {}
+
+  // Close modal
+  const modalEl = document.getElementById('adminEditCustomerModal');
+  if (modalEl && window.bootstrap && bootstrap.Modal) {
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+  }
+
+  adminRenderCustomersTable();
+  if (typeof updateAccountUI === 'function') updateAccountUI();
+  showToast(`Đã lưu thông tin hội viên <b>${newName}</b> thành công!`, 'success');
+}
+
+// --- DELETE CUSTOMER (ADMIN ONLY) ---
+function adminDeleteCustomer(email) {
+  const emailNorm = (email || '').toLowerCase().trim();
+  if (!emailNorm) return;
+
+  if (emailNorm === 'admin@velora.vn' || emailNorm.includes('admin')) {
+    alert('Không thể xóa tài khoản Quản trị viên hệ thống (Admin)!');
+    return;
+  }
+
+  if (!confirm(`Bạn có chắc chắn muốn xóa hội viên "${email}" khỏi hệ thống không?\n\nLưu ý: Thao tác này sẽ xóa tài khoản hội viên và đồng bộ trực tiếp lên hệ thống máy chủ Supabase.`)) {
+    return;
+  }
+
+  // Remove from registered users
+  let regUsers = getRegisteredUsers();
+  regUsers = regUsers.filter(u => (u.email || '').toLowerCase().trim() !== emailNorm);
+  saveRegisteredUsers(regUsers);
+
+  // If primary customer matches this email, reset to default
+  const custProf = getCustomerProfile();
+  if ((custProf.email || '').toLowerCase().trim() === emailNorm) {
+    const defaultCust = {
+      name: 'Khách hàng Velora',
+      email: 'khachhang@velora.vn',
+      phone: '0988 123 456',
+      address: 'Chưa cập nhật',
+      membershipTier: 'THÀNH VIÊN MỚI',
+      points: 500,
+      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80'
+    };
+    saveCustomerProfile(defaultCust);
+  }
+
+  // If current logged in user is this deleted user, switch them to default
+  if (currentUser && currentUser.email && currentUser.email.toLowerCase().trim() === emailNorm) {
+    currentUser = {
+      id: 'usr-admin',
+      name: 'Quản Trị Viên Velora',
+      email: 'admin@velora.vn',
+      role: 'admin',
+      avatar: 'logo_crop.png',
+      phone: '1900 8899',
+      address: 'Trụ sở VELORA',
+      points: 9999,
+      membershipTier: 'HỆ THỐNG QUẢN TRỊ'
+    };
+    localStorage.setItem('velora_user', JSON.stringify(currentUser));
+  }
+
+  // Delete from Supabase cloud
+  try {
+    const sb = getSupabaseClient();
+    if (sb) {
+      sb.from('users').delete().eq('email', emailNorm).then(({ error }) => {
+        if (error) console.warn('Supabase delete error:', error);
+        else console.log('Deleted customer from Supabase:', emailNorm);
+      }).catch(err => console.warn(err));
+    }
+  } catch (e) {}
+
+  adminRenderCustomersTable();
+  if (typeof updateAccountUI === 'function') updateAccountUI();
+  showToast(`Đã xóa vĩnh viễn hội viên <b>${email}</b> khỏi hệ thống!`, 'success');
+}
+
+// --- EXPORT CUSTOMERS CRM TO CSV ---
+function adminExportCustomersCSV() {
+  const regUsers = getRegisteredUsers();
+  const custProf = getCustomerProfile();
+
+  const seenEmails = new Set();
+  const allUsers = [];
+
+  const primaryEmail = (custProf.email || 'minhanh.velora@gmail.com').toLowerCase().trim();
+  const pOrders = getCustomerOrdersData(custProf.email, custProf.name, custProf.phone);
+  allUsers.push({
+    name: custProf.name || 'Đặng Minh Anh',
+    email: custProf.email || 'minhanh.velora@gmail.com',
+    phone: custProf.phone || '0988 123 456',
+    address: custProf.address || '',
+    tier: custProf.membershipTier || 'VIP GOLD',
+    points: custProf.points !== undefined ? custProf.points : 1250,
+    ordersCount: pOrders.ordersCount,
+    totalSpent: pOrders.totalSpent
+  });
+  seenEmails.add(primaryEmail);
+
+  regUsers.forEach(u => {
+    if (u && u.email) {
+      const em = u.email.toLowerCase().trim();
+      if (!seenEmails.has(em)) {
+        seenEmails.add(em);
+        const ord = getCustomerOrdersData(u.email, u.name, u.phone);
+        allUsers.push({
+          name: u.name || 'Khách hàng Velora',
+          email: u.email,
+          phone: u.phone || '',
+          address: u.address || '',
+          tier: u.membershipTier || 'THÀNH VIÊN MỚI',
+          points: u.points !== undefined ? u.points : 500,
+          ordersCount: ord.ordersCount,
+          totalSpent: ord.totalSpent
+        });
+      }
+    }
+  });
+
+  if (allUsers.length === 0) {
+    showToast('Chưa có khách hàng nào để xuất danh sách!', 'warning');
+    return;
+  }
+
+  const BOM = '\uFEFF';
+  const headers = ['Họ và tên', 'Email', 'Số điện thoại', 'Hạng hội viên', 'Điểm tích lũy', 'Số đơn đã đặt', 'Tổng chi tiêu (VNĐ)', 'Địa chỉ'];
+  const rows = allUsers.map(u => [
+    `"${(u.name || '').replace(/"/g, '""')}"`,
+    `"${(u.email || '').replace(/"/g, '""')}"`,
+    `"${(u.phone || '').replace(/"/g, '""')}"`,
+    `"${(u.tier || '').replace(/"/g, '""')}"`,
+    u.points || 0,
+    u.ordersCount || 0,
+    u.totalSpent || 0,
+    `"${(u.address || '').replace(/"/g, '""')}"`
+  ]);
+
+  const csvContent = BOM + [headers.join(','), ...rows.map(r => r.join(','))].join('\r\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `VELORA_DANH_SACH_KHACH_HANG_${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Đã xuất file danh sách khách hàng thành công!', 'success');
 }
 
 // --- 2. ADMIN QUICK STOCK EDIT ---
@@ -7206,3 +7578,72 @@ window.adminAwardPoints = adminAwardPoints;
 window.adminUpgradeUserTier = adminUpgradeUserTier;
 window.adminViewCustomerOrders = adminViewCustomerOrders;
 window.adminRenderCustomersTable = adminRenderCustomersTable;
+
+// ==========================================================================
+// STICKY HEADER SCROLL ELEVATION & FLOATING QUICK-CART LISTENER
+// ==========================================================================
+window.addEventListener('scroll', () => {
+  const header = document.querySelector('.site-header');
+  const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+  if (header) {
+    if (scrollY > 30) {
+      header.classList.add('header-scrolled');
+    } else {
+      header.classList.remove('header-scrolled');
+    }
+  }
+
+  // Floating Quick Cart visibility
+  const floatingCart = document.getElementById('floatingQuickCartBar');
+  if (floatingCart) {
+    const c = (typeof getCart === 'function') ? getCart() : [];
+    if (scrollY > 300 && c.length > 0 && !floatingCart.dataset.dismissed) {
+      floatingCart.classList.add('is-visible');
+    } else {
+      floatingCart.classList.remove('is-visible');
+    }
+  }
+}, { passive: true });
+
+function updateFloatingQuickCart() {
+  const floatingCart = document.getElementById('floatingQuickCartBar');
+  if (!floatingCart) return;
+  const c = (typeof getCart === 'function') ? getCart() : [];
+  const countBadge = document.getElementById('quickCartCountBadge');
+  const subtotalEl = document.getElementById('quickCartSubtotal');
+
+  const totalCount = c.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  const subtotal = c.reduce((sum, item) => sum + ((item.price || 0) * (item.quantity || 1)), 0);
+
+  if (countBadge) countBadge.textContent = totalCount;
+  if (subtotalEl) subtotalEl.textContent = formatCurrency(subtotal);
+
+  const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+  if (scrollY > 300 && totalCount > 0 && !floatingCart.dataset.dismissed) {
+    floatingCart.classList.add('is-visible');
+  } else if (totalCount === 0) {
+    floatingCart.classList.remove('is-visible');
+  }
+}
+
+function closeFloatingQuickCart() {
+  const floatingCart = document.getElementById('floatingQuickCartBar');
+  if (floatingCart) {
+    floatingCart.dataset.dismissed = 'true';
+    floatingCart.classList.remove('is-visible');
+  }
+}
+
+// Global exports for inline HTML onclick handlers
+window.adminOpenEditCustomer = adminOpenEditCustomer;
+window.adminSaveCustomerEdit = adminSaveCustomerEdit;
+window.adminDeleteCustomer = adminDeleteCustomer;
+window.adminExportCustomersCSV = adminExportCustomersCSV;
+window.clearAllWishlist = clearAllWishlist;
+window.addAllWishlistToCart = addAllWishlistToCart;
+window.updateFloatingQuickCart = updateFloatingQuickCart;
+window.closeFloatingQuickCart = closeFloatingQuickCart;
+window.removeFromWishlistInsideModal = removeFromWishlistInsideModal;
+window.removeFromWishlist = removeFromWishlist;
+window.renderWishlistModalContent = renderWishlistModalContent;
+window.renderAccountWishlist = renderAccountWishlist;

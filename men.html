@@ -97,8 +97,8 @@
           </a>
 
           <!-- Wishlist Button -->
-          <button class="btn btn-light rounded-circle position-relative p-2" onclick="showWishlistModal()" title="Sản phẩm yêu thích">
-            <i class="bi bi-heart fs-5"></i>
+          <button class="btn btn-light rounded-circle position-relative d-inline-flex align-items-center justify-content-center p-0 flex-shrink-0" onclick="showWishlistModal()" title="Sản phẩm yêu thích" style="width: 40px; height: 40px; min-width: 40px; min-height: 40px;">
+            <i class="bi bi-heart fs-5" style="line-height: 1; pointer-events: none;"></i>
             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger wishlist-count-badge" style="font-size: 0.65rem;">0</span>
           </button>
 
@@ -924,17 +924,118 @@
     </div>
   </div>
 
-  <!-- MODAL: WISHLIST -->
+  <!-- MODAL: WISHLIST (SẢN PHẨM YÊU THÍCH) -->
   <div class="modal fade" id="wishlistModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-md modal-dialog-centered">
-      <div class="modal-content rounded-4 border-0 shadow">
-        <div class="modal-header border-bottom">
-          <h5 class="modal-title fw-bold"><i class="bi bi-heart-fill text-danger me-2"></i>Sản phẩm yêu thích</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 560px;">
+      <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
+        <div class="modal-header bg-light border-bottom px-4 py-3">
+          <div class="d-flex align-items-center gap-2.5">
+            <div class="rounded-circle bg-danger bg-opacity-10 text-danger d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; flex-shrink: 0;">
+              <i class="bi bi-heart-fill fs-5"></i>
+            </div>
+            <div>
+              <h5 class="modal-title fw-bold m-0 text-dark" style="font-size: 1.05rem;">Sản Phẩm Yêu Thích</h5>
+              <div class="small text-muted" id="wishlistModalSubtitle" style="font-size: 0.78rem;">Danh sách trang phục bạn đã lưu để mua sắm</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body p-3" id="wishlistModalBody">
-          <!-- Injected by script.js -->
+        <div class="modal-body p-3 p-md-4" id="wishlistModalBody" style="max-height: 480px; overflow-y: auto;">
+          <!-- Injected dynamically by script.js renderWishlistModalContent() -->
         </div>
+        <div class="modal-footer bg-light border-top px-4 py-2.5 d-flex justify-content-between align-items-center flex-wrap gap-2">
+          <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-3" onclick="clearAllWishlist()">
+            <i class="bi bi-trash me-1"></i>Xóa tất cả
+          </button>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-3" data-bs-dismiss="modal">Đóng</button>
+            <button type="button" class="btn btn-dark btn-sm rounded-pill px-3.5 fw-semibold" onclick="addAllWishlistToCart()">
+              <i class="bi bi-bag-check me-1"></i>Thêm tất cả vào giỏ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING QUICK-CART BAR (STICKY CHECKOUT HELPER) -->
+  <div id="floatingQuickCartBar" class="floating-quick-cart-bar">
+    <div class="d-flex align-items-center gap-2.5">
+      <div class="position-relative">
+        <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px;">
+          <i class="bi bi-bag-check-fill fs-5"></i>
+        </div>
+        <span class="cart-count-badge badge rounded-pill bg-danger" id="quickCartCountBadge">0</span>
+      </div>
+      <div>
+        <div class="small text-white-50" style="font-size: 0.72rem; line-height: 1;">Giỏ hàng đã chọn:</div>
+        <div class="fw-bold text-warning" id="quickCartSubtotal" style="font-size: 0.95rem;">0đ</div>
+      </div>
+    </div>
+    <div class="d-flex align-items-center gap-1.5 ms-2">
+      <a href="cart.html" class="btn btn-warning btn-sm rounded-pill px-3 py-1.5 fw-bold shadow-sm d-flex align-items-center gap-1.5 text-dark" style="font-size: 0.82rem;">
+        <span>Đặt hàng ngay</span> <i class="bi bi-arrow-right"></i>
+      </a>
+      <button type="button" class="btn btn-outline-light btn-sm rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 28px; height: 28px;" onclick="closeFloatingQuickCart()" title="Ẩn tạm thời">
+        <i class="bi bi-x"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL: ADMIN CUSTOMER / VIP MEMBER EDITOR -->
+  <div class="modal fade" id="adminEditCustomerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-person-gear text-info fs-5"></i>
+            <h5 class="modal-title fw-bold m-0" id="adminEditCustomerModalTitle">Chỉnh Sửa Thông Tin Hội Viên</h5>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="adminEditCustomerForm" onsubmit="adminSaveCustomerEdit(event)">
+          <div class="modal-body p-4">
+            <input type="hidden" id="adminEditCustOrigEmail">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label small fw-bold">Họ và tên khách hàng <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="adminEditCustName" required placeholder="Họ và tên">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Email đăng nhập</label>
+                <input type="email" class="form-control bg-light text-muted" id="adminEditCustEmail" readonly>
+                <div class="form-text small" style="font-size: 0.72rem;">Email là mã định danh không thể thay đổi</div>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Số điện thoại <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" id="adminEditCustPhone" required placeholder="09xx xxx xxx">
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-bold">Địa chỉ giao hàng mặc định</label>
+                <input type="text" class="form-control" id="adminEditCustAddress" placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Hạng thẻ hội viên</label>
+                <select class="form-select" id="adminEditCustTier">
+                  <option value="THÀNH VIÊN MỚI">THÀNH VIÊN MỚI</option>
+                  <option value="SILVER">SILVER</option>
+                  <option value="VIP GOLD">VIP GOLD</option>
+                  <option value="VIP DIAMOND (KIM CƯƠNG)">VIP DIAMOND (KIM CƯƠNG)</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold">Điểm thưởng tích lũy (pts)</label>
+                <input type="number" class="form-control" id="adminEditCustPoints" min="0" step="10" placeholder="0">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer bg-light border-top px-4 py-3 d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy bỏ</button>
+            <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold">
+              <i class="bi bi-check-lg me-1"></i>Lưu thay đổi
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
