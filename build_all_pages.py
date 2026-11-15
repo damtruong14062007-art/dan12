@@ -697,7 +697,7 @@ def get_footer_and_modals():
 
   <!-- MODAL: WISHLIST (SẢN PHẨM YÊU THÍCH) -->
   <div class="modal fade" id="wishlistModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 640px;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 680px;">
       <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
         <div class="modal-header bg-light border-bottom px-4 py-3">
           <div class="d-flex align-items-center gap-2.5">
@@ -804,6 +804,70 @@ def get_footer_and_modals():
             <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy bỏ</button>
             <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold">
               <i class="bi bi-check-lg me-1"></i>Lưu thay đổi
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+    <!-- MODAL: ADMIN ADD NEW VIP CUSTOMER -->
+  <div class="modal fade" id="adminAddCustomerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3.5">
+          <div class="d-flex align-items-center gap-2.5">
+            <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center shadow-xs" style="width: 36px; height: 36px;">
+              <i class="bi bi-person-plus-fill fs-5"></i>
+            </div>
+            <div>
+              <h5 class="modal-title fw-bold m-0 font-serif" style="font-size: 1.1rem;">Thêm Hội Viên VIP Mới</h5>
+              <div class="text-white-50 small" style="font-size: 0.75rem;">Đăng ký hội viên đặc quyền tại quầy hoặc kích hoạt từ xa</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="adminAddCustomerForm" onsubmit="adminSaveNewCustomer(event)">
+          <div class="modal-body p-4">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label small fw-bold text-dark mb-1">Họ và tên khách hàng <span class="text-danger">*</span></label>
+                <input type="text" class="form-control form-control-luxury" id="adminAddCustName" required placeholder="Ví dụ: Hoàng Mai Linh">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold text-dark mb-1">Địa chỉ Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control form-control-luxury" id="adminAddCustEmail" required placeholder="mailinh@gmail.com">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold text-dark mb-1">Số điện thoại <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control form-control-luxury" id="adminAddCustPhone" required placeholder="0912 xxx xxx">
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-bold text-dark mb-1">Địa chỉ giao hàng</label>
+                <input type="text" class="form-control form-control-luxury" id="adminAddCustAddress" placeholder="Số nhà, tên đường, phường/xã, quận/huyện...">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold text-dark mb-1">Hạng thẻ ban đầu</label>
+                <select class="form-select form-control-luxury" id="adminAddCustTier">
+                  <option value="VIP GOLD" selected>VIP GOLD</option>
+                  <option value="VIP DIAMOND (KIM CƯƠNG)">VIP DIAMOND (KIM CƯƠNG)</option>
+                  <option value="SILVER">SILVER</option>
+                  <option value="THÀNH VIÊN MỚI">THÀNH VIÊN MỚI</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold text-dark mb-1">Điểm thưởng tặng ban đầu (pts)</label>
+                <input type="number" class="form-control form-control-luxury" id="adminAddCustPoints" value="500" min="0" step="50">
+              </div>
+            </div>
+            <div class="form-text small text-muted mt-2.5">
+              <i class="bi bi-shield-check text-success me-1"></i> Tài khoản sẽ tự động đồng bộ lên Cloud Supabase và tạo mật khẩu mặc định <code>123456</code>.
+            </div>
+          </div>
+          <div class="modal-footer bg-light border-top px-4 py-3 d-flex justify-content-end gap-2.5">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4 py-2 small" data-bs-dismiss="modal">Hủy bỏ</button>
+            <button type="submit" class="btn btn-warning text-dark rounded-pill px-4 py-2 fw-bold shadow-sm small">
+              <i class="bi bi-check2-circle me-1"></i> Lưu & Kích Hoạt Hội Viên
             </button>
           </div>
         </form>
@@ -4031,6 +4095,67 @@ def make_account_html():
               </span>
             </div>
 
+                        <!-- VIP PRIVILEGE JOURNEY & PROGRESS TRACKER -->
+            <div class="card border-0 rounded-4 p-4 text-white mb-4 position-relative overflow-hidden shadow-sm" style="background: linear-gradient(135deg, #18181b 0%, #27272a 50%, #09090b 100%);">
+              <div class="position-absolute top-0 end-0 p-3 opacity-10">
+                <i class="bi bi-gem display-1 text-warning"></i>
+              </div>
+              <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                <div class="d-flex align-items-center gap-2.5">
+                  <span class="badge bg-warning text-dark px-3 py-1.5 rounded-pill fw-bold" style="font-size: 0.78rem;">
+                    <i class="bi bi-stars me-1"></i> VELORA VIP PRIVILEGE
+                  </span>
+                  <span class="small text-white-50">Hạng thẻ hiện tại: <b class="text-warning font-serif" id="userTierCurrentDisplay">VIP GOLD</b></span>
+                </div>
+                <div class="small text-white-50">
+                  Điểm tích lũy: <b class="text-warning fs-6" id="userPointsCurrentDisplay">1.250</b> <span class="small text-white-50">/ 2.000 pts</span>
+                </div>
+              </div>
+
+              <!-- Animated Progress Bar -->
+              <div class="mb-2">
+                <div class="d-flex justify-content-between text-white-50 small mb-1.5" style="font-size: 0.75rem;">
+                  <span><i class="bi bi-award-fill text-warning me-1"></i> VIP Gold (1.000 pts)</span>
+                  <span class="text-warning fw-bold"><i class="bi bi-gem me-1"></i> VIP Diamond (2.000 pts)</span>
+                </div>
+                <div class="progress rounded-pill bg-dark border border-secondary" style="height: 10px;">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" id="userTierProgressBar" role="progressbar" style="width: 62.5%;" aria-valuenow="62.5" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div class="small text-white-50 mt-1.5 d-flex align-items-center gap-1.5" style="font-size: 0.76rem;">
+                  <i class="bi bi-info-circle-fill text-warning"></i>
+                  <span>Tích lũy thêm <b class="text-warning" id="userPointsNeededDisplay">750 pts</b> để thăng hạng <b>VIP Diamond</b> và mở khóa chiết khấu 15% trọn đời!</span>
+                </div>
+              </div>
+
+              <!-- 4 VIP Perks Pills -->
+              <div class="row g-2 mt-2 pt-2 border-top border-secondary border-opacity-25">
+                <div class="col-md-3 col-6">
+                  <div class="d-flex align-items-center gap-2 p-2 rounded-3 bg-white bg-opacity-5">
+                    <i class="bi bi-truck text-warning fs-5"></i>
+                    <span class="small" style="font-size: 0.74rem;">Freeship toàn quốc</span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-6">
+                  <div class="d-flex align-items-center gap-2 p-2 rounded-3 bg-white bg-opacity-5">
+                    <i class="bi bi-arrow-repeat text-warning fs-5"></i>
+                    <span class="small" style="font-size: 0.74rem;">Đổi trả 30 ngày</span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-6">
+                  <div class="d-flex align-items-center gap-2 p-2 rounded-3 bg-white bg-opacity-5">
+                    <i class="bi bi-gift text-warning fs-5"></i>
+                    <span class="small" style="font-size: 0.74rem;">Quà tặng sinh nhật</span>
+                  </div>
+                </div>
+                <div class="col-md-3 col-6">
+                  <div class="d-flex align-items-center gap-2 p-2 rounded-3 bg-white bg-opacity-5">
+                    <i class="bi bi-chat-heart text-warning fs-5"></i>
+                    <span class="small" style="font-size: 0.74rem;">Stylist 1:1 VIP</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Avatar Edit Section -->
             <div class="p-3 bg-light rounded-4 border mb-4 d-flex align-items-center justify-content-between flex-wrap gap-3">
               <div class="d-flex align-items-center gap-3">
@@ -4262,11 +4387,19 @@ def make_account_html():
             <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom flex-wrap gap-2">
               <div>
                 <h5 class="fw-bold font-serif m-0">Bộ Sưu Tập Yêu Thích Của Bạn</h5>
-                <div class="small text-muted">Các thiết kế thời trang bạn đã lưu lại để mua sắm sau</div>
+                <div class="small text-muted">Danh sách thiết kế thời trang thượng lưu bạn đã lưu lại để mua sắm</div>
               </div>
-              <a href="women.html" class="btn btn-sm btn-outline-dark rounded-pill px-3">
-                <i class="bi bi-bag-plus me-1"></i> Khám phá thêm sản phẩm
-              </a>
+              <div class="d-flex gap-2 align-items-center flex-wrap">
+                <button type="button" class="btn btn-sm btn-outline-secondary rounded-pill px-3 shadow-xs" onclick="shareWishlist()">
+                  <i class="bi bi-share me-1"></i> Chia sẻ danh sách
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-danger rounded-pill px-3 shadow-xs" onclick="clearAllWishlist()">
+                  <i class="bi bi-trash me-1"></i> Xóa tất cả
+                </button>
+                <button type="button" class="btn btn-sm btn-dark rounded-pill px-3.5 shadow-xs fw-semibold" onclick="addAllWishlistToCart()">
+                  <i class="bi bi-bag-check me-1"></i> Thêm tất cả vào giỏ
+                </button>
+              </div>
             </div>
             
             <div id="accountWishlistGrid" class="row g-3 g-md-4">
@@ -4490,59 +4623,141 @@ def make_account_html():
               </div>
             </div>
 
-            <!-- SUB-SECTION 3B: CUSTOMER & MEMBERS CRM -->
+            <!-- SUB-SECTION 3B: CUSTOMER & VIP MEMBERS CRM SUITE -->
             <div id="admSec-customers" class="admin-sub-section d-none">
-              <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+              <!-- Section Title & Top Actions -->
+              <div class="d-flex justify-content-between align-items-start align-items-md-center mb-4 flex-column flex-md-row gap-3">
                 <div>
-                  <h6 class="fw-bold font-serif m-0"><i class="bi bi-people-fill text-info me-2"></i>Quản Lý Danh Sách Khách Hàng & Hội Viên VIP</h6>
-                  <span class="small text-muted">Xem thông tin tài khoản đăng ký, điểm thưởng tích lũy và đặc quyền VIP</span>
+                  <div class="d-flex align-items-center gap-2 mb-1">
+                    <span class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 px-2.5 py-1 rounded-pill small fw-bold">
+                      <i class="bi bi-people-fill me-1"></i> VELORA VIP CRM SUITE
+                    </span>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2.5 py-1 rounded-pill small">
+                      <span class="security-badge-pulse me-1"></span> Live Cloud Sync
+                    </span>
+                  </div>
+                  <h5 class="fw-bold font-serif m-0 text-dark" style="font-size: 1.25rem;">Quản Lý Danh Sách Khách Hàng & Hội Viên VIP</h5>
+                  <span class="small text-muted">Kiểm soát toàn diện hồ sơ hội viên, điểm thưởng tích lũy, đặc quyền hạng thẻ và lịch sử mua sắm cao cấp</span>
                 </div>
                 <div class="d-flex gap-2 flex-wrap align-items-center">
-                  <span class="badge bg-light text-dark border px-3 py-2 rounded-pill">
-                    Tổng hội viên: <b class="text-primary" id="admStatTotalUsers">0</b>
-                  </span>
-                  <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold">
-                    Tổng điểm cấp: <b id="admStatTotalPoints">0</b> pts
-                  </span>
-                  <span class="badge bg-success text-white px-3 py-2 rounded-pill fw-bold">
-                    Tổng chi tiêu: <b id="admStatTotalSpent">0đ</b>
-                  </span>
-                  <button type="button" class="btn btn-outline-success btn-sm rounded-pill px-3 py-1.5 fw-semibold d-flex align-items-center gap-1.5 shadow-sm" onclick="adminExportCustomersCSV()" title="Xuất danh sách khách hàng ra file Excel / CSV">
-                    <i class="bi bi-file-earmark-spreadsheet-fill text-success"></i> Xuất CSV
+                  <button type="button" class="btn btn-warning text-dark btn-sm rounded-pill px-3.5 py-2 fw-bold shadow-xs d-flex align-items-center gap-1.5" onclick="adminOpenAddCustomerModal()">
+                    <i class="bi bi-person-plus-fill"></i> <span>+ Thêm Hội Viên VIP Mới</span>
+                  </button>
+                  <button type="button" class="btn btn-outline-success btn-sm rounded-pill px-3.5 py-2 fw-semibold d-flex align-items-center gap-1.5 shadow-xs" onclick="adminExportCustomersCSV()" title="Xuất dữ liệu khách hàng ra file Excel / CSV">
+                    <i class="bi bi-file-earmark-spreadsheet-fill text-success"></i> <span>Xuất CSV</span>
+                  </button>
+                  <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-2 shadow-xs" onclick="adminRenderCustomersTable()" title="Làm mới dữ liệu từ Cloud">
+                    <i class="bi bi-arrow-clockwise"></i>
                   </button>
                 </div>
               </div>
 
-              <!-- Customer Filter & Search Bar -->
-              <div class="card border rounded-3 p-3 bg-light mb-3 shadow-sm">
-                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
-                  <div class="d-flex align-items-center gap-1.5 flex-wrap">
-                    <button type="button" class="order-filter-pill active" onclick="adminFilterCustomers('all', this)">Tất cả</button>
-                    <button type="button" class="order-filter-pill" onclick="adminFilterCustomers('VIP', this)">Hội viên VIP</button>
-                    <button type="button" class="order-filter-pill" onclick="adminFilterCustomers('DIAMOND', this)">Kim Cương</button>
-                    <button type="button" class="order-filter-pill" onclick="adminFilterCustomers('GOLD', this)">Vàng (Gold)</button>
-                    <button type="button" class="order-filter-pill" onclick="adminFilterCustomers('MỚI', this)">Mới gia nhập</button>
+              <!-- 4 Luxury CRM Metric Cards -->
+              <div class="row g-3 mb-4">
+                <div class="col-xl-3 col-sm-6">
+                  <div class="card border rounded-4 p-3.5 bg-white shadow-xs h-100 position-relative overflow-hidden crm-kpi-card">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                      <span class="small text-muted fw-bold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.04em;">Tổng Hội Viên CRM</span>
+                      <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                        <i class="bi bi-people-fill fs-5"></i>
+                      </div>
+                    </div>
+                    <div class="h3 fw-bold font-serif text-dark m-0" id="admStatTotalUsers">0</div>
+                    <div class="d-flex align-items-center gap-1.5 mt-2 small text-muted" style="font-size: 0.75rem;">
+                      <span class="badge bg-primary bg-opacity-10 text-primary px-2 py-0.5 rounded-pill"><i class="bi bi-database-check me-1"></i>Realtime</span>
+                      <span>Đang hoạt động trên hệ thống</span>
+                    </div>
                   </div>
-                  <div class="input-group input-group-sm" style="max-width: 260px;">
-                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
-                    <input type="text" class="form-control bg-white border-start-0" id="admCustomerSearchInput" placeholder="Tìm theo tên, email, SĐT..." onkeyup="adminSearchCustomers(this.value)">
+                </div>
+
+                <div class="col-xl-3 col-sm-6">
+                  <div class="card border rounded-4 p-3.5 bg-white shadow-xs h-100 position-relative overflow-hidden crm-kpi-card">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                      <span class="small text-muted fw-bold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.04em;">Hội Viên Hạng VIP</span>
+                      <div class="rounded-circle bg-warning bg-opacity-20 text-warning d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                        <i class="bi bi-gem fs-5"></i>
+                      </div>
+                    </div>
+                    <div class="h3 fw-bold font-serif text-warning m-0" id="admStatVipUsers">0</div>
+                    <div class="d-flex align-items-center gap-1.5 mt-2 small text-muted" style="font-size: 0.75rem;">
+                      <span class="badge bg-warning bg-opacity-15 text-dark px-2 py-0.5 rounded-pill"><i class="bi bi-stars me-1"></i>Gold & Diamond</span>
+                      <span>Khách hàng thân thiết</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-3 col-sm-6">
+                  <div class="card border rounded-4 p-3.5 bg-white shadow-xs h-100 position-relative overflow-hidden crm-kpi-card">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                      <span class="small text-muted fw-bold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.04em;">Điểm Thưởng Lưu Hành</span>
+                      <div class="rounded-circle bg-info bg-opacity-10 text-info d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                        <i class="bi bi-award-fill fs-5"></i>
+                      </div>
+                    </div>
+                    <div class="h3 fw-bold font-serif text-dark m-0"><span id="admStatTotalPoints">0</span> <span class="fs-6 fw-normal text-muted">pts</span></div>
+                    <div class="d-flex align-items-center gap-1.5 mt-2 small text-muted" style="font-size: 0.75rem;">
+                      <span class="badge bg-info bg-opacity-10 text-info px-2 py-0.5 rounded-pill"><i class="bi bi-gift-fill me-1"></i>Quy đổi</span>
+                      <span>Sẵn sàng đổi voucher giảm giá</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-3 col-sm-6">
+                  <div class="card border rounded-4 p-3.5 bg-white shadow-xs h-100 position-relative overflow-hidden crm-kpi-card">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                      <span class="small text-muted fw-bold text-uppercase" style="font-size: 0.72rem; letter-spacing: 0.04em;">Doanh Thu Từ Hội Viên</span>
+                      <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center" style="width: 38px; height: 38px;">
+                        <i class="bi bi-wallet2 fs-5"></i>
+                      </div>
+                    </div>
+                    <div class="h3 fw-bold font-serif text-success m-0" id="admStatTotalSpent">0đ</div>
+                    <div class="d-flex align-items-center gap-1.5 mt-2 small text-muted" style="font-size: 0.75rem;">
+                      <span class="badge bg-success bg-opacity-10 text-success px-2 py-0.5 rounded-pill"><i class="bi bi-check-circle-fill me-1"></i>Đã thanh toán</span>
+                      <span>Tổng giá trị đơn hoàn tất</span>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <!-- Customer Table -->
-              <div class="table-responsive bg-white rounded-4 border shadow-sm">
+              <!-- Customer Filter, Search & Segment Bar -->
+              <div class="card border rounded-4 p-3 bg-white mb-3 shadow-xs">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2.5">
+                  <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <button type="button" class="order-filter-pill active" onclick="adminFilterCustomers('all', this)">
+                      Tất cả (<span id="custFilterCountAll">0</span>)
+                    </button>
+                    <button type="button" class="order-filter-pill" onclick="adminFilterCustomers('DIAMOND', this)">
+                      <i class="bi bi-gem text-danger me-1"></i> Kim Cương (<span id="custFilterCountDiamond">0</span>)
+                    </button>
+                    <button type="button" class="order-filter-pill" onclick="adminFilterCustomers('GOLD', this)">
+                      <i class="bi bi-award-fill text-warning me-1"></i> VIP Gold (<span id="custFilterCountGold">0</span>)
+                    </button>
+                    <button type="button" class="order-filter-pill" onclick="adminFilterCustomers('SILVER', this)">
+                      Silver (<span id="custFilterCountSilver">0</span>)
+                    </button>
+                    <button type="button" class="order-filter-pill" onclick="adminFilterCustomers('MỚI', this)">
+                      Mới gia nhập (<span id="custFilterCountNew">0</span>)
+                    </button>
+                  </div>
+                  <div class="input-group input-group-sm" style="max-width: 280px;">
+                    <span class="input-group-text bg-light border-end-0 px-2.5"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" class="form-control bg-light border-start-0 py-2" id="admCustomerSearchInput" placeholder="Tìm tên, email, SĐT..." onkeyup="adminSearchCustomers(this.value)">
+                  </div>
+                </div>
+              </div>
+
+              <!-- Customer Table with Luxury Polish -->
+              <div class="table-responsive bg-white rounded-4 border shadow-xs overflow-hidden">
                 <table class="table table-hover align-middle mb-0">
-                  <thead class="table-dark small text-uppercase">
+                  <thead style="background: #18181b; color: #f4f4f5;" class="small text-uppercase">
                     <tr>
-                      <th class="ps-3 py-3">Hội viên</th>
-                      <th>Email / Đăng nhập</th>
-                      <th>Số điện thoại</th>
-                      <th>Hạng thẻ</th>
-                      <th>Điểm thưởng</th>
-                      <th>Lịch sử đơn</th>
-                      <th>Tổng chi tiêu</th>
-                      <th class="text-end pe-3">Hành động</th>
+                      <th class="ps-4 py-3 text-white-50" style="font-size: 0.72rem; letter-spacing: 0.05em;">Hội Viên VIP</th>
+                      <th class="text-white-50" style="font-size: 0.72rem; letter-spacing: 0.05em;">Thông Tin Liên Hệ</th>
+                      <th class="text-white-50" style="font-size: 0.72rem; letter-spacing: 0.05em;">Hạng Thẻ & Đặc Quyền</th>
+                      <th class="text-white-50" style="font-size: 0.72rem; letter-spacing: 0.05em;">Điểm Thưởng</th>
+                      <th class="text-white-50" style="font-size: 0.72rem; letter-spacing: 0.05em;">Lịch Sử Đơn Hàng</th>
+                      <th class="text-white-50" style="font-size: 0.72rem; letter-spacing: 0.05em;">Trạng Thái</th>
+                      <th class="text-end pe-4 text-white-50" style="font-size: 0.72rem; letter-spacing: 0.05em;">Thao Tác Quản Trị</th>
                     </tr>
                   </thead>
                   <tbody id="adminCustomersBody">

@@ -3619,3 +3619,74 @@ img, svg, video, canvas, audio, iframe, embed, object {
   border-color: #111113 !important;
   box-shadow: 0 0 0 4px rgba(17, 17, 19, 0.08) !important;
 }
+
+/* ===================================================================
+   FRACTIONAL GAP UTILITIES & LUXURY CRM / WISHLIST SEPARATION
+   =================================================================== */
+.gap-1\.5 { gap: 0.375rem !important; }
+.gap-2\.5 { gap: 0.75rem !important; }
+.gap-3\.5 { gap: 1.15rem !important; }
+
+/* Heart button luxury styling in modal */
+.wishlist-heart-btn-modal {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  border-radius: 50% !important;
+  background: #fff1f2 !important;
+  border: 1.5px solid #fecdd3 !important;
+  color: #e11d48 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  flex-shrink: 0 !important;
+  cursor: pointer !important;
+}
+
+.wishlist-heart-btn-modal:hover {
+  transform: scale(1.08) !important;
+  background: #ffe4e6 !important;
+  border-color: #fb7185 !important;
+  color: #be123c !important;
+  box-shadow: 0 4px 14px rgba(225, 29, 72, 0.18) !important;
+}
+
+/* CRM VIP Member Cards & Badges */
+.crm-kpi-card {
+  transition: all 0.22s ease !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.crm-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+}
+
+.customer-avatar-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.customer-online-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 2px solid #ffffff;
+}
+
+.customer-locked-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 2px solid #ffffff;
+}

@@ -2115,7 +2115,7 @@ function renderWishlistModalContent() {
   if (!wishlist || wishlist.length === 0) {
     body.innerHTML = `
       <div class="text-center py-5 text-muted">
-        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10 text-danger mb-3" style="width: 68px; height: 68px;">
+        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10 text-danger mb-3" style="width: 72px; height: 72px;">
           <i class="bi bi-heart fs-2"></i>
         </div>
         <h5 class="fw-bold font-serif text-dark mb-1">Danh sách yêu thích đang trống</h5>
@@ -2125,33 +2125,33 @@ function renderWishlistModalContent() {
   } else {
     const items = PRODUCTS.filter(p => wishlist.includes(p.id));
     body.innerHTML = `
-      <div class="d-flex flex-column gap-3.5">
+      <div class="d-flex flex-column" style="gap: 16px;">
         ${items.map(p => `
           <div class="wishlist-item-card d-flex align-items-center justify-content-between p-3.5 p-sm-4 border rounded-4 bg-white shadow-xs">
-            <div class="d-flex align-items-center gap-3.5" style="min-width: 0;">
-              <div class="position-relative overflow-hidden rounded-3 border" style="width: 72px; height: 96px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+            <div class="d-flex align-items-center" style="min-width: 0; gap: 20px;">
+              <div class="position-relative overflow-hidden rounded-3 border flex-shrink-0" style="width: 78px; height: 104px; min-width: 78px; box-shadow: 0 4px 14px rgba(0,0,0,0.06);">
                 <img src="${p.image}" alt="${p.name}" class="w-100 h-100" style="object-fit: cover;">
-                ${p.discount ? `<span class="badge bg-danger position-absolute top-0 start-0 m-1" style="font-size: 0.6rem;">-${p.discount}%</span>` : ''}
+                ${p.discount ? `<span class="badge bg-danger position-absolute top-0 start-0 m-1.5 rounded-pill px-2 py-0.5 fw-bold" style="font-size: 0.65rem;">-${p.discount}%</span>` : ''}
               </div>
-              <div class="d-flex flex-column justify-content-center" style="min-width: 0;">
-                <span class="badge bg-light text-muted border align-self-start mb-1.5" style="font-size: 0.68rem; letter-spacing: 0.05em; font-weight: 600;">
+              <div class="d-flex flex-column justify-content-center" style="min-width: 0; padding-left: 2px;">
+                <span class="badge bg-light text-muted border align-self-start mb-2 px-2.5 py-1 rounded-pill" style="font-size: 0.68rem; letter-spacing: 0.05em; font-weight: 600;">
                   ${(p.category || 'THỜI TRANG').toUpperCase()}
                 </span>
-                <h6 class="m-0 font-serif fw-bold text-dark text-truncate" title="${p.name}" style="font-size: 0.96rem; line-height: 1.35;">
+                <h6 class="m-0 font-serif fw-bold text-dark text-truncate" title="${p.name}" style="font-size: 1rem; line-height: 1.4;">
                   ${p.name}
                 </h6>
-                <div class="d-flex align-items-baseline gap-2 mt-1.5">
-                  <span class="text-danger fw-bold" style="font-size: 0.98rem;">${formatCurrency(p.price)}</span>
-                  ${p.oldPrice ? `<span class="text-muted text-decoration-line-through small" style="font-size: 0.78rem;">${formatCurrency(p.oldPrice)}</span>` : ''}
+                <div class="d-flex align-items-baseline gap-2 mt-2">
+                  <span class="text-danger fw-bold" style="font-size: 1.05rem;">${formatCurrency(p.price)}</span>
+                  ${p.oldPrice ? `<span class="text-muted text-decoration-line-through small" style="font-size: 0.8rem;">${formatCurrency(p.oldPrice)}</span>` : ''}
                 </div>
               </div>
             </div>
-            <div class="d-flex align-items-center gap-2.5 flex-shrink-0 ms-3">
-              <button class="btn btn-sm btn-dark rounded-pill px-3.5 py-2 fw-semibold d-flex align-items-center gap-1.5 shadow-xs" onclick="addToCart('${p.id}');">
+            <div class="d-flex align-items-center flex-shrink-0 ms-3 ms-sm-4 ps-2 border-start-0 border-sm-start border-light-subtle" style="gap: 18px;">
+              <button class="btn btn-dark rounded-pill px-3.5 px-sm-4 py-2.5 fw-semibold d-flex align-items-center gap-2 shadow-xs" onclick="addToCart('${p.id}');">
                 <i class="bi bi-bag-plus"></i> <span class="d-none d-sm-inline">Thêm giỏ</span>
               </button>
-              <button class="btn btn-sm btn-outline-danger rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; min-width: 38px; min-height: 38px; flex-shrink: 0;" onclick="removeFromWishlistInsideModal('${p.id}')" title="Bỏ yêu thích">
-                <i class="bi bi-heart-fill text-danger" style="font-size: 1rem; pointer-events: none;"></i>
+              <button class="wishlist-heart-btn-modal" onclick="removeFromWishlistInsideModal('${p.id}')" title="Bỏ khỏi yêu thích">
+                <i class="bi bi-heart-fill fs-6" style="pointer-events: none;"></i>
               </button>
             </div>
           </div>
@@ -6425,11 +6425,11 @@ function adminRenderCustomersTable() {
   const regUsers = getRegisteredUsers();
   const custProf = getCustomerProfile();
 
-  // Deduplicated unified list
+  // Deduplicated unified CRM list
   const seenEmails = new Set();
   const allUsers = [];
 
-  // Primary customer
+  // 1. Primary customer profile
   const primaryEmail = (custProf.email || 'minhanh.velora@gmail.com').toLowerCase().trim();
   const pStats = getCustomerOrdersData(custProf.email, custProf.name, custProf.phone);
   allUsers.push({
@@ -6443,11 +6443,12 @@ function adminRenderCustomersTable() {
     avatar: custProf.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
     ordersCount: pStats.ordersCount,
     totalSpent: pStats.totalSpent,
-    isPrimary: true
+    isPrimary: true,
+    isLocked: !!custProf.isLocked
   });
   seenEmails.add(primaryEmail);
 
-  // Registered customers
+  // 2. Registered customers
   regUsers.forEach(u => {
     if (u && u.email) {
       const em = u.email.toLowerCase().trim();
@@ -6465,46 +6466,50 @@ function adminRenderCustomersTable() {
           avatar: u.avatar || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80',
           ordersCount: uStats.ordersCount,
           totalSpent: uStats.totalSpent,
-          isPrimary: false
+          isPrimary: false,
+          isLocked: !!u.isLocked
         });
       }
     }
   });
 
-  // Default seed members if list is small
+  // 3. Default high-fashion seed VIP members if needed
   const defaultSeeds = [
     {
-      id: 'usr-cust-2',
+      id: 'CUST-VIP-02',
       name: 'Nguyễn Thị Lan Hương',
       email: 'lanhuong@gmail.com',
       phone: '0912 345 678',
       address: '45 Lê Duẩn, Quận 1, TP. HCM',
       membershipTier: 'VIP GOLD',
-      points: 850,
+      points: 1450,
       avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80',
-      isPrimary: false
+      isPrimary: false,
+      isLocked: false
     },
     {
-      id: 'usr-cust-3',
+      id: 'CUST-VIP-03',
       name: 'Trần Tuấn Anh',
       email: 'tran.tuan@gmail.com',
       phone: '0903 888 999',
       address: '72 Trần Hưng Đạo, Hoàn Kiếm, Hà Nội',
       membershipTier: 'SILVER',
-      points: 420,
+      points: 620,
       avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80',
-      isPrimary: false
+      isPrimary: false,
+      isLocked: false
     },
     {
-      id: 'usr-cust-4',
+      id: 'CUST-VIP-04',
       name: 'Võ Hoàng Yến',
       email: 'hoang.yen@gmail.com',
       phone: '0938 111 222',
       address: '88 Nguyễn Huệ, Quận 1, TP. HCM',
       membershipTier: 'VIP DIAMOND (KIM CƯƠNG)',
-      points: 3200,
+      points: 3800,
       avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
-      isPrimary: false
+      isPrimary: false,
+      isLocked: false
     }
   ];
 
@@ -6518,6 +6523,37 @@ function adminRenderCustomersTable() {
       allUsers.push(seed);
     }
   });
+
+  // Calculate & Update CRM KPI Badges
+  const countNavEl = document.getElementById('admNavCustCount');
+  if (countNavEl) countNavEl.textContent = allUsers.length;
+
+  const totalUsersEl = document.getElementById('admStatTotalUsers');
+  if (totalUsersEl) totalUsersEl.textContent = allUsers.length;
+
+  const vipUsersCount = allUsers.filter(u => (u.membershipTier || '').includes('VIP') || (u.membershipTier || '').includes('GOLD') || (u.membershipTier || '').includes('DIAMOND')).length;
+  const vipUsersEl = document.getElementById('admStatVipUsers');
+  if (vipUsersEl) vipUsersEl.textContent = vipUsersCount;
+
+  const totalPoints = allUsers.reduce((sum, u) => sum + Number(u.points || 0), 0);
+  const totalPointsEl = document.getElementById('admStatTotalPoints');
+  if (totalPointsEl) totalPointsEl.textContent = totalPoints.toLocaleString('vi-VN');
+
+  const totalSpentAll = allUsers.reduce((sum, u) => sum + Number(u.totalSpent || 0), 0);
+  const totalSpentEl = document.getElementById('admStatTotalSpent');
+  if (totalSpentEl) totalSpentEl.textContent = formatCurrency(totalSpentAll);
+
+  // Filter Counts
+  const countAll = document.getElementById('custFilterCountAll');
+  if (countAll) countAll.textContent = allUsers.length;
+  const countDia = document.getElementById('custFilterCountDiamond');
+  if (countDia) countDia.textContent = allUsers.filter(u => (u.membershipTier || '').includes('DIAMOND')).length;
+  const countGold = document.getElementById('custFilterCountGold');
+  if (countGold) countGold.textContent = allUsers.filter(u => (u.membershipTier || '').includes('GOLD')).length;
+  const countSilv = document.getElementById('custFilterCountSilver');
+  if (countSilv) countSilv.textContent = allUsers.filter(u => (u.membershipTier || '').includes('SILVER')).length;
+  const countNew = document.getElementById('custFilterCountNew');
+  if (countNew) countNew.textContent = allUsers.filter(u => (u.membershipTier || '').includes('MỚI')).length;
 
   // Filter & Search
   let filtered = allUsers;
@@ -6533,63 +6569,110 @@ function adminRenderCustomersTable() {
     });
   }
 
-  // Update Summary Stats Badges
-  const countEl = document.getElementById('admNavCustCount');
-  if (countEl) countEl.textContent = allUsers.length;
-  const totalUsersEl = document.getElementById('admStatTotalUsers');
-  if (totalUsersEl) totalUsersEl.textContent = allUsers.length;
-
-  const totalPoints = allUsers.reduce((sum, u) => sum + Number(u.points || 0), 0);
-  const totalPointsEl = document.getElementById('admStatTotalPoints');
-  if (totalPointsEl) totalPointsEl.textContent = totalPoints.toLocaleString('vi-VN');
-
-  const totalSpentAll = allUsers.reduce((sum, u) => sum + Number(u.totalSpent || 0), 0);
-  const totalSpentEl = document.getElementById('admStatTotalSpent');
-  if (totalSpentEl) totalSpentEl.textContent = formatCurrency(totalSpentAll);
-
   if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="8" class="text-center py-4 text-muted"><i class="bi bi-search me-1"></i>Không tìm thấy khách hàng nào phù hợp với bộ lọc hiện tại</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" class="text-center py-5 text-muted"><i class="bi bi-search me-1 fs-4 d-block mb-2"></i>Không tìm thấy hội viên nào phù hợp với bộ lọc hiện tại</td></tr>`;
     return;
   }
 
-  // Render 8 exact columns matching table thead
   tbody.innerHTML = filtered.map(u => {
     const tier = u.membershipTier || 'THÀNH VIÊN MỚI';
-    const tierBadgeClass = tier.includes('DIAMOND') ? 'bg-danger' : (tier.includes('GOLD') ? 'bg-warning text-dark' : 'bg-dark');
+    let tierBadgeHtml = '';
+    if (tier.includes('DIAMOND')) {
+      tierBadgeHtml = `<span class="badge bg-danger text-white rounded-pill px-3 py-1.5 fw-bold shadow-xs"><i class="bi bi-gem text-warning me-1"></i>VIP DIAMOND</span>`;
+    } else if (tier.includes('GOLD')) {
+      tierBadgeHtml = `<span class="badge bg-warning text-dark rounded-pill px-3 py-1.5 fw-bold shadow-xs"><i class="bi bi-award-fill me-1"></i>VIP GOLD</span>`;
+    } else if (tier.includes('SILVER')) {
+      tierBadgeHtml = `<span class="badge bg-secondary text-white rounded-pill px-3 py-1.5 fw-semibold">SILVER MEMBER</span>`;
+    } else {
+      tierBadgeHtml = `<span class="badge bg-light text-dark border rounded-pill px-3 py-1.5">MỚI GIA NHẬP</span>`;
+    }
+
+    const nextTierGoal = tier.includes('DIAMOND') ? 5000 : 2000;
+    const progressPercent = Math.min(100, Math.round(((u.points || 0) / nextTierGoal) * 100));
 
     return `
       <tr>
-        <td class="ps-3 py-3">
-          <div class="d-flex align-items-center gap-2">
-            <img src="${u.avatar || 'logo_crop.png'}" class="rounded-circle border shadow-sm" style="width: 40px; height: 40px; object-fit: cover;">
+        <!-- 1. Hội Viên VIP -->
+        <td class="ps-4 py-3.5">
+          <div class="d-flex align-items-center gap-3">
+            <div class="customer-avatar-wrap flex-shrink-0">
+              <img src="${u.avatar || 'logo_crop.png'}" class="rounded-circle border shadow-xs" style="width: 44px; height: 44px; object-fit: cover;">
+              <span class="${u.isLocked ? 'customer-locked-dot' : 'customer-online-dot'}" title="${u.isLocked ? 'Tài khoản đang bị khóa' : 'Đang hoạt động online'}"></span>
+            </div>
             <div>
-              <div class="fw-bold text-dark">${u.name}</div>
-              <div class="small text-muted" style="font-size: 0.72rem;">
-                ${u.isPrimary ? '<span class="badge bg-secondary">Tài khoản chính</span>' : '<span class="badge bg-primary">Đã đăng ký</span>'}
+              <div class="fw-bold font-serif text-dark fs-6">${u.name}</div>
+              <div class="d-flex align-items-center gap-1.5 mt-0.5">
+                <span class="badge bg-light text-muted border font-monospace" style="font-size: 0.68rem;">${u.id}</span>
+                ${u.isPrimary ? '<span class="badge bg-dark rounded-pill" style="font-size: 0.65rem;">Tài khoản chính</span>' : '<span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill" style="font-size: 0.65rem;">Đã đăng ký</span>'}
               </div>
             </div>
           </div>
         </td>
-        <td><code>${u.email}</code></td>
-        <td><i class="bi bi-telephone text-muted me-1"></i>${u.phone || '-'}</td>
-        <td><span class="badge ${tierBadgeClass} px-2.5 py-1 rounded-pill">${tier}</span></td>
-        <td><b class="text-warning">${Number(u.points || 0).toLocaleString('vi-VN')}</b> pts</td>
-        <td><span class="badge bg-light text-dark border">${u.ordersCount || 0} đơn</span></td>
-        <td><b class="text-success">${formatCurrency(u.totalSpent || 0)}</b></td>
-        <td class="text-end pe-3">
-          <div class="btn-group btn-group-sm">
-            <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-2 py-0" style="font-size: 0.72rem;" onclick="adminAwardPoints('${u.email}', 500)" title="Cộng 500 điểm thưởng">
+
+        <!-- 2. Thông Tin Liên Hệ -->
+        <td>
+          <div>
+            <a href="javascript:void(0)" class="text-decoration-none text-dark fw-semibold small d-inline-flex align-items-center gap-1" onclick="copyCustomerEmail('${u.email}')" title="Sao chép email">
+              <code>${u.email}</code> <i class="bi bi-copy text-muted" style="font-size: 0.72rem;"></i>
+            </a>
+          </div>
+          <div class="mt-1">
+            <a href="tel:${(u.phone || '').replace(/\D/g, '')}" class="text-decoration-none small text-muted d-inline-flex align-items-center gap-1">
+              <i class="bi bi-telephone-fill text-primary" style="font-size: 0.75rem;"></i> ${u.phone || 'Chưa cập nhật'}
+            </a>
+          </div>
+        </td>
+
+        <!-- 3. Hạng Thẻ & Đặc Quyền -->
+        <td>
+          ${tierBadgeHtml}
+        </td>
+
+        <!-- 4. Điểm Thưởng & Tiến Độ -->
+        <td>
+          <div class="d-flex align-items-baseline gap-1">
+            <b class="text-warning fs-6">${Number(u.points || 0).toLocaleString('vi-VN')}</b>
+            <span class="small text-muted">pts</span>
+          </div>
+          <div class="progress rounded-pill bg-light border mt-1" style="height: 5px; width: 90px;" title="Tiến độ thăng hạng: ${progressPercent}%">
+            <div class="progress-bar bg-warning" style="width: ${progressPercent}%;"></div>
+          </div>
+        </td>
+
+        <!-- 5. Lịch Sử Đơn Hàng -->
+        <td>
+          <div><span class="badge bg-light text-dark border px-2.5 py-1 fw-bold">${u.ordersCount || 0} đơn hàng</span></div>
+          <b class="text-success small d-block mt-1">${formatCurrency(u.totalSpent || 0)}</b>
+        </td>
+
+        <!-- 6. Trạng Thái -->
+        <td>
+          <span class="badge ${u.isLocked ? 'bg-danger bg-opacity-10 text-danger border border-danger' : 'bg-success bg-opacity-10 text-success border border-success'} rounded-pill px-2.5 py-1 small">
+            <i class="bi ${u.isLocked ? 'bi-lock-fill' : 'bi-check-circle-fill'} me-1"></i>${u.isLocked ? 'Tạm khóa' : 'Hoạt động'}
+          </span>
+        </td>
+
+        <!-- 7. Thao Tác Quản Trị -->
+        <td class="text-end pe-4">
+          <div class="d-flex align-items-center justify-content-end gap-1.5 flex-wrap">
+            <button type="button" class="btn btn-outline-warning text-dark btn-sm rounded-pill px-2.5 py-1 shadow-xs fw-semibold" style="font-size: 0.75rem;" onclick="adminAwardPoints('${u.email}', 500)" title="Tặng ngay 500 điểm thưởng">
               <i class="bi bi-gift-fill text-warning me-1"></i>+500đ
             </button>
-            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-2 py-0 ms-1" style="font-size: 0.72rem;" onclick="adminOpenEditCustomer('${u.email}')" title="Chỉnh sửa thông tin hội viên">
-              <i class="bi bi-pencil-square me-1"></i>Sửa
+            <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-2.5 py-1 shadow-xs" style="font-size: 0.75rem;" onclick="adminUpgradeUserTier('${u.email}')" title="Thăng hạng VIP Diamond">
+              <i class="bi bi-gem text-danger me-1"></i>VIP
             </button>
-            <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-2 py-0 ms-1" style="font-size: 0.72rem;" onclick="adminViewCustomerOrders('${u.email}', '${u.name}')" title="Xem đơn hàng của khách">
-              <i class="bi bi-receipt me-1"></i>Xem đơn
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-2.5 py-1 shadow-xs" style="font-size: 0.75rem;" onclick="adminOpenEditCustomer('${u.email}')" title="Chỉnh sửa thông tin">
+              <i class="bi bi-pencil-square"></i>
             </button>
-            ${!u.isPrimary && !u.email.toLowerCase().includes('admin') ? `
-            <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-2 py-0 ms-1" style="font-size: 0.72rem;" onclick="adminDeleteCustomer('${u.email}')" title="Xóa hội viên khỏi hệ thống">
-              <i class="bi bi-trash-fill me-1"></i>Xóa
+            <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-2.5 py-1 shadow-xs" style="font-size: 0.75rem;" onclick="adminViewCustomerOrders('${u.email}', '${u.name}')" title="Xem đơn hàng">
+              <i class="bi bi-receipt"></i>
+            </button>
+            ${!u.isPrimary ? `
+            <button type="button" class="btn btn-outline-${u.isLocked ? 'success' : 'warning'} btn-sm rounded-pill px-2.5 py-1 shadow-xs" style="font-size: 0.75rem;" onclick="adminToggleCustomerLock('${u.email}')" title="${u.isLocked ? 'Mở khóa tài khoản' : 'Tạm khóa tài khoản'}">
+              <i class="bi bi-${u.isLocked ? 'unlock-fill' : 'lock-fill'}"></i>
+            </button>
+            <button type="button" class="btn btn-outline-danger btn-sm rounded-pill px-2.5 py-1 shadow-xs" style="font-size: 0.75rem;" onclick="adminDeleteCustomer('${u.email}')" title="Xóa hội viên">
+              <i class="bi bi-trash-fill"></i>
             </button>
             ` : ''}
           </div>
@@ -7990,3 +8073,149 @@ function toggleSupabaseKeyVisibility() {
 window.copySupabaseProjectId = copySupabaseProjectId;
 window.copySupabaseEndpoint = copySupabaseEndpoint;
 window.toggleSupabaseKeyVisibility = toggleSupabaseKeyVisibility;
+
+// --- NEW CRM & CUSTOMER PRIVILEGE ENHANCEMENTS ---
+function adminOpenAddCustomerModal() {
+  const modalEl = document.getElementById('adminAddCustomerModal');
+  if (!modalEl) return;
+  document.getElementById('adminAddCustomerForm')?.reset();
+  const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+  modal.show();
+}
+
+async function adminSaveNewCustomer(e) {
+  if (e) e.preventDefault();
+  const name = document.getElementById('adminAddCustName')?.value.trim();
+  const email = document.getElementById('adminAddCustEmail')?.value.trim().toLowerCase();
+  const phone = document.getElementById('adminAddCustPhone')?.value.trim();
+  const address = document.getElementById('adminAddCustAddress')?.value.trim() || 'Showroom Velora Flagship';
+  const tier = document.getElementById('adminAddCustTier')?.value || 'VIP GOLD';
+  const points = parseInt(document.getElementById('adminAddCustPoints')?.value, 10) || 500;
+
+  if (!email || !name) {
+    showToast('Vui lòng nhập đầy đủ họ tên và email hội viên!', 'warning');
+    return;
+  }
+
+  const users = getRegisteredUsers();
+  if (users.some(u => u.email && u.email.toLowerCase() === email)) {
+    showToast('Email này đã tồn tại trên hệ thống hội viên!', 'warning');
+    return;
+  }
+
+  const newCust = {
+    id: `CUST-VIP-${Math.floor(100 + Math.random()*900)}`,
+    name,
+    email,
+    phone,
+    address,
+    password: 'admin' + Math.floor(100 + Math.random()*900),
+    membershipTier: tier,
+    points,
+    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80',
+    createdAt: new Date().toISOString(),
+    isLocked: false
+  };
+
+  users.push(newCust);
+  saveRegisteredUsers(users);
+
+  // Sync to Supabase Cloud
+  try {
+    const sb = getSupabaseClient();
+    if (sb) {
+      await sb.from('users').insert({
+        id: newCust.id,
+        name: newCust.name,
+        email: newCust.email,
+        phone: newCust.phone,
+        address: newCust.address,
+        password: newCust.password,
+        role: 'customer'
+      });
+    }
+  } catch (err) {
+    console.warn('Supabase add customer sync:', err);
+  }
+
+  const modalEl = document.getElementById('adminAddCustomerModal');
+  if (modalEl) {
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+  }
+
+  adminRenderCustomersTable();
+  showToast(`Đã thêm thành công Hội viên VIP <b>${name}</b> (${tier}) vào hệ thống!`, 'success');
+}
+
+function adminToggleCustomerLock(email) {
+  const emailNorm = (email || '').toLowerCase().trim();
+  const users = getRegisteredUsers();
+  const u = users.find(x => (x.email || '').toLowerCase().trim() === emailNorm);
+  if (u) {
+    u.isLocked = !u.isLocked;
+    saveRegisteredUsers(users);
+    adminRenderCustomersTable();
+    showToast(`Đã ${u.isLocked ? 'khóa tạm thời' : 'mở khóa hoạt động cho'} tài khoản <b>${email}</b>!`, u.isLocked ? 'warning' : 'success');
+  }
+}
+
+function copyCustomerEmail(email) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(email).then(() => {
+      showToast(`Đã sao chép địa chỉ email: <b>${email}</b>`, 'success');
+    }).catch(() => {
+      showToast(`Email: <b>${email}</b>`, 'info');
+    });
+  } else {
+    showToast(`Email: <b>${email}</b>`, 'info');
+  }
+}
+
+function shareWishlist() {
+  const currentWishlist = getWishlist();
+  if (!currentWishlist || currentWishlist.length === 0) {
+    showToast('Danh sách yêu thích đang trống, hãy lưu vài trang phục trước khi chia sẻ nhé!', 'info');
+    return;
+  }
+  const shareUrl = window.location.origin + window.location.pathname.replace(/[^/]*$/, '') + 'account.html?tab=wishlist';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(shareUrl).then(() => {
+      showToast('Đã sao chép liên kết Bộ sưu tập Yêu thích! Bạn có thể gửi cho bạn bè để cùng ngắm.', 'success');
+    }).catch(() => {
+      showToast(`Liên kết yêu thích: ${shareUrl}`, 'info');
+    });
+  } else {
+    showToast(`Liên kết yêu thích: ${shareUrl}`, 'info');
+  }
+}
+
+function updateUserTierProgressUI() {
+  const pts = Number(currentUser.points || 1250);
+  const tier = currentUser.membershipTier || 'VIP GOLD';
+  
+  const tierEl = document.getElementById('userTierCurrentDisplay');
+  if (tierEl) tierEl.textContent = tier;
+
+  const ptsEl = document.getElementById('userPointsCurrentDisplay');
+  if (ptsEl) ptsEl.textContent = pts.toLocaleString('vi-VN');
+
+  const goal = 2000;
+  const needed = Math.max(0, goal - pts);
+  const neededEl = document.getElementById('userPointsNeededDisplay');
+  if (neededEl) neededEl.textContent = needed.toLocaleString('vi-VN') + ' pts';
+
+  const bar = document.getElementById('userTierProgressBar');
+  if (bar) {
+    const pct = Math.min(100, Math.round((pts / goal) * 100));
+    bar.style.width = pct + '%';
+    bar.setAttribute('aria-valuenow', pct);
+  }
+}
+
+window.adminOpenAddCustomerModal = adminOpenAddCustomerModal;
+window.adminSaveNewCustomer = adminSaveNewCustomer;
+window.adminToggleCustomerLock = adminToggleCustomerLock;
+window.copyCustomerEmail = copyCustomerEmail;
+window.shareWishlist = shareWishlist;
+window.updateUserTierProgressUI = updateUserTierProgressUI;

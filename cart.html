@@ -807,7 +807,7 @@
 
   <!-- MODAL: WISHLIST (SẢN PHẨM YÊU THÍCH) -->
   <div class="modal fade" id="wishlistModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 640px;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 680px;">
       <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
         <div class="modal-header bg-light border-bottom px-4 py-3">
           <div class="d-flex align-items-center gap-2.5">
@@ -914,6 +914,70 @@
             <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy bỏ</button>
             <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold">
               <i class="bi bi-check-lg me-1"></i>Lưu thay đổi
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+    <!-- MODAL: ADMIN ADD NEW VIP CUSTOMER -->
+  <div class="modal fade" id="adminAddCustomerModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3.5">
+          <div class="d-flex align-items-center gap-2.5">
+            <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center shadow-xs" style="width: 36px; height: 36px;">
+              <i class="bi bi-person-plus-fill fs-5"></i>
+            </div>
+            <div>
+              <h5 class="modal-title fw-bold m-0 font-serif" style="font-size: 1.1rem;">Thêm Hội Viên VIP Mới</h5>
+              <div class="text-white-50 small" style="font-size: 0.75rem;">Đăng ký hội viên đặc quyền tại quầy hoặc kích hoạt từ xa</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="adminAddCustomerForm" onsubmit="adminSaveNewCustomer(event)">
+          <div class="modal-body p-4">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label small fw-bold text-dark mb-1">Họ và tên khách hàng <span class="text-danger">*</span></label>
+                <input type="text" class="form-control form-control-luxury" id="adminAddCustName" required placeholder="Ví dụ: Hoàng Mai Linh">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold text-dark mb-1">Địa chỉ Email <span class="text-danger">*</span></label>
+                <input type="email" class="form-control form-control-luxury" id="adminAddCustEmail" required placeholder="mailinh@gmail.com">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold text-dark mb-1">Số điện thoại <span class="text-danger">*</span></label>
+                <input type="tel" class="form-control form-control-luxury" id="adminAddCustPhone" required placeholder="0912 xxx xxx">
+              </div>
+              <div class="col-12">
+                <label class="form-label small fw-bold text-dark mb-1">Địa chỉ giao hàng</label>
+                <input type="text" class="form-control form-control-luxury" id="adminAddCustAddress" placeholder="Số nhà, tên đường, phường/xã, quận/huyện...">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold text-dark mb-1">Hạng thẻ ban đầu</label>
+                <select class="form-select form-control-luxury" id="adminAddCustTier">
+                  <option value="VIP GOLD" selected>VIP GOLD</option>
+                  <option value="VIP DIAMOND (KIM CƯƠNG)">VIP DIAMOND (KIM CƯƠNG)</option>
+                  <option value="SILVER">SILVER</option>
+                  <option value="THÀNH VIÊN MỚI">THÀNH VIÊN MỚI</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label small fw-bold text-dark mb-1">Điểm thưởng tặng ban đầu (pts)</label>
+                <input type="number" class="form-control form-control-luxury" id="adminAddCustPoints" value="500" min="0" step="50">
+              </div>
+            </div>
+            <div class="form-text small text-muted mt-2.5">
+              <i class="bi bi-shield-check text-success me-1"></i> Tài khoản sẽ tự động đồng bộ lên Cloud Supabase và tạo mật khẩu mặc định <code>123456</code>.
+            </div>
+          </div>
+          <div class="modal-footer bg-light border-top px-4 py-3 d-flex justify-content-end gap-2.5">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4 py-2 small" data-bs-dismiss="modal">Hủy bỏ</button>
+            <button type="submit" class="btn btn-warning text-dark rounded-pill px-4 py-2 fw-bold shadow-sm small">
+              <i class="bi bi-check2-circle me-1"></i> Lưu & Kích Hoạt Hội Viên
             </button>
           </div>
         </form>
