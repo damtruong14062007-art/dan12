@@ -3460,3 +3460,92 @@ img, svg, video, canvas, audio, iframe, embed, object {
     font-size: 0.85rem;
   }
 }
+
+/* ===================================================================
+   AUTHENTICATION, WISHLIST SPACING & RESPONSIVE PAGINATION STYLES
+   =================================================================== */
+
+/* Auth Card & Container Mobile Safety */
+.auth-card {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  word-break: break-word !important;
+}
+
+.auth-switch-btn {
+  font-size: 0.88rem !important;
+  padding: 8px 14px !important;
+  white-space: nowrap !important;
+  transition: all 0.2s ease !important;
+}
+
+@media (max-width: 576px) {
+  .auth-switch-btn {
+    font-size: 0.78rem !important;
+    padding: 6px 10px !important;
+  }
+}
+
+.quick-auth-btn {
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+  max-width: 100% !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.quick-auth-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Ensure Wishlist button stays comfortably inside cards */
+.btn-wishlist,
+.wishlist-heart-btn {
+  top: 12px !important;
+  right: 12px !important;
+}
+
+/* Wishlist navbar button badge positioning */
+.wishlist-count-badge {
+  position: absolute !important;
+  top: -3px !important;
+  right: -3px !important;
+  transform: none !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  padding: 0 4px !important;
+  border-radius: 999px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 0.65rem !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Pagination Buttons Enhancement */
+.pagination-wrap {
+  user-select: none;
+}
+
+.pagination-btn {
+  min-width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  transform: scale(1.05);
+}
+
+/* Store Live Preview Card */
+.store-preview-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}

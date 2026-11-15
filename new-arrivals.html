@@ -29,8 +29,8 @@
         <div class="top-promo-left d-flex align-items-center gap-2 gap-md-3 flex-shrink-0">
           <span><i class="bi bi-geo-alt me-1 text-danger"></i> 15 Showroom toàn quốc</span>
           <span class="top-promo-sep text-white-50">|</span>
-          <a href="tel:19008899" class="text-white text-decoration-none">
-            <i class="bi bi-telephone me-1 text-danger"></i> Hotline: <b>1900 8899</b> <span class="d-none d-xxl-inline text-white-50">(08:30 - 22:00)</span>
+          <a href="tel:19008899" class="text-white text-decoration-none" id="topPromoHotlineLink">
+            <i class="bi bi-telephone me-1 text-danger"></i> Hotline: <b id="topPromoHotlineNum" class="nav-hotline-num store-hotline-val">1900 8899</b> <span class="d-none d-xxl-inline text-white-50 store-hours-val" id="topPromoHotlineHours">(08:30 - 22:00)</span>
           </a>
         </div>
 
@@ -97,9 +97,9 @@
           </a>
 
           <!-- Wishlist Button -->
-          <button class="btn btn-light rounded-circle position-relative d-inline-flex align-items-center justify-content-center p-0 flex-shrink-0" onclick="showWishlistModal()" title="Sản phẩm yêu thích" style="width: 40px; height: 40px; min-width: 40px; min-height: 40px;">
+          <button class="btn btn-light rounded-circle position-relative d-inline-flex align-items-center justify-content-center p-0 flex-shrink-0 me-1" onclick="showWishlistModal()" title="Sản phẩm yêu thích" style="width: 40px; height: 40px; min-width: 40px; min-height: 40px;">
             <i class="bi bi-heart fs-5" style="line-height: 1; pointer-events: none;"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger wishlist-count-badge" style="font-size: 0.65rem;">0</span>
+            <span class="badge rounded-pill bg-danger wishlist-count-badge" id="navWishlistBadge" style="position: absolute; top: -3px; right: -3px; font-size: 0.65rem;">0</span>
           </button>
 
           <!-- User Account Link / Button -->
@@ -339,19 +339,8 @@
     </div>
   </section>
 
-  <!-- PAGINATION -->
-  <section class="container py-5 text-center">
-    <div class="d-inline-flex align-items-center gap-1 border rounded-pill p-1 shadow-sm bg-white">
-      <button class="btn btn-sm btn-light rounded-pill px-3 text-muted" disabled>← Trước</button>
-      <button class="btn btn-sm btn-dark rounded-circle" style="width: 32px; height: 32px;">1</button>
-      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;" onclick="showToast('Đang tải trang 2...')">2</button>
-      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;" onclick="showToast('Đang tải trang 3...')">3</button>
-      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;" onclick="showToast('Đang tải trang 4...')">4</button>
-      <span class="px-1 text-muted">...</span>
-      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;" onclick="showToast('Đang tải trang 12...')">12</button>
-      <button class="btn btn-sm btn-light rounded-pill px-3" onclick="showToast('Đang chuyển tới trang tiếp theo')">Tiếp theo →</button>
-    </div>
-  </section>
+  <!-- DYNAMIC PAGINATION -->
+  <div class="container" id="pagination-gridNewArrivals"></div>
   <!-- ===================================================================
        FOOTER - LUXURY VELORA BRANDING
        =================================================================== -->
@@ -367,9 +356,9 @@
             Thương hiệu thời trang định hình phong cách sang trọng, tự tin và thời thượng. Chất lượng chuẩn quốc tế, tinh xảo trong từng đường may.
           </p>
           <div class="small text-white-50 d-flex flex-column gap-2">
-            <div><i class="bi bi-telephone me-2 text-warning"></i> Hotline: <b class="text-white">1900 8899</b> (08:30 - 22:00)</div>
-            <div><i class="bi bi-envelope me-2 text-warning"></i> Email: <a href="mailto:cskh@velorafashion.vn" class="text-white-50 text-decoration-none">cskh@velorafashion.vn</a></div>
-            <div><i class="bi bi-geo-alt me-2 text-warning"></i> Địa chỉ: 123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM</div>
+            <div><i class="bi bi-telephone me-2 text-warning"></i> Hotline: <b class="text-white footer-hotline store-hotline-val">1900 8899</b> <span class="text-white-50 store-hours-val">(08:30 - 22:00)</span></div>
+            <div><i class="bi bi-envelope me-2 text-warning"></i> Email: <a href="mailto:cskh@velorafashion.vn" class="text-white-50 text-decoration-none footer-email store-email-val">cskh@velorafashion.vn</a></div>
+            <div><i class="bi bi-geo-alt me-2 text-warning"></i> Địa chỉ: <span class="footer-address store-address-val">123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM</span> <button type="button" class="btn btn-link btn-sm text-warning p-0 ms-1 text-decoration-none" onclick="copyStoreAddress()" title="Sao chép địa chỉ showroom"><i class="bi bi-clipboard"></i></button></div>
           </div>
         </div>
 

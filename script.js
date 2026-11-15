@@ -1394,7 +1394,24 @@ function renderProductCard(p, buttonType = 'add-to-cart') {
   `;
 }
 
+// ==========================================================================
+// DYNAMIC PAGINATION ENGINE FOR PRODUCT GRIDS
+// ==========================================================================
+const paginationState = {
+  gridWomen: { page: 1, pageSize: 8, totalPages: 1, list: [], buttonType: 'add-to-cart-pink' },
+  gridMenAll: { page: 1, pageSize: 8, totalPages: 1, list: [], buttonType: 'add-to-cart' },
+  gridNewArrivals: { page: 1, pageSize: 8, totalPages: 1, list: [], buttonType: 'add-to-cart' },
+  gridAccessories: { page: 1, pageSize: 8, totalPages: 1, list: [], buttonType: 'view-product' },
+  gridFlashSale: { page: 1, pageSize: 8, totalPages: 1, list: [], buttonType: 'add-to-cart' }
+};
+
 function populateGrid(containerId, productList, buttonType = 'add-to-cart') {
+  const pagContainer = document.getElementById(`pagination-${containerId}`);
+  if (pagContainer) {
+    renderPaginatedGrid(containerId, productList, buttonType, 1, 8);
+    return;
+  }
+
   const container = document.getElementById(containerId);
   if (!container) return;
   if (!productList || productList.length === 0) {
@@ -1407,6 +1424,109 @@ function populateGrid(containerId, productList, buttonType = 'add-to-cart') {
     return;
   }
   container.innerHTML = productList.map(p => renderProductCard(p, buttonType)).join('');
+  updateWishlistButtonStates();
+}
+
+function renderPaginatedGrid(gridId, productList, buttonType = 'add-to-cart', page = 1, pageSize = 8) {
+  const container = document.getElementById(gridId);
+  if (!container) return;
+
+  const pagContainer = document.getElementById(`pagination-${gridId}`);
+
+  if (!productList || productList.length === 0) {
+    container.innerHTML = `
+      <div class="col-12 py-5 text-center text-muted">
+        <i class="bi bi-inbox fs-1 d-block mb-3 opacity-50"></i>
+        Không có sản phẩm nào phù hợp với bộ lọc.
+      </div>
+    `;
+    if (pagContainer) pagContainer.innerHTML = '';
+    return;
+  }
+
+  const totalPages = Math.max(1, Math.ceil(productList.length / pageSize));
+  const currentPage = Math.max(1, Math.min(page, totalPages));
+
+  paginationState[gridId] = {
+    page: currentPage,
+    pageSize,
+    totalPages,
+    list: productList,
+    buttonType
+  };
+
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const pageItems = productList.slice(startIndex, endIndex);
+
+  container.innerHTML = pageItems.map(p => renderProductCard(p, buttonType)).join('');
+  updateWishlistButtonStates();
+
+  renderPaginationControls(gridId);
+}
+
+function renderPaginationControls(gridId) {
+  const pagContainer = document.getElementById(`pagination-${gridId}`);
+  if (!pagContainer) return;
+
+  const state = paginationState[gridId];
+  if (!state || state.totalPages <= 1) {
+    pagContainer.innerHTML = `
+      <div class="py-4 text-center pagination-wrap">
+        <div class="d-inline-flex align-items-center gap-1.5 border rounded-pill p-1 shadow-sm bg-white">
+          <button class="btn btn-sm btn-light rounded-pill px-3 text-muted" disabled>← Trước</button>
+          <button class="btn btn-sm btn-dark rounded-circle pagination-btn shadow-xs">1</button>
+          <button class="btn btn-sm btn-light rounded-pill px-3 text-muted" disabled>Sau →</button>
+        </div>
+        <div class="small text-muted mt-2">Hiển thị toàn bộ <b>${state ? state.list.length : 0}</b> sản phẩm</div>
+      </div>
+    `;
+    return;
+  }
+
+  const { page, totalPages, list } = state;
+  let pageButtonsHtml = '';
+
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === page) {
+      pageButtonsHtml += `<button class="btn btn-sm btn-dark rounded-circle pagination-btn fw-bold shadow-xs">${i}</button>`;
+    } else {
+      pageButtonsHtml += `<button class="btn btn-sm btn-light rounded-circle pagination-btn text-dark" onclick="goToPage('${gridId}', ${i})">${i}</button>`;
+    }
+  }
+
+  const prevDisabled = page <= 1 ? 'disabled' : '';
+  const nextDisabled = page >= totalPages ? 'disabled' : '';
+
+  pagContainer.innerHTML = `
+    <div class="py-4 text-center pagination-wrap">
+      <div class="d-inline-flex align-items-center gap-1.5 border rounded-pill p-1 shadow-sm bg-white flex-wrap justify-content-center">
+        <button class="btn btn-sm btn-light rounded-pill px-3 text-dark fw-semibold" ${prevDisabled} onclick="goToPage('${gridId}', ${page - 1})">
+          ← Trước
+        </button>
+        ${pageButtonsHtml}
+        <button class="btn btn-sm btn-light rounded-pill px-3 text-dark fw-semibold" ${nextDisabled} onclick="goToPage('${gridId}', ${page + 1})">
+          Sau →
+        </button>
+      </div>
+      <div class="small text-muted mt-2">
+        Đang xem trang <b>${page}</b> / <b>${totalPages}</b> (Tổng <b>${list.length}</b> sản phẩm)
+      </div>
+    </div>
+  `;
+}
+
+function goToPage(gridId, targetPage) {
+  const state = paginationState[gridId];
+  if (!state) return;
+  renderPaginatedGrid(gridId, state.list, state.buttonType, targetPage, state.pageSize);
+
+  const container = document.getElementById(gridId);
+  if (container) {
+    const yOffset = -120;
+    const y = container.getBoundingClientRect().top + window.pageYOffset + yOffset;
+    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+  }
 }
 
 // ==========================================================================
@@ -4202,41 +4322,153 @@ function adminSaveQuickImage(event) {
   }
 }
 
-// --- STORE CONFIGURATION & CSKH ---
+// --- STORE CONFIGURATION & CSKH (LIVE TWO-WAY SYNC) ---
+const DEFAULT_STORE_CONFIG = {
+  hotline: '1900 8899',
+  hotlineHours: '(08:30 - 22:00)',
+  email: 'cskh@velorafashion.vn',
+  address: '123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM',
+  announcement: 'Miễn phí giao hàng đơn từ <b>500.000đ</b> • Nhập mã <span class="badge bg-warning text-dark px-1.5 py-0.5 fw-bold">VELORA10</span> giảm 10%'
+};
+
 function getStoreConfig() {
   const stored = localStorage.getItem('velora_store_config');
   if (stored !== null) {
     try {
       const parsed = JSON.parse(stored);
-      if (parsed && typeof parsed === 'object') return parsed;
+      if (parsed && typeof parsed === 'object') {
+        return { ...DEFAULT_STORE_CONFIG, ...parsed };
+      }
     } catch (e) {
       console.warn('Error reading store config', e);
     }
   }
-  return {
-    hotline: '1900 8899',
-    email: 'cskh@velorafashion.vn',
-    address: '123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM',
-    announcement: 'Miễn phí giao hàng đơn từ 500.000đ • Nhập mã VELORA10 giảm 10%'
-  };
+  return { ...DEFAULT_STORE_CONFIG };
+}
+
+function applyStoreConfigToUI() {
+  const config = getStoreConfig();
+
+  // 1. Hotline displays and links
+  document.querySelectorAll('.nav-hotline-num, .store-hotline-val, .footer-hotline').forEach(el => {
+    el.textContent = config.hotline;
+  });
+  document.querySelectorAll('.store-hours-val, #topPromoHotlineHours').forEach(el => {
+    el.textContent = config.hotlineHours || '(08:30 - 22:00)';
+  });
+  document.querySelectorAll('a[href^="tel:"]').forEach(a => {
+    const rawDigits = (config.hotline || '19008899').replace(/\D/g, '');
+    a.href = 'tel:' + (rawDigits || '19008899');
+  });
+
+  // 2. Email displays and mailto links
+  document.querySelectorAll('.footer-email, .store-email-val').forEach(el => {
+    el.textContent = config.email;
+    if (el.tagName === 'A') el.href = 'mailto:' + config.email;
+  });
+  document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+    a.href = 'mailto:' + (config.email || 'cskh@velorafashion.vn');
+  });
+
+  // 3. Showroom Address displays
+  document.querySelectorAll('.footer-address, .store-address-val').forEach(el => {
+    el.textContent = config.address;
+  });
+
+  // 4. Top Announcement bar
+  const topText = document.getElementById('topAnnouncementText');
+  if (topText && config.announcement) {
+    topText.innerHTML = config.announcement;
+  }
+
+  // 5. Pre-populate Admin inputs in #admSec-store
+  const inputHl = document.getElementById('admConfigHotline');
+  if (inputHl) inputHl.value = config.hotline || '1900 8899';
+
+  const inputHlHours = document.getElementById('admConfigHotlineHours');
+  if (inputHlHours) inputHlHours.value = config.hotlineHours || '(08:30 - 22:00)';
+
+  const inputEm = document.getElementById('admConfigEmail');
+  if (inputEm) inputEm.value = config.email || 'cskh@velorafashion.vn';
+
+  const inputAddr = document.getElementById('admConfigAddress');
+  if (inputAddr) inputAddr.value = config.address || '123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM';
+
+  const inputAnn = document.getElementById('admConfigAnnouncement');
+  if (inputAnn) inputAnn.value = config.announcement || DEFAULT_STORE_CONFIG.announcement;
+
+  // 6. Pre-populate Live Preview card in #admSec-store
+  const prevHl = document.getElementById('previewHotlineDisplay');
+  if (prevHl) prevHl.textContent = config.hotline || '1900 8899';
+
+  const prevHours = document.getElementById('previewHoursDisplay');
+  if (prevHours) prevHours.textContent = config.hotlineHours || '(08:30 - 22:00)';
+
+  const prevHlBtn = document.getElementById('previewHotlineBtn');
+  if (prevHlBtn) prevHlBtn.href = 'tel:' + (config.hotline || '19008899').replace(/\D/g, '');
+
+  const prevEm = document.getElementById('previewEmailDisplay');
+  if (prevEm) prevEm.textContent = config.email || 'cskh@velorafashion.vn';
+
+  const prevEmBtn = document.getElementById('previewEmailBtn');
+  if (prevEmBtn) prevEmBtn.href = 'mailto:' + (config.email || 'cskh@velorafashion.vn');
+
+  const prevAddr = document.getElementById('previewAddressDisplay');
+  if (prevAddr) prevAddr.textContent = config.address || '123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM';
 }
 
 function adminSaveStoreConfig(e) {
   if (e) e.preventDefault();
   const config = {
     hotline: document.getElementById('admConfigHotline')?.value.trim() || '1900 8899',
+    hotlineHours: document.getElementById('admConfigHotlineHours')?.value.trim() || '(08:30 - 22:00)',
     email: document.getElementById('admConfigEmail')?.value.trim() || 'cskh@velorafashion.vn',
     address: document.getElementById('admConfigAddress')?.value.trim() || '123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM',
-    announcement: document.getElementById('admConfigAnnouncement')?.value.trim() || 'Ưu đãi thời trang Velora'
+    announcement: document.getElementById('admConfigAnnouncement')?.value.trim() || DEFAULT_STORE_CONFIG.announcement
   };
+
   localStorage.setItem('velora_store_config', JSON.stringify(config));
-  applyStoreConfig();
-  showToast('Đã lưu cấu hình cửa hàng thành công!', 'success');
+  applyStoreConfigToUI();
+
+  // Direct Supabase Cloud Sync
+  try {
+    const sb = getSupabaseClient();
+    if (sb) {
+      sb.from('users').update({
+        phone: config.hotline,
+        address: config.address
+      }).eq('email', 'admin@velora.vn').then(() => {
+        console.log('Synced store config to Supabase Cloud');
+      }).catch(err => console.warn(err));
+    }
+  } catch (e) {}
+
+  showToast('Đã lưu cấu hình cửa hàng thành công! Thông tin Hotline, Email và Địa chỉ đã cập nhật toàn bộ website.', 'success');
+}
+
+function adminResetStoreConfig() {
+  if (!confirm('Bạn có chắc chắn muốn khôi phục thông tin liên hệ và hotline về mặc định của VELORA?')) return;
+  localStorage.setItem('velora_store_config', JSON.stringify(DEFAULT_STORE_CONFIG));
+  applyStoreConfigToUI();
+  showToast('Đã khôi phục thông tin liên hệ về mặc định thành công!', 'info');
+}
+
+function copyStoreAddress() {
+  const config = getStoreConfig();
+  const addr = config.address || '123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(addr).then(() => {
+      showToast(`Đã sao chép địa chỉ showroom: <b>${addr}</b>`, 'success');
+    }).catch(() => {
+      showToast(`Địa chỉ showroom: <b>${addr}</b>`, 'info');
+    });
+  } else {
+    showToast(`Địa chỉ showroom: <b>${addr}</b>`, 'info');
+  }
 }
 
 function applyStoreConfig() {
-  const config = getStoreConfig();
-  document.querySelectorAll('.nav-hotline-num').forEach(el => el.textContent = config.hotline);
+  applyStoreConfigToUI();
 }
 
 // --- ADMIN SUITE NAVIGATION & STATS ---
@@ -4263,6 +4495,8 @@ function switchAdminSec(secName) {
     adminUpdateStats();
   } else if (secName === 'supabase') {
     adminRenderSupabaseSec();
+  } else if (secName === 'store') {
+    applyStoreConfigToUI();
   }
 }
 
@@ -7647,3 +7881,12 @@ window.removeFromWishlistInsideModal = removeFromWishlistInsideModal;
 window.removeFromWishlist = removeFromWishlist;
 window.renderWishlistModalContent = renderWishlistModalContent;
 window.renderAccountWishlist = renderAccountWishlist;
+
+// Global exports for pagination & store config
+window.goToPage = goToPage;
+window.renderPaginatedGrid = renderPaginatedGrid;
+window.renderPaginationControls = renderPaginationControls;
+window.adminSaveStoreConfig = adminSaveStoreConfig;
+window.adminResetStoreConfig = adminResetStoreConfig;
+window.copyStoreAddress = copyStoreAddress;
+window.applyStoreConfigToUI = applyStoreConfigToUI;

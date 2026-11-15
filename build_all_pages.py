@@ -39,8 +39,8 @@ def get_header(active_page):
         <div class="top-promo-left d-flex align-items-center gap-2 gap-md-3 flex-shrink-0">
           <span><i class="bi bi-geo-alt me-1 text-danger"></i> 15 Showroom toàn quốc</span>
           <span class="top-promo-sep text-white-50">|</span>
-          <a href="tel:19008899" class="text-white text-decoration-none">
-            <i class="bi bi-telephone me-1 text-danger"></i> Hotline: <b>1900 8899</b> <span class="d-none d-xxl-inline text-white-50">(08:30 - 22:00)</span>
+          <a href="tel:19008899" class="text-white text-decoration-none" id="topPromoHotlineLink">
+            <i class="bi bi-telephone me-1 text-danger"></i> Hotline: <b id="topPromoHotlineNum" class="nav-hotline-num store-hotline-val">1900 8899</b> <span class="d-none d-xxl-inline text-white-50 store-hours-val" id="topPromoHotlineHours">(08:30 - 22:00)</span>
           </a>
         </div>
 
@@ -107,9 +107,9 @@ def get_header(active_page):
           </a>
 
           <!-- Wishlist Button -->
-          <button class="btn btn-light rounded-circle position-relative d-inline-flex align-items-center justify-content-center p-0 flex-shrink-0" onclick="showWishlistModal()" title="Sản phẩm yêu thích" style="width: 40px; height: 40px; min-width: 40px; min-height: 40px;">
+          <button class="btn btn-light rounded-circle position-relative d-inline-flex align-items-center justify-content-center p-0 flex-shrink-0 me-1" onclick="showWishlistModal()" title="Sản phẩm yêu thích" style="width: 40px; height: 40px; min-width: 40px; min-height: 40px;">
             <i class="bi bi-heart fs-5" style="line-height: 1; pointer-events: none;"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger wishlist-count-badge" style="font-size: 0.65rem;">0</span>
+            <span class="badge rounded-pill bg-danger wishlist-count-badge" id="navWishlistBadge" style="position: absolute; top: -3px; right: -3px; font-size: 0.65rem;">0</span>
           </button>
 
           <!-- User Account Link / Button -->
@@ -219,9 +219,9 @@ def get_footer_and_modals():
             Thương hiệu thời trang định hình phong cách sang trọng, tự tin và thời thượng. Chất lượng chuẩn quốc tế, tinh xảo trong từng đường may.
           </p>
           <div class="small text-white-50 d-flex flex-column gap-2">
-            <div><i class="bi bi-telephone me-2 text-warning"></i> Hotline: <b class="text-white">1900 8899</b> (08:30 - 22:00)</div>
-            <div><i class="bi bi-envelope me-2 text-warning"></i> Email: <a href="mailto:cskh@velorafashion.vn" class="text-white-50 text-decoration-none">cskh@velorafashion.vn</a></div>
-            <div><i class="bi bi-geo-alt me-2 text-warning"></i> Địa chỉ: 123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM</div>
+            <div><i class="bi bi-telephone me-2 text-warning"></i> Hotline: <b class="text-white footer-hotline store-hotline-val">1900 8899</b> <span class="text-white-50 store-hours-val">(08:30 - 22:00)</span></div>
+            <div><i class="bi bi-envelope me-2 text-warning"></i> Email: <a href="mailto:cskh@velorafashion.vn" class="text-white-50 text-decoration-none footer-email store-email-val">cskh@velorafashion.vn</a></div>
+            <div><i class="bi bi-geo-alt me-2 text-warning"></i> Địa chỉ: <span class="footer-address store-address-val">123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM</span> <button type="button" class="btn btn-link btn-sm text-warning p-0 ms-1 text-decoration-none" onclick="copyStoreAddress()" title="Sao chép địa chỉ showroom"><i class="bi bi-clipboard"></i></button></div>
           </div>
         </div>
 
@@ -2309,19 +2309,8 @@ def make_new_arrivals_html():
     </div>
   </section>
 
-  <!-- PAGINATION -->
-  <section class="container py-5 text-center">
-    <div class="d-inline-flex align-items-center gap-1 border rounded-pill p-1 shadow-sm bg-white">
-      <button class="btn btn-sm btn-light rounded-pill px-3 text-muted" disabled>← Trước</button>
-      <button class="btn btn-sm btn-dark rounded-circle" style="width: 32px; height: 32px;">1</button>
-      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;" onclick="showToast('Đang tải trang 2...')">2</button>
-      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;" onclick="showToast('Đang tải trang 3...')">3</button>
-      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;" onclick="showToast('Đang tải trang 4...')">4</button>
-      <span class="px-1 text-muted">...</span>
-      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;" onclick="showToast('Đang tải trang 12...')">12</button>
-      <button class="btn btn-sm btn-light rounded-pill px-3" onclick="showToast('Đang chuyển tới trang tiếp theo')">Tiếp theo →</button>
-    </div>
-  </section>
+  <!-- DYNAMIC PAGINATION -->
+  <div class="container" id="pagination-gridNewArrivals"></div>
 """
     content += get_footer_and_modals()
     with open(os.path.join(BASE_DIR, "new-arrivals.html"), "w", encoding="utf-8") as f:
@@ -2748,18 +2737,8 @@ def make_women_html():
     </div>
   </section>
 
-  <!-- PAGINATION -->
-  <section class="container py-4 text-center">
-    <div class="d-inline-flex align-items-center gap-1 border rounded-pill p-1 shadow-sm bg-white">
-      <button class="btn btn-sm btn-light rounded-pill px-3 text-muted" disabled>← Trước</button>
-      <button class="btn btn-sm btn-danger rounded-circle" style="width: 32px; height: 32px;">1</button>
-      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;">2</button>
-      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;">3</button>
-      <span class="px-1 text-muted">...</span>
-      <button class="btn btn-sm btn-light rounded-circle" style="width: 32px; height: 32px;">10</button>
-      <button class="btn btn-sm btn-light rounded-pill px-3">Tiếp theo →</button>
-    </div>
-  </section>
+  <!-- DYNAMIC PAGINATION -->
+  <div class="container" id="pagination-gridWomen"></div>
 
   <!-- WOMEN NEWSLETTER -->
   <section class="container py-3">
@@ -3165,6 +3144,8 @@ def make_men_html():
     <div class="row g-4" id="gridMenAll">
       <!-- Populated dynamically by script.js filterProducts('men', 'all') -->
     </div>
+    <!-- DYNAMIC PAGINATION -->
+    <div id="pagination-gridMenAll"></div>
   </section>
 """
     content += get_footer_and_modals()
@@ -3323,6 +3304,8 @@ def make_accessories_html():
     <div class="row g-4" id="gridAccessories">
       <!-- Populated by script.js -->
     </div>
+    <!-- DYNAMIC PAGINATION -->
+    <div id="pagination-gridAccessories"></div>
   </section>
 
   <!-- SPOTLIGHT PAIRING BANNER -->
@@ -3553,6 +3536,8 @@ def make_flash_sale_html():
     <div class="row g-4" id="gridFlashSale">
       <!-- Populated by script.js -->
     </div>
+    <!-- DYNAMIC PAGINATION -->
+    <div id="pagination-gridFlashSale"></div>
   </section>
 
   <!-- FLASH SALE GUARANTEE CARDS -->
@@ -3748,7 +3733,7 @@ def make_account_html():
     <div id="accountLoggedOutView" class="d-none">
       <div class="row justify-content-center py-4">
         <div class="col-lg-6 col-md-8 col-12">
-          <div class="card border-0 rounded-4 shadow-sm p-4 p-md-5 bg-white">
+          <div class="card border-0 rounded-4 shadow-sm p-3 p-sm-4 p-md-5 bg-white auth-card">
             <div class="text-center mb-4">
               <img src="velora_logo_footer.svg" alt="VELORA" style="height: 38px; width: auto; filter: invert(1);">
               <h4 class="fw-bold font-serif mt-3 mb-1" id="authCardTitle">Đăng Nhập Tài Khoản</h4>
@@ -3772,23 +3757,35 @@ def make_account_html():
                 <div class="small fw-bold text-muted mb-2 text-uppercase" style="font-size: 0.72rem;">
                   <i class="bi bi-lightning-charge-fill text-warning me-1"></i> Đăng nhập nhanh tài khoản thử nghiệm:
                 </div>
-                <div class="d-flex flex-column gap-2">
-                  <button type="button" class="btn btn-outline-dark rounded-pill py-2 px-3 text-start d-flex justify-content-between align-items-center" onclick="loginAs('customer')">
-                    <div>
-                      <i class="bi bi-person-fill text-primary me-2"></i>
-                      <b>Tài khoản Khách Hàng (VIP Gold)</b>
-                      <div class="small text-muted ps-4">Đặng Minh Anh • minhanh.velora@gmail.com</div>
+                <div class="d-flex flex-column gap-2.5">
+                  <button type="button" class="btn btn-outline-dark rounded-4 p-3 text-start d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 w-100 quick-auth-btn" onclick="loginAs('customer')">
+                    <div class="d-flex align-items-start gap-2.5" style="min-width: 0;">
+                      <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px;">
+                        <i class="bi bi-person-fill fs-5"></i>
+                      </div>
+                      <div style="min-width: 0;">
+                        <div class="fw-bold text-dark text-truncate">Tài khoản Khách Hàng (VIP Gold)</div>
+                        <div class="small text-muted text-break">Đặng Minh Anh • minhanh.velora@gmail.com</div>
+                      </div>
                     </div>
-                    <span class="badge bg-dark rounded-pill px-3 py-2">Đăng nhập <i class="bi bi-arrow-right ms-1"></i></span>
+                    <span class="badge bg-dark rounded-pill px-3 py-2 flex-shrink-0 align-self-stretch align-self-sm-auto text-center">
+                      Đăng nhập <i class="bi bi-arrow-right ms-1"></i>
+                    </span>
                   </button>
 
-                  <button type="button" class="btn btn-dark rounded-pill py-2 px-3 text-start d-flex justify-content-between align-items-center border-warning" onclick="openAdminLoginModal()">
-                    <div>
-                      <i class="bi bi-shield-lock-fill text-warning me-2"></i>
-                      <b class="text-warning">Tài khoản Quản Trị Viên (Admin)</b>
-                      <div class="small text-white-50 ps-4">admin@velora.vn • Yêu cầu mật khẩu bảo mật</div>
+                  <button type="button" class="btn btn-dark rounded-4 p-3 text-start d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 w-100 border-warning quick-auth-btn" onclick="openAdminLoginModal()">
+                    <div class="d-flex align-items-start gap-2.5" style="min-width: 0;">
+                      <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px;">
+                        <i class="bi bi-shield-lock-fill fs-5"></i>
+                      </div>
+                      <div style="min-width: 0;">
+                        <div class="fw-bold text-warning text-truncate">Tài khoản Quản Trị Viên (Admin)</div>
+                        <div class="small text-white-50 text-break">admin@velora.vn • Yêu cầu mật khẩu bảo mật</div>
+                      </div>
                     </div>
-                    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 fw-bold"><i class="bi bi-lock-fill me-1"></i> Nhập Mật Khẩu</span>
+                    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 fw-bold flex-shrink-0 align-self-stretch align-self-sm-auto text-center">
+                      <i class="bi bi-lock-fill me-1"></i> Nhập Mật Khẩu
+                    </span>
                   </button>
                 </div>
               </div>
@@ -4669,36 +4666,111 @@ def make_account_html():
 
             <!-- SUB-SECTION 6: STORE CONFIG & SHOWROOM -->
             <div id="admSec-store" class="admin-sub-section d-none">
-              <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                 <div>
-                  <h6 class="fw-bold font-serif m-0"><i class="bi bi-gear-fill text-secondary me-2"></i>Cấu Hình Cửa Hàng & Hotline CSKH</h6>
-                  <span class="small text-muted">Cập nhật số hotline, email liên hệ, địa chỉ showroom và thanh thông báo toàn sàn</span>
+                  <h6 class="fw-bold font-serif m-0"><i class="bi bi-gear-fill text-warning me-2"></i>Cấu Hình Cửa Hàng & Hotline CSKH</h6>
+                  <span class="small text-muted">Chỉnh sửa thông tin Hotline, Email, Địa chỉ Showroom và Thanh thông báo áp dụng trực tiếp cho toàn bộ trang web</span>
+                </div>
+                <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="adminResetStoreConfig()">
+                  <i class="bi bi-arrow-counterclockwise me-1"></i> Khôi phục mặc định
+                </button>
+              </div>
+
+              <!-- Interactive Live Preview Card -->
+              <div class="card border rounded-4 p-3.5 mb-4 store-preview-card shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
+                  <div class="small fw-bold text-uppercase text-muted" style="font-size: 0.72rem; letter-spacing: 0.05em;">
+                    <i class="bi bi-eye-fill text-primary me-1"></i> Xem trước hiển thị thực tế trên website:
+                  </div>
+                  <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-2.5 py-1 small">
+                    <i class="bi bi-check-circle-fill me-1"></i> Đang hoạt động
+                  </span>
+                </div>
+                <div class="row g-3 align-items-center">
+                  <div class="col-md-4">
+                    <div class="p-2.5 bg-white rounded-3 border shadow-xs d-flex align-items-center justify-content-between">
+                      <div>
+                        <div class="small text-muted" style="font-size: 0.72rem;">Hotline CSKH:</div>
+                        <div class="fw-bold text-dark fs-6" id="previewHotlineDisplay">1900 8899</div>
+                        <div class="small text-muted" id="previewHoursDisplay" style="font-size: 0.72rem;">(08:30 - 22:00)</div>
+                      </div>
+                      <a href="tel:19008899" id="previewHotlineBtn" class="btn btn-sm btn-outline-danger rounded-circle p-2" title="Gọi thử">
+                        <i class="bi bi-telephone-fill"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="p-2.5 bg-white rounded-3 border shadow-xs d-flex align-items-center justify-content-between">
+                      <div style="min-width: 0;">
+                        <div class="small text-muted" style="font-size: 0.72rem;">Email Hỗ Trợ:</div>
+                        <div class="fw-bold text-dark text-truncate" id="previewEmailDisplay">cskh@velorafashion.vn</div>
+                        <div class="small text-success" style="font-size: 0.72rem;">Phản hồi trong 15p</div>
+                      </div>
+                      <a href="mailto:cskh@velorafashion.vn" id="previewEmailBtn" class="btn btn-sm btn-outline-primary rounded-circle p-2 ms-2 flex-shrink-0" title="Gửi thử email">
+                        <i class="bi bi-envelope-fill"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="p-2.5 bg-white rounded-3 border shadow-xs d-flex align-items-center justify-content-between">
+                      <div style="min-width: 0;">
+                        <div class="small text-muted" style="font-size: 0.72rem;">Showroom Flagship:</div>
+                        <div class="fw-bold text-dark text-truncate" id="previewAddressDisplay">123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM</div>
+                        <div class="small text-muted" style="font-size: 0.72rem;">TP. Hồ Chí Minh</div>
+                      </div>
+                      <button type="button" class="btn btn-sm btn-outline-secondary rounded-circle p-2 ms-2 flex-shrink-0" onclick="copyStoreAddress()" title="Sao chép địa chỉ">
+                        <i class="bi bi-clipboard"></i>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div class="card border rounded-4 p-4 bg-light">
+              <!-- Store Configuration Form -->
+              <div class="card border rounded-4 p-4 bg-light shadow-sm">
                 <form id="adminStoreConfigForm" onsubmit="adminSaveStoreConfig(event)">
                   <div class="row g-3">
-                    <div class="col-md-6">
-                      <label class="form-label small fw-bold">Tổng đài Hotline CSKH (24/7)</label>
-                      <input type="text" class="form-control" id="admConfigHotline" value="1900 8899" required>
+                    <div class="col-md-4">
+                      <label class="form-label small fw-bold">Tổng đài Hotline CSKH (24/7) <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-telephone text-muted"></i></span>
+                        <input type="text" class="form-control" id="admConfigHotline" value="1900 8899" required placeholder="Ví dụ: 1900 8899">
+                      </div>
                     </div>
-                    <div class="col-md-6">
-                      <label class="form-label small fw-bold">Email hỗ trợ khách hàng</label>
-                      <input type="email" class="form-control" id="admConfigEmail" value="cskh@velorafashion.vn" required>
+                    <div class="col-md-4">
+                      <label class="form-label small fw-bold">Khung giờ hoạt động</label>
+                      <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-clock text-muted"></i></span>
+                        <input type="text" class="form-control" id="admConfigHotlineHours" value="(08:30 - 22:00)" placeholder="(08:30 - 22:00)">
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <label class="form-label small fw-bold">Email hỗ trợ khách hàng <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-envelope text-muted"></i></span>
+                        <input type="email" class="form-control" id="admConfigEmail" value="cskh@velorafashion.vn" required placeholder="cskh@velorafashion.vn">
+                      </div>
                     </div>
                     <div class="col-12">
-                      <label class="form-label small fw-bold">Địa chỉ Showroom Flagship</label>
-                      <input type="text" class="form-control" id="admConfigAddress" value="123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM" required>
+                      <label class="form-label small fw-bold">Địa chỉ Showroom Flagship <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-geo-alt text-muted"></i></span>
+                        <input type="text" class="form-control" id="admConfigAddress" value="123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM" required placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành">
+                      </div>
                     </div>
                     <div class="col-12">
                       <label class="form-label small fw-bold">Nội dung thanh thông báo trên cùng (Top Announcement Bar)</label>
-                      <input type="text" class="form-control" id="admConfigAnnouncement" value="Miễn phí giao hàng đơn từ 500.000đ • Nhập mã VELORA10 giảm 10%" required>
+                      <div class="input-group">
+                        <span class="input-group-text bg-white"><i class="bi bi-megaphone text-muted"></i></span>
+                        <input type="text" class="form-control" id="admConfigAnnouncement" value="Miễn phí giao hàng đơn từ 500.000đ • Nhập mã VELORA10 giảm 10%" required>
+                      </div>
+                      <div class="form-text small" style="font-size: 0.75rem;">Nội dung này sẽ hiển thị trên thanh promo màu đen chạy trên cùng của tất cả các trang.</div>
                     </div>
                   </div>
-                  <div class="mt-4 pt-3 border-top text-end">
-                    <button type="submit" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">
-                      <i class="bi bi-save me-1"></i> Lưu Cấu Hình Cửa Hàng
+                  <div class="mt-4 pt-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <span class="small text-muted"><i class="bi bi-info-circle me-1"></i> Khi lưu, dữ liệu sẽ được đồng bộ ngay lập tức cho thanh điều hướng, chân trang và liên hệ.</span>
+                    <button type="submit" class="btn btn-dark rounded-pill px-4 py-2 fw-bold shadow-sm">
+                      <i class="bi bi-check-lg me-1"></i> Lưu Cấu Hình & Cập Nhật Toàn Bộ Web
                     </button>
                   </div>
                 </form>
