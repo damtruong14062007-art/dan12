@@ -1127,6 +1127,7 @@ function getCustomerProfile() {
     } catch (e) {}
   }
   return {
+    id: 'minhanh.velora@gmail.com',
     name: 'Đặng Minh Anh',
     email: 'minhanh.velora@gmail.com',
     phone: '0988 123 456',
@@ -1138,24 +1139,62 @@ function getCustomerProfile() {
 }
 
 function saveCustomerProfile(profile) {
+  if (!profile) return;
   localStorage.setItem('velora_customer_profile', JSON.stringify(profile));
+
+  // Sync to registered users list locally
+  try {
+    let regUsers = getRegisteredUsers();
+    const emailToMatch = (profile.email || '').toLowerCase().trim();
+    const idx = regUsers.findIndex(u => (u.email || '').toLowerCase().trim() === emailToMatch);
+    if (idx > -1) {
+      regUsers[idx] = { ...regUsers[idx], ...profile };
+    } else if (profile.email) {
+      regUsers.push({ id: profile.id || profile.email, ...profile, role: 'customer' });
+    }
+    localStorage.setItem('velora_registered_users', JSON.stringify(regUsers));
+  } catch (e) {}
+
+  // Sync 2-way with Supabase Cloud
   try {
     const sb = getSupabaseClient();
     if (sb && profile && profile.email) {
-      sb.from('users').upsert([{
-        id: profile.id || profile.email,
-        email: profile.email,
-        password: profile.password || '',
-        name: profile.name,
-        phone: profile.phone,
-        address: profile.address,
-        avatar: profile.avatar,
+      const email = profile.email.trim();
+      const payload = {
+        id: profile.id || email,
+        email: email,
+        password: profile.password || '123456',
+        name: profile.name || 'Khách Hàng Velora',
+        phone: profile.phone || '0988 123 456',
+        address: profile.address || '123 Đường Nam Kỳ Khởi Nghĩa, Q.1, TP. HCM',
+        avatar: profile.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
         role: 'customer',
         membership_tier: profile.membershipTier || 'VIP GOLD',
-        points: profile.points || 1250
-      }]).then(() => {}).catch(err => console.warn(err));
+        points: profile.points !== undefined ? profile.points : 1250
+      };
+
+      // Try PATCH update by email first, fallback to upsert
+      sb.from('users').update({
+        name: payload.name,
+        phone: payload.phone,
+        address: payload.address,
+        avatar: payload.avatar,
+        membership_tier: payload.membership_tier,
+        points: payload.points
+      }).eq('email', email).then(({ error }) => {
+        if (error) {
+          console.warn('Supabase update customer fallback to upsert:', error);
+          sb.from('users').upsert([payload]).catch(e => console.warn(e));
+        } else {
+          console.log('Supabase: customer profile updated successfully', email);
+        }
+      }).catch(err => {
+        sb.from('users').upsert([payload]).catch(e => console.warn(e));
+      });
     }
-  } catch (e) {}
+  } catch (e) {
+    console.warn('saveCustomerProfile catch error:', e);
+  }
 }
 
 function getAdminProfile() {
@@ -1178,24 +1217,48 @@ function getAdminProfile() {
 }
 
 function saveAdminProfile(profile) {
+  if (!profile) return;
   localStorage.setItem('velora_admin_profile', JSON.stringify(profile));
+
+  // Sync 2-way with Supabase Cloud
   try {
     const sb = getSupabaseClient();
-    if (sb && profile && profile.email) {
-      sb.from('users').upsert([{
+    if (sb) {
+      const email = (profile.email || 'admin@velora.vn').trim();
+      const payload = {
         id: 'usr-admin',
-        email: profile.email,
-        password: profile.password || '',
-        name: profile.name,
-        phone: profile.phone,
-        address: profile.address,
-        avatar: profile.avatar,
+        email: email,
+        password: profile.password || localStorage.getItem('velora_admin_password') || 'admin123',
+        name: profile.name || 'Quản Trị Viên Velora',
+        phone: profile.phone || '1900 8899',
+        address: profile.address || 'Trụ sở Điều hành Velora Fashion, Q.1, TP. HCM',
+        avatar: profile.avatar || 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&auto=format&fit=crop&q=80',
         role: 'admin',
-        membership_tier: 'SUPER ADMIN',
+        membership_tier: profile.membershipTier || 'SUPER ADMIN',
         points: 99999
-      }]).then(() => {}).catch(err => console.warn(err));
+      };
+
+      sb.from('users').update({
+        name: payload.name,
+        phone: payload.phone,
+        address: payload.address,
+        avatar: payload.avatar,
+        membership_tier: payload.membership_tier,
+        points: payload.points
+      }).or('id.eq.usr-admin,role.eq.admin,email.eq.' + email).then(({ error }) => {
+        if (error) {
+          console.warn('Supabase update admin fallback to upsert:', error);
+          sb.from('users').upsert([payload]).catch(e => console.warn(e));
+        } else {
+          console.log('Supabase: admin profile updated successfully');
+        }
+      }).catch(err => {
+        sb.from('users').upsert([payload]).catch(e => console.warn(e));
+      });
     }
-  } catch (e) {}
+  } catch (e) {
+    console.warn('saveAdminProfile catch error:', e);
+  }
 }
 
 let currentUser = JSON.parse(localStorage.getItem('velora_user')) || {
@@ -4124,6 +4187,8 @@ function switchAdminSec(secName) {
     adminRenderProductsTable();
   } else if (secName === 'orders') {
     adminRenderOrdersTable();
+  } else if (secName === 'customers') {
+    adminRenderCustomersTable();
   } else if (secName === 'vouchers') {
     adminRenderVouchersTable();
   } else if (secName === 'banners') {
@@ -4174,6 +4239,7 @@ function switchAccountTab(tabName) {
     switchAdminSec('overview');
     adminRenderProductsTable();
     adminRenderOrdersTable();
+    adminRenderCustomersTable();
     adminRenderVouchersTable();
     adminRenderHeroBanners();
     adminUpdateStats();
@@ -4650,6 +4716,7 @@ function updateAccountUI() {
   if (isAdmin) {
     adminRenderProductsTable();
     adminRenderOrdersTable();
+    adminRenderCustomersTable();
     adminRenderVouchersTable();
     adminRenderHeroBanners();
     adminRenderCategoryBanners();
@@ -5936,6 +6003,32 @@ function shareLookbook(lookId) {
 // =========================================================================
 
 // --- 1. ADMIN CUSTOMER & MEMBERS CRM ---
+let currentAdminCustFilter = 'all';
+let currentAdminCustSearch = '';
+
+function adminFilterCustomers(filter, btnEl) {
+  currentAdminCustFilter = filter;
+  if (btnEl && btnEl.parentElement) {
+    btnEl.parentElement.querySelectorAll('.order-filter-pill').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+  adminRenderCustomersTable();
+}
+
+function adminSearchCustomers(term) {
+  currentAdminCustSearch = (term || '').trim().toLowerCase();
+  adminRenderCustomersTable();
+}
+
+function adminViewCustomerOrders(email, name) {
+  switchAdminSec('orders');
+  currentAdminOrderSearch = (name || email || '').trim().toLowerCase();
+  const searchInput = document.getElementById('admOrderSearchInput');
+  if (searchInput) searchInput.value = name || email;
+  adminRenderOrdersTable();
+  showToast(`Đang lọc danh sách đơn hàng của khách hàng: <b>${name || email}</b>`, 'info');
+}
+
 function adminRenderCustomersTable() {
   const tbody = document.getElementById('adminCustomersBody');
   if (!tbody) return;
@@ -5943,30 +6036,106 @@ function adminRenderCustomersTable() {
   const regUsers = getRegisteredUsers();
   const custProf = getCustomerProfile();
 
-  const allUsers = [
+  // Deduplicated unified list
+  const seenEmails = new Set();
+  const allUsers = [];
+
+  // Primary customer
+  const primaryEmail = (custProf.email || 'minhanh.velora@gmail.com').toLowerCase().trim();
+  allUsers.push({
+    id: custProf.id || 'CUST-VIP-01',
+    name: custProf.name || 'Đặng Minh Anh',
+    email: custProf.email || 'minhanh.velora@gmail.com',
+    phone: custProf.phone || '0988 123 456',
+    address: custProf.address || '123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. Hồ Chí Minh',
+    membershipTier: custProf.membershipTier || 'VIP GOLD',
+    points: custProf.points !== undefined ? custProf.points : 1250,
+    avatar: custProf.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
+    ordersCount: getOrders().length,
+    isPrimary: true
+  });
+  seenEmails.add(primaryEmail);
+
+  // Registered customers
+  regUsers.forEach(u => {
+    if (u && u.email) {
+      const em = u.email.toLowerCase().trim();
+      if (!seenEmails.has(em)) {
+        seenEmails.add(em);
+        allUsers.push({
+          id: u.id || `CUST-${Math.floor(1000 + Math.random()*9000)}`,
+          name: u.name || 'Khách hàng Velora',
+          email: u.email,
+          phone: u.phone || '0912 345 678',
+          address: u.address || 'Chưa cập nhật',
+          membershipTier: u.membershipTier || 'THÀNH VIÊN MỚI',
+          points: u.points !== undefined ? u.points : 500,
+          avatar: u.avatar || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80',
+          ordersCount: 0,
+          isPrimary: false
+        });
+      }
+    }
+  });
+
+  // Default seed members if list is small
+  const defaultSeeds = [
     {
-      id: 'CUST-DEMO',
-      name: custProf.name || 'Đặng Minh Anh',
-      email: custProf.email || 'minhanh.velora@gmail.com',
-      phone: custProf.phone || '0988 123 456',
-      membershipTier: custProf.membershipTier || 'VIP GOLD',
-      points: custProf.points || 1250,
-      avatar: custProf.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100',
-      ordersCount: getOrders().length,
-      isDemo: true
+      id: 'usr-cust-2',
+      name: 'Nguyễn Thị Lan Hương',
+      email: 'lanhuong@gmail.com',
+      phone: '0912 345 678',
+      membershipTier: 'VIP GOLD',
+      points: 850,
+      avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80',
+      ordersCount: 1,
+      isPrimary: false
     },
-    ...regUsers.map(u => ({
-      id: u.id,
-      name: u.name,
-      email: u.email,
-      phone: u.phone,
-      membershipTier: u.membershipTier || 'THÀNH VIÊN MỚI',
-      points: u.points || 500,
-      avatar: u.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100',
+    {
+      id: 'usr-cust-3',
+      name: 'Trần Tuấn Anh',
+      email: 'tran.tuan@gmail.com',
+      phone: '0903 888 999',
+      membershipTier: 'SILVER',
+      points: 420,
+      avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&auto=format&fit=crop&q=80',
       ordersCount: 0,
-      isDemo: false
-    }))
+      isPrimary: false
+    },
+    {
+      id: 'usr-cust-4',
+      name: 'Võ Hoàng Yến',
+      email: 'hoang.yen@gmail.com',
+      phone: '0938 111 222',
+      membershipTier: 'VIP DIAMOND (KIM CƯƠNG)',
+      points: 3200,
+      avatar: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80',
+      ordersCount: 4,
+      isPrimary: false
+    }
   ];
+
+  defaultSeeds.forEach(seed => {
+    const em = seed.email.toLowerCase();
+    if (!seenEmails.has(em)) {
+      seenEmails.add(em);
+      allUsers.push(seed);
+    }
+  });
+
+  // Filter & Search
+  let filtered = allUsers;
+  if (currentAdminCustFilter && currentAdminCustFilter !== 'all') {
+    filtered = filtered.filter(u => (u.membershipTier || '').toLowerCase().includes(currentAdminCustFilter.toLowerCase()));
+  }
+  if (currentAdminCustSearch) {
+    filtered = filtered.filter(u => {
+      const nMatch = (u.name || '').toLowerCase().includes(currentAdminCustSearch);
+      const eMatch = (u.email || '').toLowerCase().includes(currentAdminCustSearch);
+      const pMatch = (u.phone || '').toLowerCase().includes(currentAdminCustSearch);
+      return nMatch || eMatch || pMatch;
+    });
+  }
 
   const countEl = document.getElementById('admNavCustCount');
   if (countEl) countEl.textContent = allUsers.length;
@@ -5976,57 +6145,86 @@ function adminRenderCustomersTable() {
   const totalPointsEl = document.getElementById('admStatTotalPoints');
   if (totalPointsEl) totalPointsEl.textContent = totalPoints.toLocaleString('vi-VN');
 
-  tbody.innerHTML = allUsers.map(u => `
-    <tr>
-      <td class="ps-3 py-3">
-        <div class="d-flex align-items-center gap-2">
-          <img src="${u.avatar}" class="rounded-circle border" style="width: 38px; height: 38px; object-fit: cover;">
-          <div>
-            <div class="fw-bold text-dark">${u.name}</div>
-            <div class="small text-muted" style="font-size: 0.72rem;">${u.isDemo ? '<span class="badge bg-secondary">Tài khoản mẫu VIP</span>' : '<span class="badge bg-primary">Đã đăng ký</span>'}</div>
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" class="text-center py-4 text-muted"><i class="bi bi-search me-1"></i>Không tìm thấy khách hàng nào phù hợp với bộ lọc hiện tại</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(u => {
+    const tier = u.membershipTier || 'THÀNH VIÊN';
+    const tierBadgeClass = tier.includes('DIAMOND') ? 'bg-danger' : (tier.includes('GOLD') ? 'bg-warning text-dark' : 'bg-dark');
+
+    return `
+      <tr>
+        <td class="ps-3 py-3">
+          <div class="d-flex align-items-center gap-2">
+            <img src="${u.avatar || 'logo_crop.png'}" class="rounded-circle border shadow-sm" style="width: 40px; height: 40px; object-fit: cover;">
+            <div>
+              <div class="fw-bold text-dark">${u.name}</div>
+              <div class="small text-muted" style="font-size: 0.72rem;">
+                ${u.isPrimary ? '<span class="badge bg-secondary">Tài khoản chính</span>' : '<span class="badge bg-primary">Đã đăng ký</span>'}
+              </div>
+            </div>
           </div>
-        </div>
-      </td>
-      <td><code>${u.email}</code></td>
-      <td>${u.phone}</td>
-      <td><span class="badge ${u.membershipTier.includes('GOLD') ? 'bg-warning text-dark' : (u.membershipTier.includes('DIAMOND') ? 'bg-danger' : 'bg-dark')} px-2.5 py-1 rounded-pill">${u.membershipTier}</span></td>
-      <td><b class="text-warning">${Number(u.points || 0).toLocaleString('vi-VN')}</b> pts</td>
-      <td><span class="badge bg-light text-dark border">${u.ordersCount} đơn</span></td>
-      <td class="text-end pe-3">
-        <div class="btn-group btn-group-sm">
-          <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-2 py-0" style="font-size: 0.72rem;" onclick="adminAwardPoints('${u.email}', 500)" title="Cộng 500 điểm thưởng">
-            <i class="bi bi-gift-fill text-warning me-1"></i>+500đ
-          </button>
-          <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-2 py-0 ms-1" style="font-size: 0.72rem;" onclick="adminUpgradeUserTier('${u.email}')" title="Nâng hạng thẻ VIP">
-            <i class="bi bi-arrow-up-circle-fill text-danger me-1"></i>Nâng VIP
-          </button>
-        </div>
-      </td>
-    </tr>
-  `).join('');
+        </td>
+        <td><code>${u.email}</code></td>
+        <td><i class="bi bi-telephone text-muted me-1"></i>${u.phone || '-'}</td>
+        <td><span class="badge ${tierBadgeClass} px-2.5 py-1 rounded-pill">${tier}</span></td>
+        <td><b class="text-warning">${Number(u.points || 0).toLocaleString('vi-VN')}</b> pts</td>
+        <td><span class="badge bg-light text-dark border">${u.ordersCount || 0} đơn</span></td>
+        <td class="text-end pe-3">
+          <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-2 py-0" style="font-size: 0.72rem;" onclick="adminAwardPoints('${u.email}', 500)" title="Cộng 500 điểm thưởng">
+              <i class="bi bi-gift-fill text-warning me-1"></i>+500đ
+            </button>
+            <button type="button" class="btn btn-outline-dark btn-sm rounded-pill px-2 py-0 ms-1" style="font-size: 0.72rem;" onclick="adminUpgradeUserTier('${u.email}')" title="Nâng hạng VIP Kim Cương">
+              <i class="bi bi-arrow-up-circle-fill text-danger me-1"></i>Nâng VIP
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-2 py-0 ms-1" style="font-size: 0.72rem;" onclick="adminViewCustomerOrders('${u.email}', '${u.name}')" title="Xem đơn hàng của khách">
+              <i class="bi bi-receipt me-1"></i>Xem đơn
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
 }
 
 function adminAwardPoints(email, pts = 500) {
-  if (email.includes('minhanh')) {
-    const cust = getCustomerProfile();
-    cust.points = (cust.points || 1250) + pts;
-    saveCustomerProfile(cust);
+  const emailNorm = (email || '').toLowerCase().trim();
+  const custProf = getCustomerProfile();
+
+  if (emailNorm === (custProf.email || '').toLowerCase().trim()) {
+    custProf.points = (custProf.points || 1250) + pts;
+    saveCustomerProfile(custProf);
     if (currentUser.role === 'customer') {
-      currentUser.points = cust.points;
+      currentUser.points = custProf.points;
       localStorage.setItem('velora_user', JSON.stringify(currentUser));
     }
   } else {
     const users = getRegisteredUsers();
-    const u = users.find(x => x.email === email);
+    const u = users.find(x => (x.email || '').toLowerCase().trim() === emailNorm);
     if (u) {
       u.points = (u.points || 500) + pts;
       saveRegisteredUsers(users);
-      if (currentUser.email === email) {
+      if (currentUser.email && currentUser.email.toLowerCase() === emailNorm) {
         currentUser.points = u.points;
         localStorage.setItem('velora_user', JSON.stringify(currentUser));
       }
     }
   }
+
+  // Sync to Supabase directly
+  try {
+    const sb = getSupabaseClient();
+    if (sb) {
+      sb.from('users').select('points').eq('email', emailNorm).then(({ data }) => {
+        const currentPts = (data && data[0] && data[0].points) ? Number(data[0].points) : 0;
+        sb.from('users').update({ points: currentPts + pts }).eq('email', emailNorm).catch(e => console.warn(e));
+      }).catch(e => console.warn(e));
+    }
+  } catch (e) {}
+
   adminRenderCustomersTable();
   updateAccountUI();
   showToast(`Đã cộng <b>+${pts} điểm thưởng</b> cho khách hàng <b>${email}</b>!`, 'success');
@@ -6034,26 +6232,37 @@ function adminAwardPoints(email, pts = 500) {
 
 function adminUpgradeUserTier(email) {
   const newTier = 'VIP DIAMOND (KIM CƯƠNG)';
-  if (email.includes('minhanh')) {
-    const cust = getCustomerProfile();
-    cust.membershipTier = newTier;
-    saveCustomerProfile(cust);
+  const emailNorm = (email || '').toLowerCase().trim();
+  const custProf = getCustomerProfile();
+
+  if (emailNorm === (custProf.email || '').toLowerCase().trim()) {
+    custProf.membershipTier = newTier;
+    saveCustomerProfile(custProf);
     if (currentUser.role === 'customer') {
       currentUser.membershipTier = newTier;
       localStorage.setItem('velora_user', JSON.stringify(currentUser));
     }
   } else {
     const users = getRegisteredUsers();
-    const u = users.find(x => x.email === email);
+    const u = users.find(x => (x.email || '').toLowerCase().trim() === emailNorm);
     if (u) {
       u.membershipTier = newTier;
       saveRegisteredUsers(users);
-      if (currentUser.email === email) {
+      if (currentUser.email && currentUser.email.toLowerCase() === emailNorm) {
         currentUser.membershipTier = newTier;
         localStorage.setItem('velora_user', JSON.stringify(currentUser));
       }
     }
   }
+
+  // Sync to Supabase directly
+  try {
+    const sb = getSupabaseClient();
+    if (sb) {
+      sb.from('users').update({ membership_tier: newTier }).eq('email', emailNorm).catch(e => console.warn(e));
+    }
+  } catch (e) {}
+
   adminRenderCustomersTable();
   updateAccountUI();
   showToast(`Đã nâng hạng thành công cho <b>${email}</b> lên <b>${newTier}</b>!`, 'success');
@@ -6732,6 +6941,7 @@ async function pullFromSupabase() {
       PRODUCTS.length = 0;
       mapped.forEach(item => PRODUCTS.push(item));
       localStorage.setItem('velora_products', JSON.stringify(PRODUCTS));
+      localStorage.setItem('velora_custom_products', JSON.stringify(PRODUCTS));
     }
 
     // 2. Pull Orders
@@ -6832,16 +7042,66 @@ async function autoPullFromCloud(quiet = true) {
       if (typeof adminRenderVouchersTable === 'function') adminRenderVouchersTable();
     }
 
-    // 4. Pull Users and synchronize Admin & Customer Passwords across all devices
+    // 4. Pull Users and synchronize Admin & Customer Profiles across all devices
     const { data: dbUsers, error: uErr } = await client.from('users').select('*');
     if (!uErr && dbUsers && dbUsers.length > 0) {
-      // Sync Admin Password
+      // A. Sync Admin Profile & Password across devices
       const adminUser = dbUsers.find(u => u.id === 'usr-admin' || u.role === 'admin' || (u.email && u.email.includes('admin')));
-      if (adminUser && adminUser.password) {
-        localStorage.setItem('velora_admin_password', adminUser.password);
+      if (adminUser) {
+        if (adminUser.password) {
+          localStorage.setItem('velora_admin_password', adminUser.password);
+        }
+        const admProf = {
+          name: adminUser.name || 'Quản Trị Viên Velora',
+          email: adminUser.email || 'admin@velora.vn',
+          phone: adminUser.phone || '1900 8899',
+          address: adminUser.address || 'Trụ sở Điều hành Velora Fashion, Q.1, TP. HCM',
+          membershipTier: adminUser.membership_tier || 'SUPER ADMIN',
+          points: adminUser.points || 99999,
+          avatar: adminUser.avatar || 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&auto=format&fit=crop&q=80'
+        };
+        localStorage.setItem('velora_admin_profile', JSON.stringify(admProf));
+
+        if (currentUser && currentUser.role === 'admin') {
+          currentUser.name = admProf.name;
+          currentUser.avatar = admProf.avatar;
+          currentUser.email = admProf.email;
+          currentUser.phone = admProf.phone;
+          currentUser.address = admProf.address;
+          currentUser.membershipTier = admProf.membershipTier;
+          currentUser.points = admProf.points;
+          localStorage.setItem('velora_user', JSON.stringify(currentUser));
+        }
       }
 
-      // Sync Registered Customers
+      // B. Sync Primary Customer Profile across devices
+      const primaryCust = dbUsers.find(u => u.role !== 'admin' && u.id !== 'usr-admin' && (u.id === 'minhanh.velora@gmail.com' || (u.email && u.email.includes('minhanh'))));
+      if (primaryCust) {
+        const custProf = {
+          id: primaryCust.id || 'minhanh.velora@gmail.com',
+          name: primaryCust.name || 'Đặng Minh Anh',
+          email: primaryCust.email || 'minhanh.velora@gmail.com',
+          phone: primaryCust.phone || '0988 123 456',
+          address: primaryCust.address || '123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. Hồ Chí Minh',
+          membershipTier: primaryCust.membership_tier || 'VIP GOLD',
+          points: primaryCust.points !== undefined ? primaryCust.points : 1250,
+          avatar: primaryCust.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80'
+        };
+        localStorage.setItem('velora_customer_profile', JSON.stringify(custProf));
+
+        if (currentUser && currentUser.role === 'customer' && (!currentUser.email || currentUser.email.toLowerCase() === primaryCust.email.toLowerCase())) {
+          currentUser.name = custProf.name;
+          currentUser.avatar = custProf.avatar;
+          currentUser.email = custProf.email;
+          currentUser.phone = custProf.phone;
+          currentUser.address = custProf.address;
+          currentUser.membershipTier = custProf.membershipTier;
+          currentUser.points = custProf.points;
+          localStorage.setItem('velora_user', JSON.stringify(currentUser));
+        }
+      }
+
+      // C. Sync Registered Customers for Admin CRM
       const mappedCusts = dbUsers.filter(u => u.role !== 'admin' && u.id !== 'usr-admin').map(u => ({
         id: u.id,
         email: u.email,
@@ -6849,24 +7109,31 @@ async function autoPullFromCloud(quiet = true) {
         name: u.name,
         phone: u.phone,
         address: u.address,
-        avatar: u.avatar,
+        avatar: u.avatar || 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&auto=format&fit=crop&q=80',
         role: u.role || 'customer',
-        membershipTier: u.membership_tier,
-        points: u.points
+        membershipTier: u.membership_tier || 'THÀNH VIÊN VIP',
+        points: u.points !== undefined ? u.points : 500
       }));
       localStorage.setItem('velora_registered_users', JSON.stringify(mappedCusts));
 
-      // Sync current active session
+      // D. Sync current active user if logged in with any other customer email
       if (currentUser && currentUser.email) {
-        const foundUser = dbUsers.find(u => u.email && u.email.toLowerCase() === currentUser.email.toLowerCase());
-        if (foundUser) {
-          currentUser.password = foundUser.password;
-          currentUser.name = foundUser.name || currentUser.name;
-          currentUser.points = foundUser.points || currentUser.points;
-          currentUser.membershipTier = foundUser.membership_tier || currentUser.membershipTier;
+        const matchedUser = dbUsers.find(u => u.email && u.email.toLowerCase() === currentUser.email.toLowerCase());
+        if (matchedUser) {
+          currentUser.name = matchedUser.name || currentUser.name;
+          currentUser.avatar = matchedUser.avatar || currentUser.avatar;
+          currentUser.phone = matchedUser.phone || currentUser.phone;
+          currentUser.address = matchedUser.address || currentUser.address;
+          currentUser.points = matchedUser.points !== undefined ? matchedUser.points : currentUser.points;
+          currentUser.membershipTier = matchedUser.membership_tier || currentUser.membershipTier;
+          if (matchedUser.password) currentUser.password = matchedUser.password;
           localStorage.setItem('velora_user', JSON.stringify(currentUser));
         }
       }
+
+      // E. TRIGGER INSTANT RE-RENDER ON SCREEN
+      if (typeof updateAccountUI === 'function') updateAccountUI();
+      if (typeof adminRenderCustomersTable === 'function') adminRenderCustomersTable();
     }
   } catch (err) {
     console.warn('Auto cloud pull error:', err);
@@ -6933,3 +7200,9 @@ window.adminFilterOrdersByStatus = adminFilterOrdersByStatus;
 window.adminSearchOrders = adminSearchOrders;
 window.adminExportOrdersCSV = adminExportOrdersCSV;
 window.customerCancelOrder = customerCancelOrder;
+window.adminFilterCustomers = adminFilterCustomers;
+window.adminSearchCustomers = adminSearchCustomers;
+window.adminAwardPoints = adminAwardPoints;
+window.adminUpgradeUserTier = adminUpgradeUserTier;
+window.adminViewCustomerOrders = adminViewCustomerOrders;
+window.adminRenderCustomersTable = adminRenderCustomersTable;

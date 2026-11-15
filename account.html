@@ -968,6 +968,23 @@
                 </div>
               </div>
 
+              <!-- Customer Filter & Search Bar -->
+              <div class="card border rounded-3 p-3 bg-light mb-3 shadow-sm">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                  <div class="d-flex align-items-center gap-1.5 flex-wrap">
+                    <button type="button" class="order-filter-pill active" onclick="adminFilterCustomers('all', this)">Tất cả</button>
+                    <button type="button" class="order-filter-pill" onclick="adminFilterCustomers('VIP', this)">Hội viên VIP</button>
+                    <button type="button" class="order-filter-pill" onclick="adminFilterCustomers('DIAMOND', this)">Kim Cương</button>
+                    <button type="button" class="order-filter-pill" onclick="adminFilterCustomers('GOLD', this)">Vàng (Gold)</button>
+                    <button type="button" class="order-filter-pill" onclick="adminFilterCustomers('MỚI', this)">Mới gia nhập</button>
+                  </div>
+                  <div class="input-group input-group-sm" style="max-width: 260px;">
+                    <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+                    <input type="text" class="form-control bg-white border-start-0" id="admCustomerSearchInput" placeholder="Tìm theo tên, email, SĐT..." onkeyup="adminSearchCustomers(this.value)">
+                  </div>
+                </div>
+              </div>
+
               <!-- Customer Table -->
               <div class="table-responsive bg-white rounded-4 border shadow-sm">
                 <table class="table table-hover align-middle mb-0">
