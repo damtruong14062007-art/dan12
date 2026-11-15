@@ -3131,6 +3131,9 @@ function renderAccountOrders() {
             <button class="btn btn-sm btn-outline-dark rounded-pill px-2" onclick="showOrderDetail('${o.id}')" title="Xem chi tiết đơn hàng">
               <i class="bi bi-eye me-1"></i>Chi tiết
             </button>
+            <button class="btn btn-sm btn-outline-primary rounded-pill px-2.5" onclick="printOrderInvoice('${o.id}')" title="Xem / In hóa đơn điện tử VAT">
+              <i class="bi bi-receipt me-1"></i>Hóa đơn
+            </button>
             ${cancelBtn}
             <button class="btn btn-sm btn-outline-danger rounded-pill px-2" onclick="deleteUserOrder('${o.id}')" title="Xóa đơn hàng này">
               <i class="bi bi-trash"></i>
@@ -3597,6 +3600,9 @@ function adminRenderOrdersTable() {
           <div class="d-flex justify-content-center gap-1 flex-wrap">
             <button class="btn btn-sm btn-outline-dark rounded-pill px-2" onclick="showOrderDetail('${o.id}')" title="Xem chi tiết đơn hàng">
               <i class="bi bi-eye"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-primary rounded-pill px-2" onclick="printOrderInvoice('${o.id}')" title="Xem / In hóa đơn điện tử VAT">
+              <i class="bi bi-receipt"></i>
             </button>
             <button class="btn btn-sm btn-outline-danger rounded-pill px-2" onclick="deleteUserOrder('${o.id}')" title="Xóa đơn hàng này">
               <i class="bi bi-trash"></i>

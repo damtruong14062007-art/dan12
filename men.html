@@ -1106,6 +1106,127 @@
     </div>
   </div>
 
+    <!-- MODAL: REDEEM REWARD POINTS TO VOUCHER -->
+  <div class="modal fade" id="redeemPointsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 580px;">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3.5">
+          <div class="d-flex align-items-center gap-2.5">
+            <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center shadow-xs" style="width: 38px; height: 38px;">
+              <i class="bi bi-gift-fill fs-5"></i>
+            </div>
+            <div>
+              <h5 class="modal-title fw-bold m-0 font-serif" style="font-size: 1.15rem;">Đổi Điểm Thưởng Nhận Voucher VIP</h5>
+              <div class="text-white-50 small" style="font-size: 0.76rem;">Điểm tích lũy hiện có của bạn: <b class="text-warning font-serif fs-6" id="redeemModalPointsDisplay">1.250</b> pts</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 bg-light">
+          <div class="d-flex flex-column gap-3">
+            <!-- Voucher Option 1: 50K -->
+            <div class="p-3.5 bg-white rounded-4 border shadow-xs d-flex align-items-center justify-content-between flex-wrap gap-2.5">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center flex-shrink-0" style="width: 46px; height: 46px;">
+                  <i class="bi bi-ticket-perforated-fill fs-4"></i>
+                </div>
+                <div>
+                  <div class="d-flex align-items-center gap-2">
+                    <h6 class="fw-bold font-serif text-dark m-0">Voucher Giảm 50.000đ</h6>
+                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill small">Mọi đơn từ 300k</span>
+                  </div>
+                  <div class="small text-muted mt-0.5">Áp dụng cho toàn bộ bộ sưu tập thời trang</div>
+                  <div class="fw-bold text-warning small mt-1"><i class="bi bi-stars me-1"></i>Giá đổi: <b>200 pts</b></div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-dark rounded-pill px-3.5 py-2 fw-semibold btn-sm shadow-xs" onclick="redeemPointsAction(200, 50000, 300000, '50K')">
+                Đổi Ngay <i class="bi bi-arrow-right ms-1"></i>
+              </button>
+            </div>
+
+            <!-- Voucher Option 2: 150K -->
+            <div class="p-3.5 bg-white rounded-4 border shadow-xs d-flex align-items-center justify-content-between flex-wrap gap-2.5">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-warning bg-opacity-15 text-warning d-flex align-items-center justify-content-center flex-shrink-0" style="width: 46px; height: 46px;">
+                  <i class="bi bi-award-fill fs-4"></i>
+                </div>
+                <div>
+                  <div class="d-flex align-items-center gap-2">
+                    <h6 class="fw-bold font-serif text-dark m-0">Voucher Giảm 150.000đ</h6>
+                    <span class="badge bg-warning bg-opacity-20 text-dark border border-warning border-opacity-50 rounded-pill small fw-bold">HOT VOUCHER</span>
+                  </div>
+                  <div class="small text-muted mt-0.5">Áp dụng đơn hàng thời trang từ 800.000đ</div>
+                  <div class="fw-bold text-warning small mt-1"><i class="bi bi-stars me-1"></i>Giá đổi: <b>500 pts</b></div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-warning text-dark rounded-pill px-3.5 py-2 fw-bold btn-sm shadow-xs" onclick="redeemPointsAction(500, 150000, 800000, '150K')">
+                Đổi Ngay <i class="bi bi-arrow-right ms-1"></i>
+              </button>
+            </div>
+
+            <!-- Voucher Option 3: 350K VIP -->
+            <div class="p-3.5 bg-white rounded-4 border border-warning shadow-xs d-flex align-items-center justify-content-between flex-wrap gap-2.5">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-danger bg-opacity-10 text-danger d-flex align-items-center justify-content-center flex-shrink-0" style="width: 46px; height: 46px;">
+                  <i class="bi bi-gem fs-4"></i>
+                </div>
+                <div>
+                  <div class="d-flex align-items-center gap-2">
+                    <h6 class="fw-bold font-serif text-danger m-0">Voucher VIP Giảm 350.000đ</h6>
+                    <span class="badge bg-danger text-white rounded-pill small fw-bold">VIP DIAMOND</span>
+                  </div>
+                  <div class="small text-muted mt-0.5">Áp dụng đơn hàng thượng lưu từ 1.500.000đ</div>
+                  <div class="fw-bold text-danger small mt-1"><i class="bi bi-stars me-1"></i>Giá đổi: <b>1.000 pts</b></div>
+                </div>
+              </div>
+              <button type="button" class="btn btn-danger text-white rounded-pill px-3.5 py-2 fw-bold btn-sm shadow-xs" onclick="redeemPointsAction(1000, 350000, 1500000, '350K')">
+                Đổi Ngay <i class="bi bi-arrow-right ms-1"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer bg-light px-4 py-3 border-top d-flex justify-content-between align-items-center">
+          <span class="small text-muted"><i class="bi bi-info-circle me-1"></i>Voucher sau khi đổi sẽ lưu vào tab Mã Ưu Đãi</span>
+          <button type="button" class="btn btn-outline-dark rounded-pill px-4 btn-sm" data-bs-dismiss="modal">Đóng</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: ORDER INVOICE / VAT RECEIPT -->
+  <div class="modal fade" id="orderInvoiceModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3.5">
+          <div class="d-flex align-items-center gap-2.5">
+            <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center shadow-xs" style="width: 36px; height: 36px;">
+              <i class="bi bi-receipt-cutoff fs-5"></i>
+            </div>
+            <div>
+              <h5 class="modal-title fw-bold m-0 font-serif" style="font-size: 1.15rem;">Hóa Đơn Điện Tử Bán Lẻ (E-Invoice)</h5>
+              <div class="text-white-50 small" id="invoiceModalSub">VELORA Luxury Fashion Store</div>
+            </div>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4 p-md-5" id="orderInvoicePrintArea" style="background: #ffffff; color: #111113;">
+          <!-- Dynamically populated by script.js renderOrderInvoiceContent(orderId) -->
+        </div>
+        <div class="modal-footer bg-light px-4 py-3 border-top d-flex justify-content-between align-items-center">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 btn-sm" data-bs-dismiss="modal">Đóng</button>
+          <div class="d-flex gap-2">
+            <button type="button" class="btn btn-outline-dark rounded-pill px-3.5 py-2 btn-sm fw-semibold" onclick="copyInvoiceCode()">
+              <i class="bi bi-copy me-1"></i>Sao chép mã đơn
+            </button>
+            <button type="button" class="btn btn-dark rounded-pill px-4 py-2 btn-sm fw-bold shadow-xs" onclick="window.print()">
+              <i class="bi bi-printer-fill me-1.5"></i>In hóa đơn
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: ADMIN PRODUCT EDITOR -->
   <div class="modal fade" id="adminProductModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
