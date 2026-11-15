@@ -3549,3 +3549,73 @@ img, svg, video, canvas, audio, iframe, embed, object {
   background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
+
+/* ===================================================================
+   LUXURY WISHLIST MODAL & CARDS STYLING
+   =================================================================== */
+#wishlistModal .modal-content {
+  border-radius: 1.5rem !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22) !important;
+}
+
+.wishlist-item-card {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+.wishlist-item-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08) !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+/* ===================================================================
+   ENTERPRISE ADMIN SUITE CARDS (STORE, SECURITY, SUPABASE)
+   =================================================================== */
+.admin-card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.admin-preview-pill {
+  transition: all 0.2s ease;
+}
+
+.admin-preview-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.security-badge-pulse {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.table-status-pill {
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+/* Form input elevation */
+.form-control-luxury {
+  border: 1px solid rgba(0, 0, 0, 0.12) !important;
+  border-radius: 0.75rem !important;
+  padding: 0.65rem 1rem !important;
+  font-size: 0.92rem !important;
+  transition: all 0.2s ease !important;
+}
+
+.form-control-luxury:focus {
+  border-color: #111113 !important;
+  box-shadow: 0 0 0 4px rgba(17, 17, 19, 0.08) !important;
+}

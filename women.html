@@ -1249,7 +1249,7 @@
 
   <!-- MODAL: WISHLIST (SẢN PHẨM YÊU THÍCH) -->
   <div class="modal fade" id="wishlistModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 560px;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 640px;">
       <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
         <div class="modal-header bg-light border-bottom px-4 py-3">
           <div class="d-flex align-items-center gap-2.5">
@@ -1451,47 +1451,60 @@
 
   <!-- MODAL: ADMIN AUTHENTICATION / SECURE PASSWORD GATE -->
   <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 440px;">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 480px;">
       <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
-          <div class="d-flex align-items-center gap-2">
-            <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
-              <i class="bi bi-shield-lock-fill"></i>
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3.5">
+          <div class="d-flex align-items-center gap-2.5">
+            <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center shadow-xs" style="width: 36px; height: 36px;">
+              <i class="bi bi-shield-lock-fill fs-5"></i>
             </div>
-            <h5 class="modal-title fw-bold m-0 font-serif">Xác Thực Quản Trị Viên</h5>
+            <div>
+              <h5 class="modal-title fw-bold m-0 font-serif" style="font-size: 1.1rem;">Xác Thực Quản Trị Viên</h5>
+              <div class="text-white-50 small" style="font-size: 0.76rem;">Khu vực kiểm soát toàn quyền hệ thống VELORA</div>
+            </div>
           </div>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form id="adminLoginForm" onsubmit="submitAdminPasswordLogin(event)">
-          <div class="modal-body p-4 text-center">
-            <div class="mb-3 text-muted small">
-              Khu vực bảo mật cấp cao dành riêng cho Quản Trị Viên Velora Luxury. Vui lòng nhập mật khẩu xác thực để tiếp tục.
+          <div class="modal-body p-4 p-sm-4.5">
+            <div class="p-3.5 bg-light rounded-4 mb-3.5 text-start border d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-dark text-warning d-flex align-items-center justify-content-center fw-bold shadow-xs" style="width: 42px; height: 42px;">
+                  <i class="bi bi-person-badge-fill fs-5"></i>
+                </div>
+                <div>
+                  <div class="small text-muted" style="font-size: 0.75rem;">Tài khoản Quản Trị Hệ Thống:</div>
+                  <div class="fw-bold text-dark font-monospace" style="font-size: 0.95rem;">admin@velora.vn</div>
+                </div>
+              </div>
+              <span class="badge bg-warning text-dark px-2.5 py-1 rounded-pill small fw-bold">ROOT ADMIN</span>
             </div>
-            <div class="p-3 bg-light rounded-3 mb-3 text-start border">
-              <div class="small text-muted">Tài khoản quản trị:</div>
-              <div class="fw-bold text-dark font-monospace"><i class="bi bi-person-badge me-1 text-primary"></i> admin@velora.vn</div>
-            </div>
-            <div class="mb-3 text-start">
-              <label class="form-label small fw-bold">Mật khẩu Quản Trị <span class="text-danger">*</span></label>
+
+            <div class="mb-3.5 text-start">
+              <label class="form-label small fw-bold text-dark mb-2 d-flex align-items-center justify-content-between">
+                <span><i class="bi bi-key-fill text-warning me-1.5"></i>Mật khẩu Quản Trị <span class="text-danger">*</span></span>
+                <span class="text-muted fw-normal" style="font-size: 0.74rem;">Mặc định: <code>admin123</code></span>
+              </label>
               <div class="input-group">
-                <span class="input-group-text bg-white border-end-0"><i class="bi bi-key text-muted"></i></span>
-                <input type="password" class="form-control border-start-0 border-end-0" id="modalAdminPassword" required placeholder="Nhập mật khẩu..." autocomplete="current-password">
-                <button class="btn btn-outline-secondary border-start-0" type="button" onclick="togglePasswordVisibility('modalAdminPassword', this)">
+                <span class="input-group-text bg-white border-end-0 px-3"><i class="bi bi-lock text-muted"></i></span>
+                <input type="password" class="form-control border-start-0 border-end-0 py-2.5 px-2 form-control-luxury" id="modalAdminPassword" required placeholder="Nhập mật khẩu quản trị..." autocomplete="current-password" style="font-size: 0.95rem;">
+                <button class="btn btn-outline-secondary border-start-0 px-3" type="button" onclick="togglePasswordVisibility('modalAdminPassword', this)" title="Hiện/ẩn mật khẩu">
                   <i class="bi bi-eye"></i>
                 </button>
               </div>
-              <div class="form-text small mt-1 text-muted">
-                <i class="bi bi-info-circle me-1"></i> Mật khẩu mặc định hệ thống: <code>admin123</code>
+              <div class="form-text small mt-1.5 text-muted" style="font-size: 0.76rem;">
+                <i class="bi bi-shield-check text-success me-1"></i> Đồng bộ xác thực trực tiếp qua Cloud Supabase mọi thiết bị.
               </div>
             </div>
-            <div id="adminLoginError" class="alert alert-danger py-2 small d-none mb-0">
-              <i class="bi bi-exclamation-triangle-fill me-1"></i> Mật khẩu Quản Trị Viên không đúng. Vui lòng thử lại!
+
+            <div id="adminLoginError" class="alert alert-danger py-2.5 px-3 small d-none mb-0 rounded-3">
+              <i class="bi bi-exclamation-triangle-fill me-1.5"></i> Mật khẩu Quản Trị Viên không đúng. Vui lòng kiểm tra lại!
             </div>
           </div>
-          <div class="modal-footer bg-light px-4 py-3">
-            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy bỏ</button>
-            <button type="submit" class="btn btn-warning text-dark rounded-pill px-4 fw-bold shadow-sm">
-              <i class="bi bi-unlock-fill me-1"></i> Xác Nhận Vào Admin
+          <div class="modal-footer bg-light px-4 py-3 border-top d-flex justify-content-end gap-2.5">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4 py-2 small" data-bs-dismiss="modal">Hủy bỏ</button>
+            <button type="submit" class="btn btn-warning text-dark rounded-pill px-4 py-2 fw-bold shadow-sm small">
+              <i class="bi bi-unlock-fill me-1.5"></i> Xác Nhận Vào Admin
             </button>
           </div>
         </form>

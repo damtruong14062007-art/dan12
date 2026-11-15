@@ -697,7 +697,7 @@ def get_footer_and_modals():
 
   <!-- MODAL: WISHLIST (SẢN PHẨM YÊU THÍCH) -->
   <div class="modal fade" id="wishlistModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 560px;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 640px;">
       <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
         <div class="modal-header bg-light border-bottom px-4 py-3">
           <div class="d-flex align-items-center gap-2.5">
@@ -899,47 +899,60 @@ def get_footer_and_modals():
 
   <!-- MODAL: ADMIN AUTHENTICATION / SECURE PASSWORD GATE -->
   <div class="modal fade" id="adminLoginModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 440px;">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 480px;">
       <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
-        <div class="modal-header bg-dark text-white border-0 px-4 py-3">
-          <div class="d-flex align-items-center gap-2">
-            <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
-              <i class="bi bi-shield-lock-fill"></i>
+        <div class="modal-header bg-dark text-white border-0 px-4 py-3.5">
+          <div class="d-flex align-items-center gap-2.5">
+            <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center shadow-xs" style="width: 36px; height: 36px;">
+              <i class="bi bi-shield-lock-fill fs-5"></i>
             </div>
-            <h5 class="modal-title fw-bold m-0 font-serif">Xác Thực Quản Trị Viên</h5>
+            <div>
+              <h5 class="modal-title fw-bold m-0 font-serif" style="font-size: 1.1rem;">Xác Thực Quản Trị Viên</h5>
+              <div class="text-white-50 small" style="font-size: 0.76rem;">Khu vực kiểm soát toàn quyền hệ thống VELORA</div>
+            </div>
           </div>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form id="adminLoginForm" onsubmit="submitAdminPasswordLogin(event)">
-          <div class="modal-body p-4 text-center">
-            <div class="mb-3 text-muted small">
-              Khu vực bảo mật cấp cao dành riêng cho Quản Trị Viên Velora Luxury. Vui lòng nhập mật khẩu xác thực để tiếp tục.
+          <div class="modal-body p-4 p-sm-4.5">
+            <div class="p-3.5 bg-light rounded-4 mb-3.5 text-start border d-flex align-items-center justify-content-between">
+              <div class="d-flex align-items-center gap-3">
+                <div class="rounded-circle bg-dark text-warning d-flex align-items-center justify-content-center fw-bold shadow-xs" style="width: 42px; height: 42px;">
+                  <i class="bi bi-person-badge-fill fs-5"></i>
+                </div>
+                <div>
+                  <div class="small text-muted" style="font-size: 0.75rem;">Tài khoản Quản Trị Hệ Thống:</div>
+                  <div class="fw-bold text-dark font-monospace" style="font-size: 0.95rem;">admin@velora.vn</div>
+                </div>
+              </div>
+              <span class="badge bg-warning text-dark px-2.5 py-1 rounded-pill small fw-bold">ROOT ADMIN</span>
             </div>
-            <div class="p-3 bg-light rounded-3 mb-3 text-start border">
-              <div class="small text-muted">Tài khoản quản trị:</div>
-              <div class="fw-bold text-dark font-monospace"><i class="bi bi-person-badge me-1 text-primary"></i> admin@velora.vn</div>
-            </div>
-            <div class="mb-3 text-start">
-              <label class="form-label small fw-bold">Mật khẩu Quản Trị <span class="text-danger">*</span></label>
+
+            <div class="mb-3.5 text-start">
+              <label class="form-label small fw-bold text-dark mb-2 d-flex align-items-center justify-content-between">
+                <span><i class="bi bi-key-fill text-warning me-1.5"></i>Mật khẩu Quản Trị <span class="text-danger">*</span></span>
+                <span class="text-muted fw-normal" style="font-size: 0.74rem;">Mặc định: <code>admin123</code></span>
+              </label>
               <div class="input-group">
-                <span class="input-group-text bg-white border-end-0"><i class="bi bi-key text-muted"></i></span>
-                <input type="password" class="form-control border-start-0 border-end-0" id="modalAdminPassword" required placeholder="Nhập mật khẩu..." autocomplete="current-password">
-                <button class="btn btn-outline-secondary border-start-0" type="button" onclick="togglePasswordVisibility('modalAdminPassword', this)">
+                <span class="input-group-text bg-white border-end-0 px-3"><i class="bi bi-lock text-muted"></i></span>
+                <input type="password" class="form-control border-start-0 border-end-0 py-2.5 px-2 form-control-luxury" id="modalAdminPassword" required placeholder="Nhập mật khẩu quản trị..." autocomplete="current-password" style="font-size: 0.95rem;">
+                <button class="btn btn-outline-secondary border-start-0 px-3" type="button" onclick="togglePasswordVisibility('modalAdminPassword', this)" title="Hiện/ẩn mật khẩu">
                   <i class="bi bi-eye"></i>
                 </button>
               </div>
-              <div class="form-text small mt-1 text-muted">
-                <i class="bi bi-info-circle me-1"></i> Mật khẩu mặc định hệ thống: <code>admin123</code>
+              <div class="form-text small mt-1.5 text-muted" style="font-size: 0.76rem;">
+                <i class="bi bi-shield-check text-success me-1"></i> Đồng bộ xác thực trực tiếp qua Cloud Supabase mọi thiết bị.
               </div>
             </div>
-            <div id="adminLoginError" class="alert alert-danger py-2 small d-none mb-0">
-              <i class="bi bi-exclamation-triangle-fill me-1"></i> Mật khẩu Quản Trị Viên không đúng. Vui lòng thử lại!
+
+            <div id="adminLoginError" class="alert alert-danger py-2.5 px-3 small d-none mb-0 rounded-3">
+              <i class="bi bi-exclamation-triangle-fill me-1.5"></i> Mật khẩu Quản Trị Viên không đúng. Vui lòng kiểm tra lại!
             </div>
           </div>
-          <div class="modal-footer bg-light px-4 py-3">
-            <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Hủy bỏ</button>
-            <button type="submit" class="btn btn-warning text-dark rounded-pill px-4 fw-bold shadow-sm">
-              <i class="bi bi-unlock-fill me-1"></i> Xác Nhận Vào Admin
+          <div class="modal-footer bg-light px-4 py-3 border-top d-flex justify-content-end gap-2.5">
+            <button type="button" class="btn btn-outline-secondary rounded-pill px-4 py-2 small" data-bs-dismiss="modal">Hủy bỏ</button>
+            <button type="submit" class="btn btn-warning text-dark rounded-pill px-4 py-2 fw-bold shadow-sm small">
+              <i class="bi bi-unlock-fill me-1.5"></i> Xác Nhận Vào Admin
             </button>
           </div>
         </form>
@@ -3733,57 +3746,57 @@ def make_account_html():
     <div id="accountLoggedOutView" class="d-none">
       <div class="row justify-content-center py-4">
         <div class="col-lg-6 col-md-8 col-12">
-          <div class="card border-0 rounded-4 shadow-sm p-3 p-sm-4 p-md-5 bg-white auth-card">
+          <div class="card border-0 rounded-4 shadow-sm p-4 p-sm-5 bg-white auth-card">
             <div class="text-center mb-4">
-              <img src="velora_logo_footer.svg" alt="VELORA" style="height: 38px; width: auto; filter: invert(1);">
-              <h4 class="fw-bold font-serif mt-3 mb-1" id="authCardTitle">Đăng Nhập Tài Khoản</h4>
-              <p class="text-muted small" id="authCardSubtitle">Chào mừng bạn quay lại với thời trang thượng lưu Velora Luxury</p>
+              <img src="velora_logo_footer.svg" alt="VELORA" style="height: 42px; width: auto; filter: invert(1);">
+              <h4 class="fw-bold font-serif mt-3 mb-2" id="authCardTitle">Đăng Nhập Tài Khoản</h4>
+              <p class="text-muted small mb-0" id="authCardSubtitle">Chào mừng quý khách quay lại với không gian thời trang thượng lưu Velora Luxury</p>
             </div>
 
             <!-- Auth Switcher Pills (Đăng Nhập / Đăng Ký) -->
-            <div class="d-flex p-1 bg-light rounded-pill mb-4 border">
-              <button type="button" class="btn btn-sm rounded-pill flex-fill fw-bold auth-switch-btn active bg-white shadow-sm" id="tabBtnAuthLogin" onclick="switchAuthTab('login')">
-                <i class="bi bi-box-arrow-in-right me-1"></i> Đăng Nhập
+            <div class="d-flex p-1.5 bg-light rounded-pill mb-4 border">
+              <button type="button" class="btn btn-sm rounded-pill flex-fill fw-bold auth-switch-btn active bg-white shadow-sm py-2" id="tabBtnAuthLogin" onclick="switchAuthTab('login')">
+                <i class="bi bi-box-arrow-in-right me-1.5"></i> Đăng Nhập
               </button>
-              <button type="button" class="btn btn-sm rounded-pill flex-fill fw-bold auth-switch-btn text-muted" id="tabBtnAuthRegister" onclick="switchAuthTab('register')">
-                <i class="bi bi-person-plus-fill me-1"></i> Đăng Ký Mới
+              <button type="button" class="btn btn-sm rounded-pill flex-fill fw-bold auth-switch-btn text-muted py-2" id="tabBtnAuthRegister" onclick="switchAuthTab('register')">
+                <i class="bi bi-person-plus-fill me-1.5"></i> Đăng Ký Mới
               </button>
             </div>
 
             <!-- PANE 1: LOGIN -->
             <div id="authPaneLogin">
               <!-- Quick Selection Demo Accounts -->
-              <div class="p-3 bg-light rounded-4 mb-4 text-start border">
-                <div class="small fw-bold text-muted mb-2 text-uppercase" style="font-size: 0.72rem;">
-                  <i class="bi bi-lightning-charge-fill text-warning me-1"></i> Đăng nhập nhanh tài khoản thử nghiệm:
+              <div class="p-3.5 p-sm-4 bg-light rounded-4 mb-4 text-start border">
+                <div class="small fw-bold text-muted mb-3 text-uppercase d-flex align-items-center gap-1.5" style="font-size: 0.74rem; letter-spacing: 0.05em;">
+                  <i class="bi bi-lightning-charge-fill text-warning fs-6"></i> Đăng nhập nhanh tài khoản thử nghiệm:
                 </div>
-                <div class="d-flex flex-column gap-2.5">
-                  <button type="button" class="btn btn-outline-dark rounded-4 p-3 text-start d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 w-100 quick-auth-btn" onclick="loginAs('customer')">
-                    <div class="d-flex align-items-start gap-2.5" style="min-width: 0;">
-                      <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px;">
+                <div class="d-flex flex-column gap-3">
+                  <button type="button" class="btn btn-outline-dark rounded-4 p-3.5 text-start d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2.5 w-100 quick-auth-btn bg-white shadow-xs" onclick="loginAs('customer')">
+                    <div class="d-flex align-items-start gap-3" style="min-width: 0;">
+                      <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
                         <i class="bi bi-person-fill fs-5"></i>
                       </div>
                       <div style="min-width: 0;">
-                        <div class="fw-bold text-dark text-truncate">Tài khoản Khách Hàng (VIP Gold)</div>
-                        <div class="small text-muted text-break">Đặng Minh Anh • minhanh.velora@gmail.com</div>
+                        <div class="fw-bold text-dark text-truncate" style="font-size: 0.95rem;">Tài khoản Khách Hàng (VIP Gold)</div>
+                        <div class="small text-muted text-break mt-0.5">Đặng Minh Anh • minhanh.velora@gmail.com</div>
                       </div>
                     </div>
-                    <span class="badge bg-dark rounded-pill px-3 py-2 flex-shrink-0 align-self-stretch align-self-sm-auto text-center">
+                    <span class="badge bg-dark rounded-pill px-3.5 py-2 flex-shrink-0 align-self-stretch align-self-sm-auto text-center fw-semibold">
                       Đăng nhập <i class="bi bi-arrow-right ms-1"></i>
                     </span>
                   </button>
 
-                  <button type="button" class="btn btn-dark rounded-4 p-3 text-start d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 w-100 border-warning quick-auth-btn" onclick="openAdminLoginModal()">
-                    <div class="d-flex align-items-start gap-2.5" style="min-width: 0;">
-                      <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px;">
+                  <button type="button" class="btn btn-dark rounded-4 p-3.5 text-start d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2.5 w-100 border-warning quick-auth-btn shadow-xs" onclick="openAdminLoginModal()">
+                    <div class="d-flex align-items-start gap-3" style="min-width: 0;">
+                      <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center flex-shrink-0" style="width: 44px; height: 44px;">
                         <i class="bi bi-shield-lock-fill fs-5"></i>
                       </div>
                       <div style="min-width: 0;">
-                        <div class="fw-bold text-warning text-truncate">Tài khoản Quản Trị Viên (Admin)</div>
-                        <div class="small text-white-50 text-break">admin@velora.vn • Yêu cầu mật khẩu bảo mật</div>
+                        <div class="fw-bold text-warning text-truncate" style="font-size: 0.95rem;">Tài khoản Quản Trị Viên (Admin)</div>
+                        <div class="small text-white-50 text-break mt-0.5">admin@velora.vn • Yêu cầu mật khẩu bảo mật</div>
                       </div>
                     </div>
-                    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 fw-bold flex-shrink-0 align-self-stretch align-self-sm-auto text-center">
+                    <span class="badge bg-warning text-dark rounded-pill px-3.5 py-2 fw-bold flex-shrink-0 align-self-stretch align-self-sm-auto text-center">
                       <i class="bi bi-lock-fill me-1"></i> Nhập Mật Khẩu
                     </span>
                   </button>
@@ -3792,33 +3805,36 @@ def make_account_html():
 
               <!-- Traditional Login Form -->
               <form onsubmit="handleLoginForm(event)">
-                <div class="mb-3 text-start">
-                  <label class="form-label small fw-bold">Địa chỉ Email / Tên đăng nhập <span class="text-danger">*</span></label>
+                <div class="mb-3.5 text-start">
+                  <label class="form-label small fw-bold text-dark mb-2">Địa chỉ Email / Tên đăng nhập <span class="text-danger">*</span></label>
                   <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
-                    <input type="email" class="form-control border-start-0" id="loginEmail" placeholder="minhanh.velora@gmail.com hoặc email đã đăng ký..." required>
+                    <span class="input-group-text bg-white border-end-0 px-3"><i class="bi bi-envelope text-muted"></i></span>
+                    <input type="email" class="form-control border-start-0 py-2.5 px-2 form-control-luxury" id="loginEmail" placeholder="minhanh.velora@gmail.com hoặc email đã đăng ký..." required style="font-size: 0.95rem;">
                   </div>
-                  <div class="form-text small" style="font-size: 0.75rem;">Đăng nhập bằng email đã tạo tài khoản hoặc <b>admin@velora.vn</b> (mật khẩu: <code>admin123</code>).</div>
+                  <div class="form-text small text-muted mt-1.5" style="font-size: 0.76rem;">Đăng nhập bằng email đã tạo tài khoản hoặc <b>admin@velora.vn</b> (mật khẩu: <code>admin123</code>).</div>
                 </div>
 
                 <div class="mb-4 text-start">
-                  <label class="form-label small fw-bold">Mật khẩu <span class="text-danger">*</span></label>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label small fw-bold text-dark m-0">Mật khẩu <span class="text-danger">*</span></label>
+                    <span class="text-muted small" style="font-size: 0.75rem;">Tối thiểu 6 ký tự</span>
+                  </div>
                   <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
-                    <input type="password" class="form-control border-start-0 border-end-0" id="loginPassword" placeholder="Nhập mật khẩu..." required>
-                    <button class="btn btn-outline-secondary border-start-0" type="button" onclick="togglePasswordVisibility('loginPassword', this)">
+                    <span class="input-group-text bg-white border-end-0 px-3"><i class="bi bi-lock text-muted"></i></span>
+                    <input type="password" class="form-control border-start-0 border-end-0 py-2.5 px-2 form-control-luxury" id="loginPassword" placeholder="Nhập mật khẩu của bạn..." required style="font-size: 0.95rem;">
+                    <button class="btn btn-outline-secondary border-start-0 px-3" type="button" onclick="togglePasswordVisibility('loginPassword', this)">
                       <i class="bi bi-eye"></i>
                     </button>
                   </div>
                 </div>
 
-                <button type="submit" class="btn btn-dark w-100 rounded-pill py-2 fw-bold shadow-sm mb-3">
-                  <i class="bi bi-box-arrow-in-right me-1"></i> Đăng Nhập Ngay
+                <button type="submit" class="btn btn-dark w-100 rounded-pill py-2.5 fw-bold shadow-sm mb-3.5" style="font-size: 0.95rem;">
+                  <i class="bi bi-box-arrow-in-right me-1.5"></i> Đăng Nhập Ngay
                 </button>
 
-                <div class="text-center">
+                <div class="text-center pt-1">
                   <span class="small text-muted">Chưa có tài khoản?</span>
-                  <a href="javascript:void(0)" class="small fw-bold text-danger text-decoration-none ms-1" onclick="switchAuthTab('register')">Đăng ký thành viên mới <i class="bi bi-arrow-right"></i></a>
+                  <a href="javascript:void(0)" class="small fw-bold text-danger text-decoration-none ms-1.5" onclick="switchAuthTab('register')">Đăng ký thành viên mới <i class="bi bi-arrow-right"></i></a>
                 </div>
               </form>
             </div>
@@ -3826,12 +3842,12 @@ def make_account_html():
             <!-- PANE 2: REGISTER -->
             <div id="authPaneRegister" class="d-none">
               <!-- Welcome Perk Banner -->
-              <div class="p-3 bg-danger bg-opacity-10 border border-danger border-opacity-25 rounded-4 mb-4 text-start">
-                <div class="d-flex align-items-center gap-2 mb-1">
+              <div class="p-3.5 p-sm-4 bg-danger bg-opacity-10 border border-danger border-opacity-25 rounded-4 mb-4 text-start">
+                <div class="d-flex align-items-center gap-2 mb-2">
                   <i class="bi bi-gift-fill text-danger fs-5"></i>
                   <b class="text-danger">Đặc Quyền Thành Viên Mới Velora:</b>
                 </div>
-                <ul class="small text-muted mb-0 ps-3">
+                <ul class="small text-muted mb-0 ps-3" style="line-height: 1.7;">
                   <li>Tặng ngay <b>500 điểm thưởng</b> tích lũy vào tài khoản.</li>
                   <li>Tặng <b>Voucher WELCOME10</b> giảm 10% cho đơn hàng đầu tiên.</li>
                   <li>Đặc quyền tích điểm đổi quà và chăm sóc khách hàng VIP 1:1.</li>
@@ -3840,68 +3856,55 @@ def make_account_html():
 
               <!-- Register Form -->
               <form onsubmit="handleRegisterForm(event)">
-                <div class="mb-3 text-start">
-                  <label class="form-label small fw-bold">Họ và tên đầy đủ <span class="text-danger">*</span></label>
+                <div class="mb-3.5 text-start">
+                  <label class="form-label small fw-bold text-dark mb-2">Họ và tên đầy đủ <span class="text-danger">*</span></label>
                   <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
-                    <input type="text" class="form-control border-start-0" id="regName" placeholder="Ví dụ: Nguyễn Thị Hương Thảo" required>
+                    <span class="input-group-text bg-white border-end-0 px-3"><i class="bi bi-person text-muted"></i></span>
+                    <input type="text" class="form-control border-start-0 py-2.5 px-2 form-control-luxury" id="regName" placeholder="Ví dụ: Nguyễn Thị Hương Thảo" required style="font-size: 0.95rem;">
                   </div>
                 </div>
 
-                <div class="row g-2 mb-3 text-start">
+                <div class="row g-3 mb-3.5 text-start">
                   <div class="col-md-6">
-                    <label class="form-label small fw-bold">Số điện thoại <span class="text-danger">*</span></label>
+                    <label class="form-label small fw-bold text-dark mb-2">Số điện thoại <span class="text-danger">*</span></label>
                     <div class="input-group">
-                      <span class="input-group-text bg-light border-end-0"><i class="bi bi-telephone text-muted"></i></span>
-                      <input type="tel" class="form-control border-start-0" id="regPhone" placeholder="0912 345 678" required>
+                      <span class="input-group-text bg-white border-end-0 px-3"><i class="bi bi-telephone text-muted"></i></span>
+                      <input type="tel" class="form-control border-start-0 py-2.5 px-2 form-control-luxury" id="regPhone" placeholder="0912 345 678" required style="font-size: 0.95rem;">
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label small fw-bold">Địa chỉ Email <span class="text-danger">*</span></label>
+                    <label class="form-label small fw-bold text-dark mb-2">Địa chỉ Email <span class="text-danger">*</span></label>
                     <div class="input-group">
-                      <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
-                      <input type="email" class="form-control border-start-0" id="regEmail" placeholder="huongthao@gmail.com" required>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row g-2 mb-3 text-start">
-                  <div class="col-md-6">
-                    <label class="form-label small fw-bold">Mật khẩu <span class="text-danger">*</span></label>
-                    <div class="input-group">
-                      <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
-                      <input type="password" class="form-control border-start-0 border-end-0" id="regPassword" placeholder="Tối thiểu 6 ký tự" required minlength="6">
-                      <button class="btn btn-outline-secondary border-start-0" type="button" onclick="togglePasswordVisibility('regPassword', this)">
-                        <i class="bi bi-eye"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <label class="form-label small fw-bold">Xác nhận mật khẩu <span class="text-danger">*</span></label>
-                    <div class="input-group">
-                      <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock-fill text-muted"></i></span>
-                      <input type="password" class="form-control border-start-0 border-end-0" id="regConfirmPassword" placeholder="Nhập lại mật khẩu..." required minlength="6">
-                      <button class="btn btn-outline-secondary border-start-0" type="button" onclick="togglePasswordVisibility('regConfirmPassword', this)">
-                        <i class="bi bi-eye"></i>
-                      </button>
+                      <span class="input-group-text bg-white border-end-0 px-3"><i class="bi bi-envelope text-muted"></i></span>
+                      <input type="email" class="form-control border-start-0 py-2.5 px-2 form-control-luxury" id="regEmail" placeholder="huongthao@gmail.com" required style="font-size: 0.95rem;">
                     </div>
                   </div>
                 </div>
 
-                <div class="mb-3 form-check text-start">
-                  <input type="checkbox" class="form-check-input" id="regAgreeTerms" required checked>
-                  <label class="form-check-label small text-muted" for="regAgreeTerms">
-                    Tôi đồng ý với <a href="javascript:void(0)" class="text-dark fw-semibold">Điều khoản dịch vụ</a> và <a href="javascript:void(0)" class="text-dark fw-semibold">Chính sách hội viên Velora</a>.
-                  </label>
+                <div class="row g-3 mb-3.5 text-start">
+                  <div class="col-md-6">
+                    <label class="form-label small fw-bold text-dark mb-2">Mật khẩu <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white border-end-0 px-3"><i class="bi bi-lock text-muted"></i></span>
+                      <input type="password" class="form-control border-start-0 py-2.5 px-2 form-control-luxury" id="regPassword" placeholder="Tối thiểu 6 ký tự" required style="font-size: 0.95rem;">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label small fw-bold text-dark mb-2">Xác nhận mật khẩu <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white border-end-0 px-3"><i class="bi bi-shield-check text-muted"></i></span>
+                      <input type="password" class="form-control border-start-0 py-2.5 px-2 form-control-luxury" id="regConfirmPassword" placeholder="Nhập lại mật khẩu..." required style="font-size: 0.95rem;">
+                    </div>
+                  </div>
                 </div>
 
-                <button type="submit" class="btn btn-dark w-100 rounded-pill py-2 fw-bold shadow-sm mb-3">
-                  <i class="bi bi-person-check-fill me-1"></i> Tạo Tài Khoản Mới & Nhận 500 Điểm
+                <button type="submit" class="btn btn-dark w-100 rounded-pill py-2.5 fw-bold shadow-sm mb-3.5" style="font-size: 0.95rem;">
+                  <i class="bi bi-check2-circle me-1.5"></i> Hoàn Tất Đăng Ký Tài Khoản
                 </button>
 
-                <div class="text-center">
+                <div class="text-center pt-1">
                   <span class="small text-muted">Đã có tài khoản?</span>
-                  <a href="javascript:void(0)" class="small fw-bold text-dark text-decoration-none ms-1" onclick="switchAuthTab('login')">Đăng nhập ngay <i class="bi bi-arrow-right"></i></a>
+                  <a href="javascript:void(0)" class="small fw-bold text-danger text-decoration-none ms-1.5" onclick="switchAuthTab('login')">Đăng nhập ngay <i class="bi bi-arrow-right"></i></a>
                 </div>
               </form>
             </div>
@@ -4266,7 +4269,7 @@ def make_account_html():
               </a>
             </div>
             
-            <div id="accountWishlistGrid" class="row g-3">
+            <div id="accountWishlistGrid" class="row g-3 g-md-4">
               <!-- Populated dynamically by script.js renderAccountWishlist() -->
             </div>
           </div>
@@ -4666,60 +4669,66 @@ def make_account_html():
 
             <!-- SUB-SECTION 6: STORE CONFIG & SHOWROOM -->
             <div id="admSec-store" class="admin-sub-section d-none">
-              <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+              <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
                 <div>
-                  <h6 class="fw-bold font-serif m-0"><i class="bi bi-gear-fill text-warning me-2"></i>Cấu Hình Cửa Hàng & Hotline CSKH</h6>
-                  <span class="small text-muted">Chỉnh sửa thông tin Hotline, Email, Địa chỉ Showroom và Thanh thông báo áp dụng trực tiếp cho toàn bộ trang web</span>
+                  <h5 class="fw-bold font-serif m-0 text-dark"><i class="bi bi-gear-fill text-warning me-2"></i>Cấu Hình Kênh Liên Hệ & Hệ Thống Showroom</h5>
+                  <span class="small text-muted">Toàn quyền tùy chỉnh Hotline CSKH, Email hỗ trợ, Showroom Flagship và Thanh thông báo ưu đãi trực tiếp cho toàn bộ trang web</span>
                 </div>
-                <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3" onclick="adminResetStoreConfig()">
-                  <i class="bi bi-arrow-counterclockwise me-1"></i> Khôi phục mặc định
-                </button>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill px-3 shadow-xs" onclick="adminResetStoreConfig()">
+                    <i class="bi bi-arrow-counterclockwise me-1"></i> Khôi phục mặc định
+                  </button>
+                  <a href="index.html" target="_blank" class="btn btn-outline-dark btn-sm rounded-pill px-3 shadow-xs">
+                    <i class="bi bi-box-arrow-up-right me-1"></i> Xem trang chủ
+                  </a>
+                </div>
               </div>
 
-              <!-- Interactive Live Preview Card -->
-              <div class="card border rounded-4 p-3.5 mb-4 store-preview-card shadow-sm">
-                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
-                  <div class="small fw-bold text-uppercase text-muted" style="font-size: 0.72rem; letter-spacing: 0.05em;">
-                    <i class="bi bi-eye-fill text-primary me-1"></i> Xem trước hiển thị thực tế trên website:
+              <!-- Interactive Live Preview Card (Mô Phỏng Trực Quan Khách Hàng) -->
+              <div class="card border rounded-4 p-4 mb-4 store-preview-card shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                  <div class="small fw-bold text-uppercase text-dark d-flex align-items-center gap-2" style="font-size: 0.76rem; letter-spacing: 0.05em;">
+                    <span class="security-badge-pulse"></span>
+                    <span>Mô phỏng hiển thị trực tiếp cho khách hàng trên website:</span>
                   </div>
-                  <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-2.5 py-1 small">
-                    <i class="bi bi-check-circle-fill me-1"></i> Đang hoạt động
+                  <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-3 py-1.5 small fw-semibold">
+                    <i class="bi bi-check-circle-fill me-1"></i> Trực tuyến 24/7
                   </span>
                 </div>
-                <div class="row g-3 align-items-center">
-                  <div class="col-md-4">
-                    <div class="p-2.5 bg-white rounded-3 border shadow-xs d-flex align-items-center justify-content-between">
+                <div class="row g-3">
+                  <div class="col-lg-4 col-md-6">
+                    <div class="p-3 bg-white rounded-4 border shadow-xs d-flex align-items-center justify-content-between h-100 admin-preview-pill">
                       <div>
-                        <div class="small text-muted" style="font-size: 0.72rem;">Hotline CSKH:</div>
-                        <div class="fw-bold text-dark fs-6" id="previewHotlineDisplay">1900 8899</div>
-                        <div class="small text-muted" id="previewHoursDisplay" style="font-size: 0.72rem;">(08:30 - 22:00)</div>
+                        <div class="small text-muted text-uppercase fw-semibold" style="font-size: 0.7rem;">Tổng đài Hotline CSKH:</div>
+                        <div class="fw-bold text-dark fs-5 font-serif" id="previewHotlineDisplay">1900 8899</div>
+                        <div class="small text-muted" id="previewHoursDisplay" style="font-size: 0.75rem;">(08:30 - 22:00)</div>
                       </div>
-                      <a href="tel:19008899" id="previewHotlineBtn" class="btn btn-sm btn-outline-danger rounded-circle p-2" title="Gọi thử">
-                        <i class="bi bi-telephone-fill"></i>
+                      <a href="tel:19008899" id="previewHotlineBtn" class="btn btn-sm btn-outline-danger rounded-circle p-2.5 shadow-xs" title="Gọi thử hotline">
+                        <i class="bi bi-telephone-fill fs-6"></i>
                       </a>
                     </div>
                   </div>
-                  <div class="col-md-4">
-                    <div class="p-2.5 bg-white rounded-3 border shadow-xs d-flex align-items-center justify-content-between">
+                  <div class="col-lg-4 col-md-6">
+                    <div class="p-3 bg-white rounded-4 border shadow-xs d-flex align-items-center justify-content-between h-100 admin-preview-pill">
                       <div style="min-width: 0;">
-                        <div class="small text-muted" style="font-size: 0.72rem;">Email Hỗ Trợ:</div>
-                        <div class="fw-bold text-dark text-truncate" id="previewEmailDisplay">cskh@velorafashion.vn</div>
-                        <div class="small text-success" style="font-size: 0.72rem;">Phản hồi trong 15p</div>
+                        <div class="small text-muted text-uppercase fw-semibold" style="font-size: 0.7rem;">Hộp thư hỗ trợ:</div>
+                        <div class="fw-bold text-dark text-truncate fs-6" id="previewEmailDisplay">cskh@velorafashion.vn</div>
+                        <div class="small text-success fw-semibold" style="font-size: 0.75rem;"><i class="bi bi-lightning-charge-fill me-0.5"></i> Phản hồi trong 15p</div>
                       </div>
-                      <a href="mailto:cskh@velorafashion.vn" id="previewEmailBtn" class="btn btn-sm btn-outline-primary rounded-circle p-2 ms-2 flex-shrink-0" title="Gửi thử email">
-                        <i class="bi bi-envelope-fill"></i>
+                      <a href="mailto:cskh@velorafashion.vn" id="previewEmailBtn" class="btn btn-sm btn-outline-primary rounded-circle p-2.5 ms-2 flex-shrink-0 shadow-xs" title="Gửi thử email">
+                        <i class="bi bi-envelope-fill fs-6"></i>
                       </a>
                     </div>
                   </div>
-                  <div class="col-md-4">
-                    <div class="p-2.5 bg-white rounded-3 border shadow-xs d-flex align-items-center justify-content-between">
+                  <div class="col-lg-4 col-md-12">
+                    <div class="p-3 bg-white rounded-4 border shadow-xs d-flex align-items-center justify-content-between h-100 admin-preview-pill">
                       <div style="min-width: 0;">
-                        <div class="small text-muted" style="font-size: 0.72rem;">Showroom Flagship:</div>
-                        <div class="fw-bold text-dark text-truncate" id="previewAddressDisplay">123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM</div>
-                        <div class="small text-muted" style="font-size: 0.72rem;">TP. Hồ Chí Minh</div>
+                        <div class="small text-muted text-uppercase fw-semibold" style="font-size: 0.7rem;">Showroom Flagship:</div>
+                        <div class="fw-bold text-dark text-truncate fs-6" id="previewAddressDisplay">123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM</div>
+                        <div class="small text-muted" style="font-size: 0.75rem;"><i class="bi bi-geo-alt-fill text-danger me-0.5"></i> Trụ sở chính & Flagship Store</div>
                       </div>
-                      <button type="button" class="btn btn-sm btn-outline-secondary rounded-circle p-2 ms-2 flex-shrink-0" onclick="copyStoreAddress()" title="Sao chép địa chỉ">
-                        <i class="bi bi-clipboard"></i>
+                      <button type="button" class="btn btn-sm btn-outline-secondary rounded-circle p-2.5 ms-2 flex-shrink-0 shadow-xs" onclick="copyStoreAddress()" title="Sao chép địa chỉ">
+                        <i class="bi bi-clipboard fs-6"></i>
                       </button>
                     </div>
                   </div>
@@ -4727,50 +4736,53 @@ def make_account_html():
               </div>
 
               <!-- Store Configuration Form -->
-              <div class="card border rounded-4 p-4 bg-light shadow-sm">
+              <div class="card border rounded-4 p-4 p-md-4.5 bg-white shadow-sm mb-4">
+                <div class="fw-bold fs-6 text-dark mb-3 pb-2 border-bottom d-flex align-items-center gap-2">
+                  <i class="bi bi-sliders text-primary"></i> <span>Biểu Mẫu Chỉnh Sửa Dữ Liệu Thông Tin Thương Hiệu</span>
+                </div>
                 <form id="adminStoreConfigForm" onsubmit="adminSaveStoreConfig(event)">
-                  <div class="row g-3">
+                  <div class="row g-3.5">
                     <div class="col-md-4">
-                      <label class="form-label small fw-bold">Tổng đài Hotline CSKH (24/7) <span class="text-danger">*</span></label>
+                      <label class="form-label small fw-bold text-dark">Số Hotline Tổng Đài <span class="text-danger">*</span></label>
                       <div class="input-group">
-                        <span class="input-group-text bg-white"><i class="bi bi-telephone text-muted"></i></span>
-                        <input type="text" class="form-control" id="admConfigHotline" value="1900 8899" required placeholder="Ví dụ: 1900 8899">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-telephone-fill text-danger"></i></span>
+                        <input type="text" class="form-control border-start-0" id="admConfigHotline" value="1900 8899" required placeholder="Ví dụ: 1900 8899">
                       </div>
                     </div>
                     <div class="col-md-4">
-                      <label class="form-label small fw-bold">Khung giờ hoạt động</label>
+                      <label class="form-label small fw-bold text-dark">Khung Giờ Phục Vụ</label>
                       <div class="input-group">
-                        <span class="input-group-text bg-white"><i class="bi bi-clock text-muted"></i></span>
-                        <input type="text" class="form-control" id="admConfigHotlineHours" value="(08:30 - 22:00)" placeholder="(08:30 - 22:00)">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-clock-fill text-warning"></i></span>
+                        <input type="text" class="form-control border-start-0" id="admConfigHotlineHours" value="(08:30 - 22:00)" placeholder="(08:30 - 22:00)">
                       </div>
                     </div>
                     <div class="col-md-4">
-                      <label class="form-label small fw-bold">Email hỗ trợ khách hàng <span class="text-danger">*</span></label>
+                      <label class="form-label small fw-bold text-dark">Hộp Thư Điện Tử (Email) <span class="text-danger">*</span></label>
                       <div class="input-group">
-                        <span class="input-group-text bg-white"><i class="bi bi-envelope text-muted"></i></span>
-                        <input type="email" class="form-control" id="admConfigEmail" value="cskh@velorafashion.vn" required placeholder="cskh@velorafashion.vn">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope-fill text-primary"></i></span>
+                        <input type="email" class="form-control border-start-0" id="admConfigEmail" value="cskh@velorafashion.vn" required placeholder="cskh@velorafashion.vn">
                       </div>
                     </div>
                     <div class="col-12">
-                      <label class="form-label small fw-bold">Địa chỉ Showroom Flagship <span class="text-danger">*</span></label>
+                      <label class="form-label small fw-bold text-dark">Địa Chỉ Showroom Flagship & Trụ Sở Điều Hành <span class="text-danger">*</span></label>
                       <div class="input-group">
-                        <span class="input-group-text bg-white"><i class="bi bi-geo-alt text-muted"></i></span>
-                        <input type="text" class="form-control" id="admConfigAddress" value="123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM" required placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-geo-alt-fill text-danger"></i></span>
+                        <input type="text" class="form-control border-start-0" id="admConfigAddress" value="123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM" required placeholder="Số nhà, tên đường, phường/xã, quận/huyện, tỉnh/thành">
                       </div>
                     </div>
                     <div class="col-12">
-                      <label class="form-label small fw-bold">Nội dung thanh thông báo trên cùng (Top Announcement Bar)</label>
+                      <label class="form-label small fw-bold text-dark">Nội Dung Thanh Thông Báo Toàn Sàn (Top Announcement Bar)</label>
                       <div class="input-group">
-                        <span class="input-group-text bg-white"><i class="bi bi-megaphone text-muted"></i></span>
-                        <input type="text" class="form-control" id="admConfigAnnouncement" value="Miễn phí giao hàng đơn từ 500.000đ • Nhập mã VELORA10 giảm 10%" required>
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-megaphone-fill text-warning"></i></span>
+                        <input type="text" class="form-control border-start-0" id="admConfigAnnouncement" value="Miễn phí giao hàng đơn từ 500.000đ • Nhập mã VELORA10 giảm 10%" required>
                       </div>
-                      <div class="form-text small" style="font-size: 0.75rem;">Nội dung này sẽ hiển thị trên thanh promo màu đen chạy trên cùng của tất cả các trang.</div>
+                      <div class="form-text small" style="font-size: 0.75rem;">Thông điệp này sẽ chạy trên thanh màu đen trên cùng của toàn bộ 8 trang web VELORA.</div>
                     </div>
                   </div>
                   <div class="mt-4 pt-3 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
-                    <span class="small text-muted"><i class="bi bi-info-circle me-1"></i> Khi lưu, dữ liệu sẽ được đồng bộ ngay lập tức cho thanh điều hướng, chân trang và liên hệ.</span>
-                    <button type="submit" class="btn btn-dark rounded-pill px-4 py-2 fw-bold shadow-sm">
-                      <i class="bi bi-check-lg me-1"></i> Lưu Cấu Hình & Cập Nhật Toàn Bộ Web
+                    <span class="small text-muted"><i class="bi bi-shield-check text-success me-1"></i> Dữ liệu tự động lưu trữ và đồng bộ đám mây Supabase ngay khi lưu.</span>
+                    <button type="submit" class="btn btn-dark rounded-pill px-4 py-2.5 fw-bold shadow-sm d-inline-flex align-items-center gap-1.5">
+                      <i class="bi bi-check-lg"></i> <span>Lưu Cấu Hình Cửa Hàng & Đồng Bộ Toàn Bộ Web</span>
                     </button>
                   </div>
                 </form>
@@ -4779,193 +4791,250 @@ def make_account_html():
 
             <!-- SUB-SECTION 7: SECURITY & CHANGE PASSWORD -->
             <div id="admSec-security" class="admin-sub-section d-none">
-              <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
                 <div>
-                  <h6 class="fw-bold font-serif m-0"><i class="bi bi-shield-lock-fill text-success me-2"></i>Bảo Mật Hệ Thống & Thay Đổi Mật Khẩu Admin</h6>
-                  <span class="small text-muted">Đảm bảo an toàn tuyệt đối cho tài khoản quản trị viên tối cao</span>
+                  <h5 class="fw-bold font-serif m-0 text-dark"><i class="bi bi-shield-lock-fill text-success me-2"></i>Bảo Mật Hệ Thống & Thay Đổi Mật Khẩu Admin</h5>
+                  <span class="small text-muted">Bảo mật cấp cao dành riêng cho tài khoản quản trị tối cao với mã hóa bảo vệ phiên làm việc</span>
                 </div>
-                <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill small">
-                  <i class="bi bi-check-circle-fill me-1"></i> Bảo Mật Đã Kích Hoạt
+                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill small fw-semibold d-inline-flex align-items-center gap-1.5 shadow-2xs">
+                  <span class="security-badge-pulse"></span> Bảo Mật Đã Kích Hoạt
                 </span>
               </div>
 
-              <div class="card border rounded-4 p-4 bg-light mb-4">
+              <!-- Security Overview Cards -->
+              <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                  <div class="p-3.5 bg-white border rounded-4 shadow-xs h-100">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <div class="rounded-circle bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center" style="width: 34px; height: 34px;">
+                        <i class="bi bi-key-fill"></i>
+                      </div>
+                      <div class="fw-bold text-dark small">Mật Khẩu Phiên</div>
+                    </div>
+                    <div class="small text-muted">Bảo vệ tài khoản quản trị, tự động khóa sau khi đăng xuất.</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="p-3.5 bg-white border rounded-4 shadow-xs h-100">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style="width: 34px; height: 34px;">
+                        <i class="bi bi-database-lock"></i>
+                      </div>
+                      <div class="fw-bold text-dark small">Cloud Encrypted</div>
+                    </div>
+                    <div class="small text-muted">Đồng bộ mã hóa 2 chiều với bảng <code>public.users</code> trên Supabase.</div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="p-3.5 bg-white border rounded-4 shadow-xs h-100">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                      <div class="rounded-circle bg-warning bg-opacity-10 text-warning d-flex align-items-center justify-content-center" style="width: 34px; height: 34px;">
+                        <i class="bi bi-person-badge-fill"></i>
+                      </div>
+                      <div class="fw-bold text-dark small">Quyền Hạn Tối Cao</div>
+                    </div>
+                    <div class="small text-muted">Toàn quyền điều khiển danh mục, đơn hàng và kho lưu trữ giao diện.</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Change Password Form -->
+              <div class="card border rounded-4 p-4 p-md-4.5 bg-white mb-4 shadow-sm">
+                <div class="fw-bold fs-6 text-dark mb-3 pb-2 border-bottom d-flex align-items-center gap-2">
+                  <i class="bi bi-lock-fill text-warning"></i> <span>Thay Đổi Mật Khẩu Quản Trị Viên</span>
+                </div>
                 <form id="adminChangePwdForm" onsubmit="adminSubmitChangePassword(event)">
-                  <div class="row g-3" style="max-width: 600px;">
+                  <div class="row g-3.5" style="max-width: 650px;">
                     <div class="col-12">
-                      <label class="form-label small fw-bold">Mật khẩu hiện tại <span class="text-danger">*</span></label>
+                      <label class="form-label small fw-bold text-dark">Mật khẩu hiện tại <span class="text-danger">*</span></label>
                       <div class="input-group">
-                        <span class="input-group-text bg-white"><i class="bi bi-key text-muted"></i></span>
-                        <input type="password" class="form-control" id="admOldPassword" required placeholder="Nhập mật khẩu cũ (mặc định: admin123)">
-                        <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('admOldPassword', this)">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-key text-muted"></i></span>
+                        <input type="password" class="form-control border-start-0 border-end-0" id="admOldPassword" required placeholder="Nhập mật khẩu cũ (mặc định: admin123)">
+                        <button class="btn btn-outline-secondary border-start-0" type="button" onclick="togglePasswordVisibility('admOldPassword', this)">
                           <i class="bi bi-eye"></i>
                         </button>
                       </div>
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label small fw-bold">Mật khẩu mới (tối thiểu 6 ký tự) <span class="text-danger">*</span></label>
+                      <label class="form-label small fw-bold text-dark">Mật khẩu mới (tối thiểu 6 ký tự) <span class="text-danger">*</span></label>
                       <div class="input-group">
-                        <span class="input-group-text bg-white"><i class="bi bi-lock text-muted"></i></span>
-                        <input type="password" class="form-control" id="admNewPassword" required minlength="6" placeholder="Mật khẩu mới...">
-                        <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('admNewPassword', this)">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                        <input type="password" class="form-control border-start-0 border-end-0" id="admNewPassword" required minlength="6" placeholder="Mật khẩu mới...">
+                        <button class="btn btn-outline-secondary border-start-0" type="button" onclick="togglePasswordVisibility('admNewPassword', this)">
                           <i class="bi bi-eye"></i>
                         </button>
                       </div>
                     </div>
                     <div class="col-md-6">
-                      <label class="form-label small fw-bold">Xác nhận mật khẩu mới <span class="text-danger">*</span></label>
+                      <label class="form-label small fw-bold text-dark">Xác nhận mật khẩu mới <span class="text-danger">*</span></label>
                       <div class="input-group">
-                        <span class="input-group-text bg-white"><i class="bi bi-lock-fill text-muted"></i></span>
-                        <input type="password" class="form-control" id="admConfirmPassword" required minlength="6" placeholder="Nhập lại mật khẩu mới...">
-                        <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('admConfirmPassword', this)">
+                        <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock-fill text-muted"></i></span>
+                        <input type="password" class="form-control border-start-0 border-end-0" id="admConfirmPassword" required minlength="6" placeholder="Nhập lại mật khẩu mới...">
+                        <button class="btn btn-outline-secondary border-start-0" type="button" onclick="togglePasswordVisibility('admConfirmPassword', this)">
                           <i class="bi bi-eye"></i>
                         </button>
                       </div>
                     </div>
                   </div>
                   <div class="mt-4 pt-3 border-top d-flex flex-wrap gap-2">
-                    <button type="submit" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm">
-                      <i class="bi bi-check-circle me-1"></i> Cập Nhật Mật Khẩu Admin
+                    <button type="submit" class="btn btn-dark rounded-pill px-4 py-2.5 fw-bold shadow-sm d-inline-flex align-items-center gap-1.5">
+                      <i class="bi bi-shield-check"></i> <span>Cập Nhật Mật Khẩu Admin</span>
                     </button>
-                    <button type="button" class="btn btn-outline-danger rounded-pill px-3" onclick="handleLogout()">
-                      <i class="bi bi-box-arrow-right me-1"></i> Đăng xuất & Kiểm tra mật khẩu mới
+                    <button type="button" class="btn btn-outline-danger rounded-pill px-3.5 py-2.5 d-inline-flex align-items-center gap-1.5" onclick="handleLogout()">
+                      <i class="bi bi-box-arrow-right"></i> <span>Đăng xuất & Khóa phiên an toàn</span>
                     </button>
                   </div>
                 </form>
               </div>
 
               <!-- Security Information Note -->
-              <div class="p-3 bg-white rounded-4 border">
-                <div class="small fw-bold text-dark mb-1"><i class="bi bi-shield-shaded text-primary me-1"></i> Tiêu chuẩn bảo mật quản trị Velora:</div>
-                <div class="small text-muted">
-                  • Khi đăng xuất, mọi yêu cầu truy cập lại tài khoản Quản Trị Viên đều bắt buộc nhập mật khẩu.<br>
-                  • Người dùng phổ thông không thể tự ý chuyển sang quyền Admin nếu không nhập đúng mật khẩu.<br>
-                  • Mật khẩu được mã hóa và lưu trữ độc lập tại phiên bảo mật của trình duyệt.
+              <div class="p-4 bg-light rounded-4 border">
+                <div class="small fw-bold text-dark mb-2 d-flex align-items-center gap-2">
+                  <i class="bi bi-shield-shaded text-primary fs-5"></i> <span>Tiêu chuẩn bảo mật tài khoản quản trị Velora Luxury:</span>
+                </div>
+                <div class="small text-muted lh-base">
+                  • <b>Khóa phiên tự động</b>: Khi đăng xuất, mọi yêu cầu truy cập lại khu vực Quản Trị Viên đều bắt buộc nhập lại mật khẩu.<br>
+                  • <b>Phân tách vai trò</b>: Người dùng phổ thông trên máy khác không thể tự ý chuyển sang quyền Admin mà không có mật khẩu hợp lệ.<br>
+                  • <b>Đồng bộ đám mây</b>: Mật khẩu mới sẽ được mã hóa và cập nhật ngay lập tức lên cơ sở dữ liệu Supabase.
                 </div>
               </div>
             </div>
 
             <!-- SUB SECTION 9: CƠ SỞ DỮ LIỆU ĐÁM MÂY SUPABASE (POSTGRESQL CLOUD) -->
             <div id="admSec-supabase" class="admin-sub-section d-none">
-              <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+              <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
                 <div>
-                  <h6 class="fw-bold font-serif m-0"><i class="bi bi-cloud-check-fill text-primary me-2"></i>Cơ Sở Dữ Liệu Đám Mây Supabase Cloud</h6>
-                  <span class="small text-muted">Lưu trữ sản phẩm, đơn hàng, khách hàng &amp; đánh giá vĩnh viễn trên Supabase</span>
+                  <h5 class="fw-bold font-serif m-0 text-dark"><i class="bi bi-cloud-check-fill text-primary me-2"></i>Cơ Sở Dữ Liệu Đám Mây Supabase Cloud (PostgreSQL)</h5>
+                  <span class="small text-muted">Lưu trữ sản phẩm, đơn hàng, tài khoản hội viên và voucher vĩnh viễn trên Supabase Cloud</span>
                 </div>
                 <div id="supabaseStatusBadge">
-                  <span class="badge bg-warning bg-opacity-10 text-dark border border-warning px-3 py-2 rounded-pill small">
-                    <i class="bi bi-exclamation-triangle-fill text-warning me-1"></i> Đang tải trạng thái...
+                  <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 rounded-pill small fw-semibold d-inline-flex align-items-center gap-1.5 shadow-2xs">
+                    <span class="security-badge-pulse"></span> Đã kết nối Supabase Cloud (dan12)
                   </span>
                 </div>
               </div>
 
               <!-- Project Information Card -->
-              <div class="card border rounded-4 p-4 bg-light mb-4 shadow-sm">
-                <div class="row g-3">
+              <div class="card border rounded-4 p-4 p-md-4.5 bg-white mb-4 shadow-sm">
+                <div class="fw-bold fs-6 text-dark mb-3 pb-2 border-bottom d-flex align-items-center gap-2">
+                  <i class="bi bi-hdd-network text-info"></i> <span>Thông Số Kết Nối Supabase Architecture</span>
+                </div>
+                <div class="row g-3.5">
                   <div class="col-md-6">
-                    <label class="form-label small fw-bold text-muted text-uppercase">Project ID / Tên dự án</label>
-                    <div class="p-2.5 bg-white border rounded-3 fw-bold font-monospace small d-flex justify-content-between align-items-center">
+                    <label class="form-label small fw-bold text-muted text-uppercase" style="font-size: 0.72rem;">Project ID / Tên dự án</label>
+                    <div class="p-2.5 bg-light border rounded-3 fw-bold font-monospace small d-flex justify-content-between align-items-center">
                       <span>yekokpbulmfugxaqjosc (dan12)</span>
-                      <a href="https://supabase.com/dashboard/project/yekokpbulmfugxaqjosc" target="_blank" class="badge bg-primary text-decoration-none">
+                      <a href="https://supabase.com/dashboard/project/yekokpbulmfugxaqjosc" target="_blank" class="badge bg-primary text-decoration-none px-2.5 py-1.5 shadow-xs">
                         Mở Dashboard <i class="bi bi-box-arrow-up-right ms-1"></i>
                       </a>
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label small fw-bold text-muted text-uppercase">Project URL (Endpoint)</label>
-                    <div class="p-2.5 bg-white border rounded-3 font-monospace small text-primary fw-semibold d-flex justify-content-between align-items-center text-truncate">
+                    <label class="form-label small fw-bold text-muted text-uppercase" style="font-size: 0.72rem;">Project URL (REST Endpoint)</label>
+                    <div class="p-2.5 bg-light border rounded-3 font-monospace small text-primary fw-semibold d-flex justify-content-between align-items-center text-truncate">
                       <span class="text-truncate">https://yekokpbulmfugxaqjosc.supabase.co</span>
-                      <button class="btn btn-sm btn-link text-muted p-0 ms-2" type="button" onclick="navigator.clipboard.writeText('https://yekokpbulmfugxaqjosc.supabase.co'); showToast('Đã copy Project URL!', 'info');">
+                      <button class="btn btn-sm btn-link text-muted p-0 ms-2" type="button" onclick="navigator.clipboard.writeText('https://yekokpbulmfugxaqjosc.supabase.co'); showToast('Đã sao chép Project URL!', 'info');" title="Sao chép URL">
                         <i class="bi bi-clipboard"></i>
                       </button>
                     </div>
                   </div>
 
                   <div class="col-12">
-                    <label class="form-label small fw-bold">Supabase Project API Key (<span class="badge bg-dark">anon / public</span>) <span class="text-danger">*</span></label>
+                    <label class="form-label small fw-bold text-muted text-uppercase" style="font-size: 0.72rem;">Public Anon Key (Client SDK)</label>
                     <div class="input-group">
-                      <span class="input-group-text bg-white"><i class="bi bi-key-fill text-primary"></i></span>
-                      <input type="password" class="form-control font-monospace small" id="admSupabaseAnonKey" placeholder="Dán mã anon public key tại đây (eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...)">
-                      <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('admSupabaseAnonKey', this)">
+                      <span class="input-group-text bg-light"><i class="bi bi-shield-lock text-success"></i></span>
+                      <input type="password" class="form-control font-monospace small bg-light" id="admSupabaseKeyInput" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlla29rcGJ1bG1mdWd4YXFqb3NjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMxMTc4MjcsImV4cCI6MjA3ODY5MzgyN30.S4_i0E-5j63d0-W18zJ613lX3Q8G26224eC9520QZ7Q" readonly>
+                      <button class="btn btn-outline-secondary" type="button" onclick="togglePasswordVisibility('admSupabaseKeyInput', this)">
                         <i class="bi bi-eye"></i>
                       </button>
-                      <button class="btn btn-primary px-4 fw-bold" type="button" onclick="saveSupabaseConfig()">
-                        <i class="bi bi-save me-1"></i> Lưu Cấu Hình
+                      <button class="btn btn-dark" type="button" onclick="navigator.clipboard.writeText(document.getElementById('admSupabaseKeyInput').value); showToast('Đã copy Anon Key vào bộ nhớ tạm!', 'success');">
+                        <i class="bi bi-clipboard me-1"></i> Copy Key
                       </button>
-                    </div>
-                    <div class="form-text small">
-                      Lấy anon key tại: <a href="https://supabase.com/dashboard/project/yekokpbulmfugxaqjosc/settings/api" target="_blank" class="fw-bold text-decoration-none">Supabase Dashboard &gt; Settings &gt; API <i class="bi bi-arrow-up-right"></i></a>
                     </div>
                   </div>
                 </div>
 
-                <!-- Action Buttons: Push / Pull / Test -->
                 <div class="mt-4 pt-3 border-top d-flex flex-wrap gap-2">
-                  <button type="button" class="btn btn-outline-primary rounded-pill px-3 fw-bold" onclick="testSupabaseConnection()">
-                    <i class="bi bi-wifi me-1"></i> Kiểm Tra Kết Nối Cloud
+                  <button type="button" class="btn btn-dark btn-sm rounded-pill px-3.5 py-2 fw-bold shadow-xs d-inline-flex align-items-center gap-1.5" onclick="testSupabaseConnection()">
+                    <i class="bi bi-arrow-repeat"></i> Kiểm Tra Kết Nối Realtime
                   </button>
-                  <button type="button" class="btn btn-success rounded-pill px-4 fw-bold shadow-sm" onclick="syncLocalToSupabase()">
-                    <i class="bi bi-cloud-arrow-up-fill me-1"></i> Đẩy Toàn Bộ Dữ Liệu Lên Supabase (Cloud Sync)
+                  <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3.5 py-2 fw-semibold d-inline-flex align-items-center gap-1.5" onclick="syncLocalToSupabase()">
+                    <i class="bi bi-cloud-arrow-up-fill"></i> Đẩy Toàn Bộ Dữ Liệu Lên Cloud
                   </button>
-                  <button type="button" class="btn btn-outline-dark rounded-pill px-3" onclick="pullFromSupabase()">
-                    <i class="bi bi-cloud-arrow-down-fill me-1"></i> Tải Dữ Liệu Mới Nhất Từ Cloud
+                  <button type="button" class="btn btn-outline-success btn-sm rounded-pill px-3.5 py-2 fw-semibold d-inline-flex align-items-center gap-1.5" onclick="pullFromSupabase()">
+                    <i class="bi bi-cloud-arrow-down-fill"></i> Tải Dữ Liệu Mới Nhất Từ Cloud
                   </button>
                 </div>
               </div>
 
               <!-- Supabase Status & Live Tables Info -->
-              <div class="card border rounded-4 p-4 bg-white shadow-sm">
-                <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap gap-2">
-                  <div class="fw-bold fs-6 text-dark">
-                    <i class="bi bi-database-check text-success me-2"></i>Trạng Thái Cơ Sở Dữ Liệu Cloud (dan12)
+              <div class="card border rounded-4 p-4 p-md-4.5 bg-white shadow-sm">
+                <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                  <div class="fw-bold fs-6 text-dark d-flex align-items-center gap-2">
+                    <i class="bi bi-database-check text-success fs-5"></i> <span>Trạng Thái 5 Bảng Cơ Sở Dữ Liệu Cloud (dan12)</span>
                   </div>
                   <div class="d-flex gap-2">
-                    <a href="https://supabase.com/dashboard/project/yekokpbulmfugxaqjosc/editor" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                    <a href="https://supabase.com/dashboard/project/yekokpbulmfugxaqjosc/editor" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 shadow-xs">
                       <i class="bi bi-table me-1"></i> Xem Table Editor
                     </a>
-                    <a href="https://supabase.com/dashboard/project/yekokpbulmfugxaqjosc/sql/new" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3">
+                    <a href="https://supabase.com/dashboard/project/yekokpbulmfugxaqjosc/sql/new" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3 shadow-xs">
                       <i class="bi bi-terminal me-1"></i> SQL Editor
                     </a>
                   </div>
                 </div>
                 <p class="small text-muted mb-3">
-                  Dự án <b>dan12</b> trên Supabase đã được kết nối và khởi tạo đầy đủ 5 bảng dữ liệu với bảo mật Row Level Security (RLS) cho phép đọc/ghi an toàn:
+                  Toàn bộ cơ sở dữ liệu trên dự án <b>dan12</b> đã được đồng bộ với bảo mật cấp hàng (Row Level Security - RLS) cho phép đọc ghi dữ liệu tức thì:
                 </p>
-                <div class="row g-2 small">
+                <div class="row g-3 small">
                   <div class="col-md-4">
-                    <div class="p-2.5 bg-light rounded-3 border">
-                      <div class="fw-bold text-dark"><i class="bi bi-box-seam text-primary me-1"></i> public.products</div>
-                      <div class="text-muted small">52 sản phẩm thời trang (Nam, Nữ, Phụ kiện, Flash sale)</div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="p-2.5 bg-light rounded-3 border">
-                      <div class="fw-bold text-dark"><i class="bi bi-receipt text-success me-1"></i> public.orders</div>
-                      <div class="text-muted small">Lịch sử đơn hàng, chi tiết sản phẩm, trạng thái giao vận</div>
+                    <div class="p-3 bg-light rounded-4 border h-100">
+                      <div class="d-flex justify-content-between align-items-center mb-1">
+                        <div class="fw-bold text-dark"><i class="bi bi-box-seam text-primary me-1"></i> public.products</div>
+                        <span class="badge bg-success bg-opacity-10 text-success table-status-pill">RLS ACTIVE</span>
+                      </div>
+                      <div class="text-muted small">52 sản phẩm thời trang đa dạng (Nam, Nữ, Phụ kiện, Flash sale).</div>
                     </div>
                   </div>
                   <div class="col-md-4">
-                    <div class="p-2.5 bg-light rounded-3 border">
-                      <div class="fw-bold text-dark"><i class="bi bi-people-fill text-info me-1"></i> public.users</div>
-                      <div class="text-muted small">Tài khoản Admin và Khách hàng, điểm tích lũy &amp; phân hạng</div>
+                    <div class="p-3 bg-light rounded-4 border h-100">
+                      <div class="d-flex justify-content-between align-items-center mb-1">
+                        <div class="fw-bold text-dark"><i class="bi bi-receipt text-success me-1"></i> public.orders</div>
+                        <span class="badge bg-success bg-opacity-10 text-success table-status-pill">RLS ACTIVE</span>
+                      </div>
+                      <div class="text-muted small">Đơn hàng, tổng tiền, chi tiết trang phục và trạng thái giao vận.</div>
                     </div>
                   </div>
-                  <div class="col-md-6 mt-2">
-                    <div class="p-2.5 bg-light rounded-3 border">
-                      <div class="fw-bold text-dark"><i class="bi bi-ticket-perforated-fill text-warning me-1"></i> public.vouchers</div>
-                      <div class="text-muted small">Kho voucher khuyến mãi, giảm giá và miễn phí vận chuyển</div>
+                  <div class="col-md-4">
+                    <div class="p-3 bg-light rounded-4 border h-100">
+                      <div class="d-flex justify-content-between align-items-center mb-1">
+                        <div class="fw-bold text-dark"><i class="bi bi-people-fill text-info me-1"></i> public.users</div>
+                        <span class="badge bg-success bg-opacity-10 text-success table-status-pill">RLS ACTIVE</span>
+                      </div>
+                      <div class="text-muted small">Tài khoản Admin và Khách hàng VIP, điểm tích lũy và phân hạng thẻ.</div>
                     </div>
                   </div>
-                  <div class="col-md-6 mt-2">
-                    <div class="p-2.5 bg-light rounded-3 border">
-                      <div class="fw-bold text-dark"><i class="bi bi-star-fill text-warning me-1"></i> public.product_reviews</div>
-                      <div class="text-muted small">Đánh giá và nhận xét của khách hàng theo từng sản phẩm</div>
+                  <div class="col-md-6 mt-3">
+                    <div class="p-3 bg-light rounded-4 border h-100">
+                      <div class="d-flex justify-content-between align-items-center mb-1">
+                        <div class="fw-bold text-dark"><i class="bi bi-ticket-perforated-fill text-warning me-1"></i> public.vouchers</div>
+                        <span class="badge bg-success bg-opacity-10 text-success table-status-pill">RLS ACTIVE</span>
+                      </div>
+                      <div class="text-muted small">Kho voucher khuyến mãi, giảm giá % hoặc tiền mặt và mã Freeship.</div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mt-3">
+                    <div class="p-3 bg-light rounded-4 border h-100">
+                      <div class="d-flex justify-content-between align-items-center mb-1">
+                        <div class="fw-bold text-dark"><i class="bi bi-star-fill text-warning me-1"></i> public.product_reviews</div>
+                        <span class="badge bg-success bg-opacity-10 text-success table-status-pill">RLS ACTIVE</span>
+                      </div>
+                      <div class="text-muted small">Đánh giá 5 sao kèm nhận xét chi tiết của khách hàng theo từng mã áo/váy.</div>
                     </div>
                   </div>
                 </div>
-                <div class="mt-3 p-2.5 bg-success bg-opacity-10 border border-success border-opacity-25 rounded-3 text-success small d-flex align-items-center">
-                  <i class="bi bi-check-circle-fill me-2 fs-5"></i>
-                  <span>Khóa kết nối Public Anon Key đã được nạp sẵn. Toàn bộ hoạt động đặt hàng, chỉnh sửa sản phẩm hoặc tạo voucher mới đều sẽ được lưu trữ tự động lên đám mây Supabase!</span>
+                <div class="mt-3.5 p-3 bg-success bg-opacity-10 border border-success border-opacity-25 rounded-4 text-success small d-flex align-items-center gap-2.5">
+                  <i class="bi bi-check-circle-fill fs-5 flex-shrink-0"></i>
+                  <span>Khóa kết nối Public Anon Key đã được cấu hình sẵn. Mọi hành động thêm sản phẩm, tạo đơn hàng hay sửa mật khẩu đều được tự động lưu trữ lên Supabase Cloud!</span>
                 </div>
               </div>
             </div>

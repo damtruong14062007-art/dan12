@@ -1261,12 +1261,38 @@ function saveAdminProfile(profile) {
   }
 }
 
-let currentUser = JSON.parse(localStorage.getItem('velora_user')) || {
-  isLoggedIn: true,
-  role: 'customer',
-  ...getCustomerProfile(),
-  ordersCount: 3
-};
+// Strict Security Enforcement: Link visits always default to Customer role unless the current device has explicitly authenticated as admin.
+function getInitialCurrentUser() {
+  const isDeviceAdminAuthorized = localStorage.getItem('velora_admin_authorized') === 'true' && 
+                                  sessionStorage.getItem('velora_admin_authenticated') === 'true';
+  const savedUser = JSON.parse(localStorage.getItem('velora_user'));
+  if (savedUser && savedUser.role === 'admin' && !isDeviceAdminAuthorized) {
+    // Never allow admin mode on a device without valid session/authorization!
+    const cust = getCustomerProfile();
+    const safeCustomer = {
+      isLoggedIn: true,
+      role: 'customer',
+      name: cust.name || 'Đặng Minh Anh',
+      email: cust.email || 'minhanh.velora@gmail.com',
+      phone: cust.phone || '0988 123 456',
+      address: cust.address || '123 Đường Nam Kỳ Khởi Nghĩa, Quận 1, TP. Hồ Chí Minh',
+      membershipTier: cust.membershipTier || 'VIP GOLD',
+      points: cust.points || 1250,
+      avatar: cust.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format&fit=crop&q=80',
+      ordersCount: getOrders().length
+    };
+    localStorage.setItem('velora_user', JSON.stringify(safeCustomer));
+    return safeCustomer;
+  }
+  return savedUser || {
+    isLoggedIn: true,
+    role: 'customer',
+    ...getCustomerProfile(),
+    ordersCount: 3
+  };
+}
+
+let currentUser = getInitialCurrentUser();
 
 // ==========================================================================
 // 3. UTILITY FUNCTIONS
@@ -2089,33 +2115,43 @@ function renderWishlistModalContent() {
   if (!wishlist || wishlist.length === 0) {
     body.innerHTML = `
       <div class="text-center py-5 text-muted">
-        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10 text-danger mb-3" style="width: 64px; height: 64px;">
+        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10 text-danger mb-3" style="width: 68px; height: 68px;">
           <i class="bi bi-heart fs-2"></i>
         </div>
-        <h5 class="fw-bold text-dark">Danh sách yêu thích trống</h5>
+        <h5 class="fw-bold font-serif text-dark mb-1">Danh sách yêu thích đang trống</h5>
         <p class="small text-muted mb-0">Bấm vào biểu tượng trái tim ở các trang phục để lưu lại mua sắm sau bạn nhé!</p>
       </div>
     `;
   } else {
     const items = PRODUCTS.filter(p => wishlist.includes(p.id));
     body.innerHTML = `
-      <div class="d-flex flex-column gap-2.5">
+      <div class="d-flex flex-column gap-3.5">
         ${items.map(p => `
-          <div class="d-flex align-items-center justify-content-between p-2.5 border rounded-3 bg-white shadow-sm hover-shadow transition">
-            <div class="d-flex align-items-center gap-3">
-              <img src="${p.image}" alt="${p.name}" style="width: 52px; height: 68px; object-fit: cover; border-radius: 8px; flex-shrink: 0;" class="border">
-              <div>
-                <span class="badge bg-light text-muted border mb-1" style="font-size: 0.65rem;">${(p.category || 'THỜI TRANG').toUpperCase()}</span>
-                <h6 class="m-0 small fw-bold text-dark line-clamp-1" title="${p.name}">${p.name}</h6>
-                <div class="text-danger small fw-bold mt-0.5">${formatCurrency(p.price)}</div>
+          <div class="wishlist-item-card d-flex align-items-center justify-content-between p-3.5 p-sm-4 border rounded-4 bg-white shadow-xs">
+            <div class="d-flex align-items-center gap-3.5" style="min-width: 0;">
+              <div class="position-relative overflow-hidden rounded-3 border" style="width: 72px; height: 96px; flex-shrink: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.06);">
+                <img src="${p.image}" alt="${p.name}" class="w-100 h-100" style="object-fit: cover;">
+                ${p.discount ? `<span class="badge bg-danger position-absolute top-0 start-0 m-1" style="font-size: 0.6rem;">-${p.discount}%</span>` : ''}
+              </div>
+              <div class="d-flex flex-column justify-content-center" style="min-width: 0;">
+                <span class="badge bg-light text-muted border align-self-start mb-1.5" style="font-size: 0.68rem; letter-spacing: 0.05em; font-weight: 600;">
+                  ${(p.category || 'THỜI TRANG').toUpperCase()}
+                </span>
+                <h6 class="m-0 font-serif fw-bold text-dark text-truncate" title="${p.name}" style="font-size: 0.96rem; line-height: 1.35;">
+                  ${p.name}
+                </h6>
+                <div class="d-flex align-items-baseline gap-2 mt-1.5">
+                  <span class="text-danger fw-bold" style="font-size: 0.98rem;">${formatCurrency(p.price)}</span>
+                  ${p.oldPrice ? `<span class="text-muted text-decoration-line-through small" style="font-size: 0.78rem;">${formatCurrency(p.oldPrice)}</span>` : ''}
+                </div>
               </div>
             </div>
-            <div class="d-flex align-items-center gap-2 flex-shrink-0">
-              <button class="btn btn-sm btn-dark rounded-pill px-3 py-1.5 fw-semibold d-flex align-items-center gap-1" onclick="addToCart('${p.id}');">
-                <i class="bi bi-bag-plus"></i> <span>Thêm giỏ</span>
+            <div class="d-flex align-items-center gap-2.5 flex-shrink-0 ms-3">
+              <button class="btn btn-sm btn-dark rounded-pill px-3.5 py-2 fw-semibold d-flex align-items-center gap-1.5 shadow-xs" onclick="addToCart('${p.id}');">
+                <i class="bi bi-bag-plus"></i> <span class="d-none d-sm-inline">Thêm giỏ</span>
               </button>
-              <button class="btn btn-sm btn-outline-danger rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 34px; height: 34px; min-width: 34px; min-height: 34px; flex-shrink: 0;" onclick="removeFromWishlistInsideModal('${p.id}')" title="Bỏ yêu thích">
-                <i class="bi bi-heart-fill text-danger" style="font-size: 0.95rem; pointer-events: none;"></i>
+              <button class="btn btn-sm btn-outline-danger rounded-circle p-0 d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; min-width: 38px; min-height: 38px; flex-shrink: 0;" onclick="removeFromWishlistInsideModal('${p.id}')" title="Bỏ yêu thích">
+                <i class="bi bi-heart-fill text-danger" style="font-size: 1rem; pointer-events: none;"></i>
               </button>
             </div>
           </div>
@@ -2449,6 +2485,8 @@ async function submitAdminPasswordLogin(e) {
       const modal = bootstrap.Modal.getInstance(modalEl);
       if (modal) modal.hide();
     }
+    localStorage.setItem('velora_admin_authorized', 'true');
+    sessionStorage.setItem('velora_admin_authenticated', 'true');
     loginAs('admin', true);
     if (errEl) errEl.classList.add('d-none');
     showToast('Đăng nhập Quản Trị Viên thành công! Chào mừng trở lại.', 'success');
@@ -2467,6 +2505,8 @@ async function submitAdminPasswordLogin(e) {
 
 function handleRoleSwitchClick() {
   if (currentUser && currentUser.role === 'admin') {
+    localStorage.removeItem('velora_admin_authorized');
+    sessionStorage.removeItem('velora_admin_authenticated');
     loginAs('customer');
   } else {
     openAdminLoginModal();
@@ -3368,12 +3408,12 @@ function renderAccountWishlist() {
   if (currentWishlist.length === 0) {
     container.innerHTML = `
       <div class="col-12 text-center py-5 border rounded-4 bg-light">
-        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10 text-danger mb-3" style="width: 64px; height: 64px;">
+        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-danger bg-opacity-10 text-danger mb-3" style="width: 68px; height: 68px;">
           <i class="bi bi-heart fs-2"></i>
         </div>
-        <h6 class="fw-bold mt-2 text-dark">Danh sách yêu thích trống</h6>
-        <p class="small text-muted mb-3">Hãy dạo quanh cửa hàng và lưu các món đồ thời trang bạn yêu thích nhé</p>
-        <a href="women.html" class="btn btn-sm btn-dark rounded-pill px-4">Khám phá sản phẩm ngay</a>
+        <h6 class="fw-bold mt-2 text-dark font-serif fs-5">Danh sách yêu thích đang trống</h6>
+        <p class="small text-muted mb-3">Hãy dạo quanh các bộ sưu tập thời trang thượng lưu Velora và lưu các trang phục bạn ưng ý nhất nhé!</p>
+        <a href="women.html" class="btn btn-dark rounded-pill px-4 py-2 fw-semibold shadow-sm">Khám phá sản phẩm ngay</a>
       </div>
     `;
     return;
@@ -3382,21 +3422,25 @@ function renderAccountWishlist() {
   const items = PRODUCTS.filter(p => currentWishlist.includes(p.id));
   container.innerHTML = items.map(p => `
     <div class="col-lg-3 col-md-4 col-6">
-      <div class="card h-100 border rounded-4 overflow-hidden shadow-sm product-card position-relative bg-white">
-        <div class="position-relative overflow-hidden" style="height: 240px;">
+      <div class="card h-100 border rounded-4 overflow-hidden shadow-xs product-card position-relative bg-white hover-shadow transition">
+        <div class="position-relative overflow-hidden" style="height: 250px;">
           <img src="${p.image}" class="w-100 h-100" style="object-fit: cover;" alt="${p.name}">
-          <button type="button" class="btn-wishlist active" style="top: 10px; right: 10px;" onclick="removeFromWishlist('${p.id}');" title="Bỏ khỏi yêu thích">
+          <button type="button" class="btn-wishlist active" style="top: 12px; right: 12px;" onclick="removeFromWishlist('${p.id}');" title="Bỏ khỏi yêu thích">
             <i class="bi bi-heart-fill"></i>
           </button>
+          ${p.discount ? `<span class="badge bg-danger position-absolute top-0 start-0 m-3 rounded-pill px-2.5 py-1 fw-bold" style="font-size: 0.72rem;">-${p.discount}%</span>` : ''}
         </div>
-        <div class="p-3 d-flex flex-column justify-content-between flex-grow-1">
-          <div>
-            <span class="badge bg-light text-muted border mb-1" style="font-size: 0.65rem;">${(p.category || 'THỜI TRANG').toUpperCase()}</span>
-            <h6 class="fw-bold font-serif fs-6 mb-1 text-truncate" title="${p.name}">${p.name}</h6>
-            <div class="text-danger fw-bold fs-6 mb-2">${formatCurrency(p.price)}</div>
+        <div class="p-3.5 d-flex flex-column justify-content-between flex-grow-1">
+          <div class="mb-3">
+            <span class="badge bg-light text-muted border mb-1.5" style="font-size: 0.68rem; letter-spacing: 0.04em;">${(p.category || 'THỜI TRANG').toUpperCase()}</span>
+            <h6 class="fw-bold font-serif fs-6 mb-1 text-truncate text-dark" title="${p.name}">${p.name}</h6>
+            <div class="d-flex align-items-baseline gap-2">
+              <span class="text-danger fw-bold fs-6">${formatCurrency(p.price)}</span>
+              ${p.oldPrice ? `<span class="text-muted text-decoration-line-through small" style="font-size: 0.78rem;">${formatCurrency(p.oldPrice)}</span>` : ''}
+            </div>
           </div>
-          <button type="button" class="btn btn-sm btn-dark rounded-pill w-100 fw-semibold" onclick="addToCart('${p.id}')">
-            <i class="bi bi-bag-plus me-1"></i> Thêm giỏ hàng
+          <button type="button" class="btn btn-sm btn-dark rounded-pill w-100 py-2 fw-semibold shadow-xs" onclick="addToCart('${p.id}')">
+            <i class="bi bi-bag-plus me-1.5"></i> Thêm giỏ hàng
           </button>
         </div>
       </div>
@@ -4526,6 +4570,15 @@ function adminUpdateStats() {
 
 // --- TAB SWITCHER & AUTHENTICATION ---
 function switchAccountTab(tabName) {
+  if (tabName === 'admin') {
+    const isDeviceAdminAuthorized = localStorage.getItem('velora_admin_authorized') === 'true' && 
+                                    sessionStorage.getItem('velora_admin_authenticated') === 'true';
+    if (currentUser.role !== 'admin' || !isDeviceAdminAuthorized) {
+      openAdminLoginModal();
+      return;
+    }
+  }
+
   document.querySelectorAll('.account-tab-btn').forEach(btn => btn.classList.remove('active'));
   document.querySelectorAll('.account-tab-pane').forEach(pane => pane.classList.add('d-none'));
 
@@ -4576,6 +4629,8 @@ function loginAs(role, bypassCheck = false) {
     };
   } else {
     // ALWAYS load the customized persistent customer profile!
+    localStorage.removeItem('velora_admin_authorized');
+    sessionStorage.removeItem('velora_admin_authenticated');
     const cust = getCustomerProfile();
     currentUser = {
       isLoggedIn: true,
@@ -4682,6 +4737,8 @@ async function handleLoginForm(event) {
 }
 
 function handleLogout() {
+  localStorage.removeItem('velora_admin_authorized');
+  sessionStorage.removeItem('velora_admin_authenticated');
   currentUser = {
     isLoggedIn: false,
     role: 'guest',
@@ -7890,3 +7947,46 @@ window.adminSaveStoreConfig = adminSaveStoreConfig;
 window.adminResetStoreConfig = adminResetStoreConfig;
 window.copyStoreAddress = copyStoreAddress;
 window.applyStoreConfigToUI = applyStoreConfigToUI;
+
+function copySupabaseProjectId() {
+  const pid = 'yekokpbulmfugxaqjosc';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(pid).then(() => {
+      showToast('Đã sao chép Supabase Project ID: <b>yekokpbulmfugxaqjosc</b>', 'success');
+    }).catch(() => {
+      showToast('Supabase Project ID: <b>yekokpbulmfugxaqjosc</b>', 'info');
+    });
+  } else {
+    showToast('Supabase Project ID: <b>yekokpbulmfugxaqjosc</b>', 'info');
+  }
+}
+
+function copySupabaseEndpoint() {
+  const ep = 'https://yekokpbulmfugxaqjosc.supabase.co';
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(ep).then(() => {
+      showToast('Đã sao chép Supabase Endpoint: <b>https://yekokpbulmfugxaqjosc.supabase.co</b>', 'success');
+    }).catch(() => {
+      showToast('Supabase Endpoint: <b>https://yekokpbulmfugxaqjosc.supabase.co</b>', 'info');
+    });
+  } else {
+    showToast('Supabase Endpoint: <b>https://yekokpbulmfugxaqjosc.supabase.co</b>', 'info');
+  }
+}
+
+function toggleSupabaseKeyVisibility() {
+  const input = document.getElementById('admSupabaseAnonKey');
+  const btn = document.getElementById('btnToggleSupaKey');
+  if (!input) return;
+  if (input.type === 'password') {
+    input.type = 'text';
+    if (btn) btn.innerHTML = '<i class="bi bi-eye-slash"></i>';
+  } else {
+    input.type = 'password';
+    if (btn) btn.innerHTML = '<i class="bi bi-eye"></i>';
+  }
+}
+
+window.copySupabaseProjectId = copySupabaseProjectId;
+window.copySupabaseEndpoint = copySupabaseEndpoint;
+window.toggleSupabaseKeyVisibility = toggleSupabaseKeyVisibility;
