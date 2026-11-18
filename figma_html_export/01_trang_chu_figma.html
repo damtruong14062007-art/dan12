@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1440, initial-scale=1.0">
+  <title>01 · Trang Chủ (Home) — VELORA High Fashion Figma Export</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Bootstrap 5.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* Inlined Custom Styles for Pixel-Perfect Figma Rendering */
+    :root {
+      --primary-dark: #111113;
+      --secondary-dark: #1a1a1e;
+      --gold-accent: #b78a57;
+      --gold-hover: #9c7343;
+      --gold-metallic: #c8963e;
+      --sale-red: #e02424;
+      --rose: #d85a7f;
+      --canvas-light: #fbfbfb;
+      --card-white: #ffffff;
+      --border-light: #ebebeb;
+      --text-dark: #18181b;
+      --text-muted: #71717a;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--canvas-light);
+      color: var(--text-dark);
+      margin: 0;
+      padding: 0;
+      width: 1440px;
+      margin: 0 auto;
+      overflow-x: hidden;
+      box-shadow: 0 0 50px rgba(0,0,0,0.08);
+    }
+    h1, h2, h3, h4, .brand-title, .hero-title, .section-heading {
+      font-family: 'Playfair Display', serif;
+    }
+    .btn-card-add {
+      background: #111113;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      width: 100%;
+      transition: all 0.2s;
+    }
+    .btn-card-add-pink {
+      background: #d85a7f;
+    }
+    .product-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      color: #fff;
+      background: #111113;
+    }
+    .badge-new { background: #111113; }
+    .badge-trend { background: #d85a7f; }
+    .badge-sale { background: #e02424; }
+    .badge-gold { background: #b78a57; }
+    
+    /* ===================================================================
+   VELORA LUXURY FASHION - COMPREHENSIVE DESIGN SYSTEM
+   Two-Tier Centered Navbar, Multi-Page Layouts, AI Chatbot, Cart & Carousels
+   =================================================================== */
+
+:root {
+  --primary-dark: #111113;
+  --secondary-dark: #1a1a1e;
+  --velora-accent: #b78a57;
+  --velora-accent-hover: #9c7343;
+  --velora-bronze: #5a2d0c;
+  --velora-rose: #d85a7f;
+  --velora-pink-bg: #fdf5f7;
+  --velora-pink-light: #fce7ec;
+  --velora-red: #e02424;
+  --velora-sale: #ef4444;
+  --velora-gold: #c8963e;
+  --text-main: #18181b;
+  --text-muted: #71717a;
+  --text-light: #a1a1aa;
+  --bg-light: #fbfbfb;
+  --bg-card: #ffffff;
+  --border-light: #ebebeb;
+  --border-subtle: #f0f0f0;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.07);
+  --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.12);
+  --shadow-hover: 0 18px 40px rgba(0, 0, 0, 0.14);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  --transition: all 0.28s cubic-bezier(0.25, 0.8, 0.25, 1);
+  --font-serif: 'Playfair Display', 'Bodoni Moda', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+/* Global Reset & Base */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: clip;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--text-main);
+  background-color: var(--bg-light);
+  line-height: 1.6;
+  overflow-x: clip;
+  max-width: 100vw;
+  width: 100%;
+}
+
+h1, h2, h3, h4, .font-serif {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--velora-accent);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #999;
+}
+
+/* ===================================================================
+   TOP PROMO BAR
+   =================================================================== */
+.top-promo-bar {
+  background: #111113;
+  color: #f4f4f5;
+  font-size: 0.77rem;
+  letter-spacing: 0.02em;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  white-space: nowrap !important;
+  line-height: 1.4;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.top-promo-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.top-promo-inner {
+  white-space: nowrap !important;
+  flex-wrap: nowrap !important;
+}
+
+.top-promo-sep {
+  opacity: 0.35;
+  margin: 0 4px;
+}
+
+.top-promo-badge {
+  background: var(--velora-rose);
+  color: #fff;
+  font-size: 0.68rem;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  display: inline-block;
+  line-height: 1.3;
+}
+
+.top-promo-bar a {
+  transition: opacity var(--transition-fast);
+}
+
+.top-promo-bar a:hover {
+  opacity: 0.85;
+  color: #fff !important;
+}
+
+/* ===================================================================
+   TWO-TIER NAVBAR (HÀNG 1: LOGO & UTILITIES | HÀNG 2: MENU CĂN GIỮA)
+   =================================================================== */
+.site-header,
+.header-wrapper {
+  background: #ffffff !important;
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 1045 !important;
+  transition: box-shadow 0.25s ease, background-color 0.25s ease;
+}
+
+.site-header.header-scrolled,
+.header-wrapper.header-scrolled {
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Row 1: Main Header Row (Logo, Search, Utilities) */
+.header-main-row {
+  padding: 14px 0;
+  background: #ffffff;
+}
+
+.brand-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.brand-logo-img {
+  height: 42px;
+  width: auto;
+  </style>
+</head>
+<body>
+  
+    <!-- Top Announcement Bar -->
+    <div class="announcement-bar py-2 text-center text-white small fw-medium" style="background: #111113; letter-spacing: 0.5px;">
+      ✨ VELORA PRIVILEGE: MIỄN PHÍ VẬN CHUYỂN TOÀN QUỐC CHO ĐƠN TỪ 500.000Đ • HOTLINE CSKH: 1900 8899
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm py-3 border-bottom" style="border-color: #ebebeb;">
+      <div class="container-fluid px-lg-5">
+        <a class="navbar-brand d-flex flex-column align-items-center me-4" href="index.html">
+          <span class="brand-title fw-bold text-dark" style="font-family: 'Playfair Display', serif; font-size: 26px; letter-spacing: 4px;">VELORA</span>
+          <span class="brand-sub fw-semibold text-uppercase" style="font-size: 9px; letter-spacing: 3px; color: #b78a57;">HAUTE COUTURE</span>
+        </a>
+
+        <div class="collapse navbar-collapse show" id="navbarMain">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-2">
+            <li class="nav-item"><a class="nav-link fw-bold text-dark border-bottom border-2 border-dark px-3" href="index.html">TRANG CHỦ</a></li><li class="nav-item"><a class="nav-link text-secondary fw-semibold px-3" href="new-arrivals.html">HÀNG MỚI</a></li><li class="nav-item"><a class="nav-link text-secondary fw-semibold px-3" href="women.html">NỮ</a></li><li class="nav-item"><a class="nav-link text-secondary fw-semibold px-3" href="men.html">NAM</a></li><li class="nav-item"><a class="nav-link text-secondary fw-semibold px-3" href="accessories.html">PHỤ KIỆN</a></li><li class="nav-item"><a class="nav-link text-secondary fw-semibold px-3" href="flash-sale.html">FLASH SALE ⚡</a></li>
+          </ul>
+
+          <div class="d-flex align-items-center gap-3">
+            <div class="input-group input-group-sm d-none d-xl-flex" style="width: 220px;">
+              <input type="text" class="form-control rounded-pill-start border-end-0 bg-light" placeholder="Tìm kiếm trang phục...">
+              <button class="btn btn-outline-secondary border-start-0 rounded-pill-end bg-light"><i class="bi bi-search"></i></button>
+            </div>
+            <a href="#" class="btn btn-light rounded-pill btn-sm text-rose fw-semibold"><i class="bi bi-heart me-1 text-danger"></i> Yêu thích <span class="badge bg-danger rounded-pill">3</span></a>
+            <a href="cart.html" class="btn btn-light rounded-pill btn-sm text-dark fw-bold"><i class="bi bi-bag me-1 text-warning"></i> Giỏ hàng <span class="badge bg-dark rounded-pill">2</span></a>
+            <a href="account.html" class="btn btn-dark rounded-pill btn-sm fw-bold px-3" style="background: #111113;"><i class="bi bi-person-circle me-1 text-warning"></i> VIP Gold</a>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+  <main>
+    
+<!-- Hero Section -->
+<section class="hero-section text-white py-5 position-relative" style="background: linear-gradient(135deg, #111113 0%, #1e1e24 100%); min-height: 540px;">
+  <div class="container-fluid px-lg-5 py-5">
+    <div class="row align-items-center">
+      <div class="col-lg-7 py-4">
+        <span class="badge text-uppercase fw-bold px-3 py-2 mb-3" style="background: rgba(183, 138, 87, 0.2); color: #b78a57; border: 1px solid #b78a57; letter-spacing: 2px;">AUTUMN / WINTER 2026 ATELIER</span>
+        <h1 class="display-3 fw-bold mb-3" style="font-family: 'Playfair Display', serif; line-height: 1.15;">Bản Tuyên Ngôn Đẳng Cấp Thời Thượng</h1>
+        <p class="lead text-light mb-4" style="color: #d4d4d8 !important; max-width: 620px;">
+          Khám phá bộ sưu tập dạ tiệc và âu phục may đo cao cấp thượng hạng, giao thoa hoàn mỹ giữa phom dáng kinh điển và hơi thở thời trang hiện đại.
+        </p>
+        <div class="d-flex gap-3">
+          <a href="new-arrivals.html" class="btn btn-warning btn-lg fw-bold px-4 py-3 rounded-pill text-white" style="background: #b78a57; border-color: #b78a57;">KHÁM PHÁ BST NGAY →</a>
+          <a href="#lookbook" class="btn btn-outline-light btn-lg fw-semibold px-4 py-3 rounded-pill">XEM LOOKBOOK ATELIER</a>
+        </div>
+      </div>
+      <div class="col-lg-5 text-center position-relative">
+        <div class="hero-img-box rounded-4 overflow-hidden shadow-lg p-2 bg-white" style="border: 2px solid #b78a57;">
+          <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&auto=format&fit=crop&q=80" class="img-fluid rounded-3" alt="Hero Model">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Category Quick Banners -->
+<section class="py-5" style="background: #f4f4f5;">
+  <div class="container-fluid px-lg-5">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="cat-card p-4 rounded-4 text-white position-relative overflow-hidden shadow-sm" style="background: #2b1f28; min-height: 180px;">
+          <h3 class="fw-bold mb-1" style="font-family: 'Playfair Display';">Đầm & Váy Dạ Hội</h3>
+          <p class="small text-light mb-3">32 Mẫu Thiết Kế Lụa Satin Cao Cấp</p>
+          <a href="women.html" class="fw-bold text-decoration-none" style="color: #b78a57;">Khám phá ngay →</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="cat-card p-4 rounded-4 text-white position-relative overflow-hidden shadow-sm" style="background: #1c2331; min-height: 180px;">
+          <h3 class="fw-bold mb-1" style="font-family: 'Playfair Display';">Blazer & Suit Nam Ý</h3>
+          <p class="small text-light mb-3">24 Mẫu May Đo Wool Thượng Hạng</p>
+          <a href="men.html" class="fw-bold text-decoration-none" style="color: #b78a57;">Khám phá ngay →</a>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="cat-card p-4 rounded-4 text-white position-relative overflow-hidden shadow-sm" style="background: #2e261f; min-height: 180px;">
+          <h3 class="fw-bold mb-1" style="font-family: 'Playfair Display';">Phụ Kiện Thượng Lưu</h3>
+          <p class="small text-light mb-3">18 Mẫu Túi Da & Giày Độc Bản</p>
+          <a href="accessories.html" class="fw-bold text-decoration-none" style="color: #b78a57;">Khám phá ngay →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Featured Products Grid -->
+<section class="py-5">
+  <div class="container-fluid px-lg-5">
+    <div class="d-flex justify-content-between align-items-end mb-4 border-bottom pb-3">
+      <div>
+        <span class="text-uppercase fw-bold small" style="color: #b78a57; letter-spacing: 1.5px;">TUYỂN TẬP MỚI NHẤT 2026</span>
+        <h2 class="display-6 fw-bold text-dark mt-1" style="font-family: 'Playfair Display', serif;">Sản Phẩm Nổi Bật Dành Riêng Cho Bạn</h2>
+      </div>
+      <a href="new-arrivals.html" class="fw-bold text-dark text-decoration-none">Xem tất cả 64 sản phẩm →</a>
+    </div>
+    <div class="row g-4">
+      
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="velora-product-card card border-0 shadow-sm rounded-3 overflow-hidden h-100 p-3 bg-white d-flex flex-column" style="border: 1px solid #ebebeb;">
+        <div class="product-img-wrap position-relative mb-3 rounded-2 overflow-hidden" style="background: #f4f4f5; aspect-ratio: 3/4;">
+          <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&auto=format&fit=crop&q=80" alt="Áo Blazer Nam Form Rộng Classic" class="product-img w-100 h-100 object-fit-cover">
+          <span class="product-badge badge-new">NEW ARRIVAL</span>
+          <button class="btn-wishlist position-absolute top-0 end-0 m-2 border-0 bg-white rounded-circle shadow-sm" style="width:34px; height:34px; color:#d85a7f;"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-category small text-uppercase fw-bold text-muted mb-1" style="color: #b78a57 !important; font-size: 11px;">MEN</div>
+        <h5 class="product-title fw-bold text-dark mb-2 text-truncate" style="font-size: 14px;">Áo Blazer Nam Form Rộng Classic</h5>
+        <div class="product-price-wrap d-flex align-items-center gap-2 mb-2">
+          <span class="price-current fw-bold text-dark" style="font-size: 15px;">689.000đ</span>
+          <span class="price-old">850.000đ</span>
+        </div>
+        <div class="small text-warning mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> <span class="text-muted ms-1">(5.0)</span></div>
+        
+        <button class="btn-card-add mt-auto"><i class="bi bi-bag-plus"></i> Thêm giỏ hàng</button>
+      </div>
+    </div>
+    
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="velora-product-card card border-0 shadow-sm rounded-3 overflow-hidden h-100 p-3 bg-white d-flex flex-column" style="border: 1px solid #ebebeb;">
+        <div class="product-img-wrap position-relative mb-3 rounded-2 overflow-hidden" style="background: #f4f4f5; aspect-ratio: 3/4;">
+          <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&auto=format&fit=crop&q=80" alt="Set Váy Dạ Tweed Tiểu Thư Nữ" class="product-img w-100 h-100 object-fit-cover">
+          <span class="product-badge badge-trend">HOT TREND</span>
+          <button class="btn-wishlist position-absolute top-0 end-0 m-2 border-0 bg-white rounded-circle shadow-sm" style="width:34px; height:34px; color:#d85a7f;"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-category small text-uppercase fw-bold text-muted mb-1" style="color: #b78a57 !important; font-size: 11px;">WOMEN</div>
+        <h5 class="product-title fw-bold text-dark mb-2 text-truncate" style="font-size: 14px;">Set Váy Dạ Tweed Tiểu Thư Nữ</h5>
+        <div class="product-price-wrap d-flex align-items-center gap-2 mb-2">
+          <span class="price-current fw-bold text-dark" style="font-size: 15px;">799.000đ</span>
+          <span class="price-old">950.000đ</span>
+        </div>
+        <div class="small text-warning mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> <span class="text-muted ms-1">(5.0)</span></div>
+        
+        <button class="btn-card-add mt-auto"><i class="bi bi-bag-plus"></i> Thêm giỏ hàng</button>
+      </div>
+    </div>
+    
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="velora-product-card card border-0 shadow-sm rounded-3 overflow-hidden h-100 p-3 bg-white d-flex flex-column" style="border: 1px solid #ebebeb;">
+        <div class="product-img-wrap position-relative mb-3 rounded-2 overflow-hidden" style="background: #f4f4f5; aspect-ratio: 3/4;">
+          <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600&auto=format&fit=crop&q=80" alt="Áo Hoodie Nỉ Bông Dày Dặn 380gsm" class="product-img w-100 h-100 object-fit-cover">
+          <span class="product-badge badge-new">NEW</span>
+          <button class="btn-wishlist position-absolute top-0 end-0 m-2 border-0 bg-white rounded-circle shadow-sm" style="width:34px; height:34px; color:#d85a7f;"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-category small text-uppercase fw-bold text-muted mb-1" style="color: #b78a57 !important; font-size: 11px;">MEN</div>
+        <h5 class="product-title fw-bold text-dark mb-2 text-truncate" style="font-size: 14px;">Áo Hoodie Nỉ Bông Dày Dặn 380gsm</h5>
+        <div class="product-price-wrap d-flex align-items-center gap-2 mb-2">
+          <span class="price-current fw-bold text-dark" style="font-size: 15px;">349.000đ</span>
+          <span class="price-old">450.000đ</span>
+        </div>
+        <div class="small text-warning mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> <span class="text-muted ms-1">(5.0)</span></div>
+        
+        <button class="btn-card-add mt-auto"><i class="bi bi-bag-plus"></i> Thêm giỏ hàng</button>
+      </div>
+    </div>
+    
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="velora-product-card card border-0 shadow-sm rounded-3 overflow-hidden h-100 p-3 bg-white d-flex flex-column" style="border: 1px solid #ebebeb;">
+        <div class="product-img-wrap position-relative mb-3 rounded-2 overflow-hidden" style="background: #f4f4f5; aspect-ratio: 3/4;">
+          <img src="https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=600&auto=format&fit=crop&q=80" alt="Quần Parachute Túi Hộp Ống Rộng" class="product-img w-100 h-100 object-fit-cover">
+          <span class="product-badge badge-best">BEST PICK</span>
+          <button class="btn-wishlist position-absolute top-0 end-0 m-2 border-0 bg-white rounded-circle shadow-sm" style="width:34px; height:34px; color:#d85a7f;"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-category small text-uppercase fw-bold text-muted mb-1" style="color: #b78a57 !important; font-size: 11px;">MEN</div>
+        <h5 class="product-title fw-bold text-dark mb-2 text-truncate" style="font-size: 14px;">Quần Parachute Túi Hộp Ống Rộng</h5>
+        <div class="product-price-wrap d-flex align-items-center gap-2 mb-2">
+          <span class="price-current fw-bold text-dark" style="font-size: 15px;">399.000đ</span>
+          <span class="price-old">490.000đ</span>
+        </div>
+        <div class="small text-warning mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> <span class="text-muted ms-1">(5.0)</span></div>
+        
+        <button class="btn-card-add mt-auto"><i class="bi bi-bag-plus"></i> Thêm giỏ hàng</button>
+      </div>
+    </div>
+    
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="velora-product-card card border-0 shadow-sm rounded-3 overflow-hidden h-100 p-3 bg-white d-flex flex-column" style="border: 1px solid #ebebeb;">
+        <div class="product-img-wrap position-relative mb-3 rounded-2 overflow-hidden" style="background: #f4f4f5; aspect-ratio: 3/4;">
+          <img src="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=600&auto=format&fit=crop&q=80" alt="Áo Khoác Bomber Da Lộn Minimalist" class="product-img w-100 h-100 object-fit-cover">
+          <span class="product-badge badge-gold">PREMIUM</span>
+          <button class="btn-wishlist position-absolute top-0 end-0 m-2 border-0 bg-white rounded-circle shadow-sm" style="width:34px; height:34px; color:#d85a7f;"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-category small text-uppercase fw-bold text-muted mb-1" style="color: #b78a57 !important; font-size: 11px;">MEN</div>
+        <h5 class="product-title fw-bold text-dark mb-2 text-truncate" style="font-size: 14px;">Áo Khoác Bomber Da Lộn Minimalist</h5>
+        <div class="product-price-wrap d-flex align-items-center gap-2 mb-2">
+          <span class="price-current fw-bold text-dark" style="font-size: 15px;">859.000đ</span>
+          <span class="price-old">1.150.000đ</span>
+        </div>
+        <div class="small text-warning mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> <span class="text-muted ms-1">(5.0)</span></div>
+        
+        <button class="btn-card-add mt-auto"><i class="bi bi-bag-plus"></i> Thêm giỏ hàng</button>
+      </div>
+    </div>
+    
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="velora-product-card card border-0 shadow-sm rounded-3 overflow-hidden h-100 p-3 bg-white d-flex flex-column" style="border: 1px solid #ebebeb;">
+        <div class="product-img-wrap position-relative mb-3 rounded-2 overflow-hidden" style="background: #f4f4f5; aspect-ratio: 3/4;">
+          <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&auto=format&fit=crop&q=80" alt="Áo Sơ Mi Lụa Cổ V Tay Phồng Nữ" class="product-img w-100 h-100 object-fit-cover">
+          <span class="product-badge badge-new">NEW</span>
+          <button class="btn-wishlist position-absolute top-0 end-0 m-2 border-0 bg-white rounded-circle shadow-sm" style="width:34px; height:34px; color:#d85a7f;"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-category small text-uppercase fw-bold text-muted mb-1" style="color: #b78a57 !important; font-size: 11px;">WOMEN</div>
+        <h5 class="product-title fw-bold text-dark mb-2 text-truncate" style="font-size: 14px;">Áo Sơ Mi Lụa Cổ V Tay Phồng Nữ</h5>
+        <div class="product-price-wrap d-flex align-items-center gap-2 mb-2">
+          <span class="price-current fw-bold text-dark" style="font-size: 15px;">329.000đ</span>
+          <span class="price-old">419.000đ</span>
+        </div>
+        <div class="small text-warning mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> <span class="text-muted ms-1">(5.0)</span></div>
+        
+        <button class="btn-card-add mt-auto"><i class="bi bi-bag-plus"></i> Thêm giỏ hàng</button>
+      </div>
+    </div>
+    
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="velora-product-card card border-0 shadow-sm rounded-3 overflow-hidden h-100 p-3 bg-white d-flex flex-column" style="border: 1px solid #ebebeb;">
+        <div class="product-img-wrap position-relative mb-3 rounded-2 overflow-hidden" style="background: #f4f4f5; aspect-ratio: 3/4;">
+          <img src="https://images.unsplash.com/photo-1479064555552-3ef4979f8908?w=600&auto=format&fit=crop&q=80" alt="Quần Tây Xếp Ly Suông Công Sở" class="product-img w-100 h-100 object-fit-cover">
+          <span class="product-badge badge-best">ELEGANT</span>
+          <button class="btn-wishlist position-absolute top-0 end-0 m-2 border-0 bg-white rounded-circle shadow-sm" style="width:34px; height:34px; color:#d85a7f;"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-category small text-uppercase fw-bold text-muted mb-1" style="color: #b78a57 !important; font-size: 11px;">MEN</div>
+        <h5 class="product-title fw-bold text-dark mb-2 text-truncate" style="font-size: 14px;">Quần Tây Xếp Ly Suông Công Sở</h5>
+        <div class="product-price-wrap d-flex align-items-center gap-2 mb-2">
+          <span class="price-current fw-bold text-dark" style="font-size: 15px;">459.000đ</span>
+          <span class="price-old">580.000đ</span>
+        </div>
+        <div class="small text-warning mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> <span class="text-muted ms-1">(5.0)</span></div>
+        
+        <button class="btn-card-add mt-auto"><i class="bi bi-bag-plus"></i> Thêm giỏ hàng</button>
+      </div>
+    </div>
+    
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="velora-product-card card border-0 shadow-sm rounded-3 overflow-hidden h-100 p-3 bg-white d-flex flex-column" style="border: 1px solid #ebebeb;">
+        <div class="product-img-wrap position-relative mb-3 rounded-2 overflow-hidden" style="background: #f4f4f5; aspect-ratio: 3/4;">
+          <img src="https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=600&auto=format&fit=crop&q=80" alt="Chân Váy Chữ A Kèm Thắt Lưng" class="product-img w-100 h-100 object-fit-cover">
+          <span class="product-badge badge-new">NEW</span>
+          <button class="btn-wishlist position-absolute top-0 end-0 m-2 border-0 bg-white rounded-circle shadow-sm" style="width:34px; height:34px; color:#d85a7f;"><i class="bi bi-heart"></i></button>
+        </div>
+        <div class="product-category small text-uppercase fw-bold text-muted mb-1" style="color: #b78a57 !important; font-size: 11px;">WOMEN</div>
+        <h5 class="product-title fw-bold text-dark mb-2 text-truncate" style="font-size: 14px;">Chân Váy Chữ A Kèm Thắt Lưng</h5>
+        <div class="product-price-wrap d-flex align-items-center gap-2 mb-2">
+          <span class="price-current fw-bold text-dark" style="font-size: 15px;">299.000đ</span>
+          <span class="price-old">390.000đ</span>
+        </div>
+        <div class="small text-warning mb-2"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> <span class="text-muted ms-1">(5.0)</span></div>
+        
+        <button class="btn-card-add mt-auto"><i class="bi bi-bag-plus"></i> Thêm giỏ hàng</button>
+      </div>
+    </div>
+    
+    </div>
+  </div>
+</section>
+
+<!-- Lookbook Showcase -->
+<section id="lookbook" class="py-5 text-white" style="background: #1a1a1e;">
+  <div class="container-fluid px-lg-5 py-4 text-center">
+    <span class="badge text-uppercase fw-bold px-3 py-2 mb-2" style="background: rgba(183,138,87,0.2); color: #b78a57;">EDITORIAL LOOKBOOK 2026</span>
+    <h2 class="display-5 fw-bold mb-3" style="font-family: 'Playfair Display';">Nghệ Thuật Phối Đồ Quý Tộc Đương Đại</h2>
+    <p class="text-muted mx-auto mb-4" style="max-width: 650px; color: #d4d4d8 !important;">Mỗi tác phẩm là sự kết hợp chuẩn mực giữa đường may đo thủ công và khí chất người mặc.</p>
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      <span class="badge bg-dark border border-warning text-warning px-3 py-2 rounded-pill">📍 Áo Khoác Dạ Dáng Dài: 2.850.000đ</span>
+      <span class="badge bg-dark border border-warning text-warning px-3 py-2 rounded-pill">📍 Chân Váy Xếp Ly Midi: 1.250.000đ</span>
+      <span class="badge bg-dark border border-warning text-warning px-3 py-2 rounded-pill">📍 Túi Da Khóa Mạ Vàng: 1.650.000đ</span>
+    </div>
+  </div>
+</section>
+
+<!-- VIP Club Banner -->
+<section class="py-5" style="background: #f7f0e8;">
+  <div class="container-fluid px-lg-5 d-flex justify-content-between align-items-center flex-wrap gap-3">
+    <div>
+      <span class="text-uppercase fw-bold small" style="color: #b78a57;">VELORA PRIVILEGE CLUB</span>
+      <h3 class="fw-bold text-dark mt-1" style="font-family: 'Playfair Display';">Trở Thành Hội Viên VIP Nhận Ngay Voucher 15%</h3>
+      <p class="text-muted small mb-0">Áp dụng mã <strong>VELORA2026</strong> cho đơn hàng đầu tiên • Miễn phí vận chuyển trọn đời.</p>
+    </div>
+    <a href="account.html" class="btn btn-dark fw-bold px-4 py-3 rounded-pill text-white" style="background: #111113;">ĐĂNG KÝ HỘI VIÊN NGAY</a>
+  </div>
+</section>
+
+  </main>
+  
+    <!-- Footer Section -->
+    <footer class="footer-section py-5 text-white" style="background: #111113; border-top: 1px solid #27272a;">
+      <div class="container-fluid px-lg-5">
+        <div class="row g-4 mb-5">
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-brand mb-3">
+              <span class="fw-bold fs-3 text-white" style="font-family: 'Playfair Display', serif; letter-spacing: 3px;">VELORA</span>
+              <p class="text-uppercase small fw-semibold" style="color: #b78a57; letter-spacing: 2px;">Haute Couture & Atelier</p>
+            </div>
+            <p class="text-muted small pe-lg-4 mb-3" style="color: #a1a1aa !important;">
+              Thương hiệu thời trang may đo cao cấp mang hơi thở Haute Couture kinh điển, tôn vinh khí chất quý tộc và bản lĩnh kiêu hãnh của bạn.
+            </p>
+            <div class="contact-info small text-light d-flex flex-column gap-2">
+              <div><i class="bi bi-telephone text-warning me-2"></i> Hotline: <strong>1900 8899</strong> (08:30 - 22:00)</div>
+              <div><i class="bi bi-envelope text-warning me-2"></i> Email: cskh@velorafashion.vn</div>
+              <div><i class="bi bi-geo-alt text-warning me-2"></i> 123 Nam Kỳ Khởi Nghĩa, Quận 1, TP. HCM</div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 col-6">
+            <h6 class="text-uppercase fw-bold mb-3" style="color: #b78a57; font-family: 'Playfair Display', serif;">Về VELORA</h6>
+            <ul class="list-unstyled small d-flex flex-column gap-2 text-muted" style="color: #d4d4d8 !important;">
+              <li><a href="#" class="text-decoration-none text-light">Câu chuyện thương hiệu</a></li>
+              <li><a href="#" class="text-decoration-none text-light">Tuyển tập Atelier 2026</a></li>
+              <li><a href="#" class="text-decoration-none text-light">Hệ thống Showroom</a></li>
+              <li><a href="#" class="text-decoration-none text-light">Cam kết chất lượng</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6 col-6">
+            <h6 class="text-uppercase fw-bold mb-3" style="color: #b78a57; font-family: 'Playfair Display', serif;">Chăm Sóc Khách Hàng</h6>
+            <ul class="list-unstyled small d-flex flex-column gap-2 text-muted" style="color: #d4d4d8 !important;">
+              <li><a href="#" class="text-decoration-none text-light">Chính sách đổi trả 30 ngày</a></li>
+              <li><a href="#" class="text-decoration-none text-light">Bảng quy chuẩn chọn size</a></li>
+              <li><a href="#" class="text-decoration-none text-light">Đặc quyền hội viên VIP</a></li>
+              <li><a href="#" class="text-decoration-none text-light">Kiểm tra lộ trình đơn hàng</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-4 col-md-6">
+            <h6 class="text-uppercase fw-bold mb-3" style="color: #b78a57; font-family: 'Playfair Display', serif;">Bản Tin Ưu Đãi VIP</h6>
+            <p class="small text-muted mb-3" style="color: #d4d4d8 !important;">Đăng ký nhận thông tin bộ sưu tập giới hạn và nhận ngay voucher giảm 10% đơn hàng đầu tiên.</p>
+            <div class="input-group mb-3">
+              <input type="email" class="form-control bg-dark border-secondary text-white small" placeholder="Nhập địa chỉ email...">
+              <button class="btn btn-warning fw-bold px-3" style="background:#b78a57; border-color:#b78a57; color:#fff;">ĐĂNG KÝ</button>
+            </div>
+            <div class="small text-muted" style="font-size: 11px;">Thanh toán bảo mật SSL: Visa, MasterCard, VietQR, MoMo, COD.</div>
+          </div>
+        </div>
+
+        <div class="pt-4 border-top border-secondary d-flex flex-column flex-md-row justify-content-between align-items-center small text-muted">
+          <div>© 2026 VELORA Premium Fashion Co., Ltd. Tất cả quyền được bảo lưu.</div>
+          <div class="d-flex gap-3 mt-2 mt-md-0">
+            <a href="#" class="text-light text-decoration-none">Điều khoản dịch vụ</a>
+            <a href="#" class="text-light text-decoration-none">Chính sách bảo mật</a>
+            <a href="#" class="text-light text-decoration-none">Quy chế hoạt động</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+    
+</body>
+</html>
